@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { ChunkSizeAdjuster } from "./chunk-size-adjuster";
+import { ChunkSizeAdjuster } from "../src/chunk-size-adjuster";
 
 describe("ChunkSizeAdjuster", () => {
   const MB = 1024 * 1024;

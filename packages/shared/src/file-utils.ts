@@ -28,6 +28,12 @@ export async function calculateFileHash(
   onProgress?: (progress: number) => void,
 ): Promise<string> {
   return new Promise((resolve, reject) => {
+    // Check if FileReader is available (browser environment)
+    if (typeof FileReader === "undefined") {
+      reject(new Error("FileReader is not available in this environment"));
+      return;
+    }
+
     const chunkSize = 2 * 1024 * 1024; // 2MB chunks for reading
     const chunks = Math.ceil(file.size / chunkSize);
     let currentChunk = 0;
@@ -79,6 +85,12 @@ export async function calculateFileHash(
  */
 export async function calculateChunkHash(chunk: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
+    // Check if FileReader is available (browser environment)
+    if (typeof FileReader === "undefined") {
+      reject(new Error("FileReader is not available in this environment"));
+      return;
+    }
+
     const fileReader = new FileReader();
 
     fileReader.onload = (e) => {

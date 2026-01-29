@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { ConcurrencyController } from "./concurrency-controller";
+import { ConcurrencyController } from "../src/concurrency-controller";
 
 describe("ConcurrencyController", () => {
   describe("constructor", () => {

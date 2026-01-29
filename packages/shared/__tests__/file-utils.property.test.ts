@@ -5,7 +5,7 @@
 
 import { describe, it, expect } from "vitest";
 import fc from "fast-check";
-import { calculateChunkHash } from "./file-utils";
+import { calculateChunkHash } from "../src/file-utils";
 
 describe("File Utils - Property-Based Tests", () => {
   // Feature: chunkflow-upload-sdk, Property 22: 分片 Hash 唯一性

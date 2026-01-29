@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, beforeAll } from "vitest";
-import { UploadStorage, StorageError, type UploadRecord } from "./upload-storage";
+import { UploadStorage, StorageError, type UploadRecord } from "../src/upload-storage";
 import "fake-indexeddb/auto";
 
 describe("UploadStorage", () => {

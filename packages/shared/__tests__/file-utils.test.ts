@@ -10,7 +10,7 @@ import {
   formatFileSize,
   calculateSpeed,
   estimateRemainingTime,
-} from "./file-utils";
+} from "../src/file-utils";
 
 describe("File Utils", () => {
   describe("sliceFile", () => {

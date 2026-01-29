@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import * as fc from "fast-check";
-import { ChunkSizeAdjuster } from "./chunk-size-adjuster";
+import { ChunkSizeAdjuster } from "../src/chunk-size-adjuster";
 
 describe("ChunkSizeAdjuster - Property-Based Tests", () => {
   const KB = 1024;
