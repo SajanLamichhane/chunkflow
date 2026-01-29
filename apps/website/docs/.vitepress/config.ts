@@ -7,7 +7,7 @@ export default defineConfig({
     nav: [
       { text: "Guide", link: "/guide/" },
       { text: "API", link: "/api/" },
-      { text: "GitHub", link: "https://github.com/Sunny-117/chunkflow-upload-sdk" },
+      { text: "GitHub", link: "https://github.com/Sunny-117/chunkflow" },
     ],
     sidebar: {
       "/guide/": [

@@ -1,5 +1,5 @@
 {
-  "name": "chunkflow-upload-sdk",
+  "name": "chunkflow",
   "version": "0.0.0",
   "private": true,
   "description": "A universal large file upload solution with chunked upload, resumable upload, and instant upload capabilities",

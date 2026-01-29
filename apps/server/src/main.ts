@@ -1,5 +1,6 @@
 import { NestFactory } from "@nestjs/core";
 import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
+import multipart from "@fastify/multipart";
 import { AppModule } from "./app.module";
 import { AllExceptionsFilter } from "./common/filters/http-exception.filter";
 
@@ -7,7 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
 
   // Register multipart plugin
-  await app.register(require("@fastify/multipart"), {
+  await app.register(multipart as any, {
     limits: {
       fileSize: 100 * 1024 * 1024, // 100MB max chunk size
     },

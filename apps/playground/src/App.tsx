@@ -62,7 +62,7 @@ function App() {
           <p>
             Built with care, not templates.{" "}
             <a
-              href="https://github.com/Sunny-117/chunkflow-upload-sdk"
+              href="https://github.com/Sunny-117/chunkflow"
               target="_blank"
               rel="noopener noreferrer"
             >

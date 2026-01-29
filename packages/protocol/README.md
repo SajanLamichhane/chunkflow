@@ -214,7 +214,7 @@ This package validates the following requirements:
 
 ## API Documentation
 
-For complete API documentation, see the [ChunkFlow Upload SDK Documentation](https://chunkflow-upload-sdk.example.com).
+For complete API documentation, see the [ChunkFlow Upload SDK Documentation](https://chunkflow.example.com).
 
 ## License
 

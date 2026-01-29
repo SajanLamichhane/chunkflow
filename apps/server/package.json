@@ -3,13 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "description": "Complete server application for ChunkFlow Upload SDK",
-  "type": "module",
   "scripts": {
-    "build": "tsc",
-    "dev": "tsx watch src/main.ts",
-    "start": "node dist/main.js",
+    "build": "nest build",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "db:setup": "bash scripts/setup-db.sh"
   },
   "dependencies": {
     "@chunkflow/protocol": "workspace:*",
@@ -20,12 +22,24 @@
     "@nestjs/platform-fastify": "^11.1.12",
     "fastify": "^5.7.2",
     "pg": "^8.17.2",
-    "reflect-metadata": "^0.2.2"
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
+    "@nestjs/cli": "^11.0.0",
+    "@nestjs/schematics": "^11.0.0",
+    "@nestjs/testing": "^11.0.1",
+    "@types/jest": "^30.0.0",
     "@types/node": "^25.1.0",
     "@types/pg": "^8.16.0",
-    "tsx": "^4.21.0",
+    "@types/supertest": "^6.0.2",
+    "globals": "^16.0.0",
+    "prettier": "^3.4.2",
+    "source-map-support": "^0.5.21",
+    "supertest": "^7.0.0",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3"
   }
 }

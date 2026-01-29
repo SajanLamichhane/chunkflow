@@ -174,7 +174,7 @@ pnpm format
 ### Project Structure
 
 ```
-chunkflow-upload-sdk/
+chunkflow/
 ├── packages/              # SDK packages
 │   ├── protocol/         # Protocol layer
 │   ├── shared/           # Shared utilities
@@ -213,7 +213,7 @@ pnpm test -- --coverage
 
 ## Documentation
 
-Full documentation is available at [https://Sunny-117.github.io/chunkflow-upload-sdk](https://Sunny-117.github.io/chunkflow-upload-sdk)
+Full documentation is available at [https://Sunny-117.github.io/chunkflow](https://Sunny-117.github.io/chunkflow)
 
 ## Contributing
 

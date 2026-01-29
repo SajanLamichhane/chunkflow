@@ -7,14 +7,14 @@ This document describes the complete project structure created for the ChunkFlow
 ## Directory Structure
 
 ```
-chunkflow-upload-sdk/
+chunkflow
 ├── .changeset/                    # Changeset configuration for versioning
 │   ├── config.json
 │   └── README.md
 ├── .git/                          # Git repository
 ├── .kiro/                         # Kiro specs
 │   └── specs/
-│       └── chunkflow-upload-sdk/
+│       └── chunkflow/
 ├── packages/                      # SDK packages
 │   ├── protocol/                  # Protocol layer
 │   │   ├── src/

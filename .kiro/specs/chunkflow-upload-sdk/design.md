@@ -92,7 +92,7 @@ ChunkFlow Upload SDK 是一个高度模块化的大文件上传解决方案，�
 ### 包结构
 
 ```
-chunkflow-upload-sdk/
+chunkflow/
 ├── packages/
 │   ├── protocol/              # 协议层
 │   ├── shared/                # 共享工具层
@@ -2314,7 +2314,7 @@ async function mergeFileWithTransaction(
 
 - 每个属性测试最少运行 100 次迭代（由于随机化）
 - 每个属性测试必须引用其设计文档属性
-- 标签格式：`Feature: chunkflow-upload-sdk, Property {number}: {property_text}`
+- 标签格式：`Feature: chunkflow, Property {number}: {property_text}`
 
 #### 属性测试示例
 
@@ -2323,7 +2323,7 @@ import fc from "fast-check";
 import { describe, it } from "vitest";
 
 describe("ChunkFlow Upload SDK Properties", () => {
-  // Feature: chunkflow-upload-sdk, Property 1: 文件大小决定上传策略
+  // Feature: chunkflow, Property 1: 文件大小决定上传策略
   it("should use direct upload for files < 5MB and chunked upload for files >= 5MB", () => {
     fc.assert(
       fc.property(
@@ -2346,7 +2346,7 @@ describe("ChunkFlow Upload SDK Properties", () => {
     );
   });
 
-  // Feature: chunkflow-upload-sdk, Property 2: 动态分片大小调整
+  // Feature: chunkflow, Property 2: 动态分片大小调整
   it("should adjust chunk size based on upload time", () => {
     fc.assert(
       fc.property(
@@ -2381,7 +2381,7 @@ describe("ChunkFlow Upload SDK Properties", () => {
     );
   });
 
-  // Feature: chunkflow-upload-sdk, Property 5: 部分秒传
+  // Feature: chunkflow, Property 5: 部分秒传
   it("should only upload missing chunks when some chunks exist", () => {
     fc.assert(
       fc.property(
@@ -2411,7 +2411,7 @@ describe("ChunkFlow Upload SDK Properties", () => {
     );
   });
 
-  // Feature: chunkflow-upload-sdk, Property 11: 状态机转换
+  // Feature: chunkflow, Property 11: 状态机转换
   it("should follow valid state machine transitions", () => {
     fc.assert(
       fc.property(
@@ -2468,7 +2468,7 @@ describe("ChunkFlow Upload SDK Properties", () => {
     );
   });
 
-  // Feature: chunkflow-upload-sdk, Property 14: 分片去重存储
+  // Feature: chunkflow, Property 14: 分片去重存储
   it("should store only one copy of chunks with same content", () => {
     fc.assert(
       fc.property(
@@ -2508,7 +2508,7 @@ describe("ChunkFlow Upload SDK Properties", () => {
     );
   });
 
-  // Feature: chunkflow-upload-sdk, Property 17: 文件流式输出顺序
+  // Feature: chunkflow, Property 17: 文件流式输出顺序
   it("should output file chunks in correct order", () => {
     fc.assert(
       fc.property(
@@ -2547,7 +2547,7 @@ describe("ChunkFlow Upload SDK Properties", () => {
     );
   });
 
-  // Feature: chunkflow-upload-sdk, Property 19: 自动重试机制
+  // Feature: chunkflow, Property 19: 自动重试机制
   it("should retry failed chunks with exponential backoff", () => {
     fc.assert(
       fc.property(
@@ -2599,7 +2599,7 @@ describe("ChunkFlow Upload SDK Properties", () => {
     );
   });
 
-  // Feature: chunkflow-upload-sdk, Property 22: 分片 Hash 唯一性
+  // Feature: chunkflow, Property 22: 分片 Hash 唯一性
   it("should generate same hash for same content and different hash for different content", () => {
     fc.assert(
       fc.property(

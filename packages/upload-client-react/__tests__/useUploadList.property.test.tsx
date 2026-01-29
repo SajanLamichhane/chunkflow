@@ -65,7 +65,7 @@ describe("React Adapter - Property-Based Tests", () => {
   });
 
   /**
-   * Feature: chunkflow-upload-sdk, Property 13: Reactive state updates
+   * Feature: chunkflow, Property 13: Reactive state updates
    *
    * **Validates: Requirement 10.5**
    *

@@ -9,9 +9,13 @@ export const DATABASE_POOL = "DATABASE_POOL";
     {
       provide: DATABASE_POOL,
       useFactory: () => {
+        // Use environment variable or default to localhost with current user (no password)
+        const connectionString =
+          process.env.DATABASE_URL ||
+          `postgresql://${process.env.USER || "postgres"}@localhost:5432/chunkflow`;
+
         const pool = new Pool({
-          connectionString:
-            process.env.DATABASE_URL || "postgresql://chunkflow:chunkflow@localhost:5432/chunkflow",
+          connectionString,
           max: 20,
           idleTimeoutMillis: 30000,
           connectionTimeoutMillis: 2000,

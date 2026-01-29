@@ -53,3 +53,4 @@ uploads/
 *.tmp
 *.temp
 .cache/
+apps/server/upload

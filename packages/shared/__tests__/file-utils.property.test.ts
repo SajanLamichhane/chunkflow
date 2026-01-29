@@ -8,7 +8,7 @@ import fc from "fast-check";
 import { calculateChunkHash } from "../src/file-utils";
 
 describe("File Utils - Property-Based Tests", () => {
-  // Feature: chunkflow-upload-sdk, Property 22: 分片 Hash 唯一性
+  // Feature: chunkflow, Property 22: 分片 Hash 唯一性
   // **Validates: Requirements 18.1**
   it("should generate same hash for same content and different hash for different content", async () => {
     await fc.assert(
