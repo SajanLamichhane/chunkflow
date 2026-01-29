@@ -4,9 +4,13 @@ import path from "path";
 export default defineConfig({
   test: {
     globals: true,
-    environment: "node",
+    environment: "happy-dom",
     setupFiles: [path.resolve(__dirname, "./packages/core/__tests__/test-setup.ts")],
-    include: ["**/__tests__/**/*.test.ts", "**/__tests__/**/*.property.test.ts"],
+    include: [
+      "**/__tests__/**/*.test.ts",
+      "**/__tests__/**/*.test.tsx",
+      "**/__tests__/**/*.property.test.ts",
+    ],
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"],

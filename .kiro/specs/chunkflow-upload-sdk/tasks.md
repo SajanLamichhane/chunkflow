@@ -231,37 +231,37 @@
     - **验证需求**: 10.5
 
 - [~] 9. Client 层 - Vue 适配
-  - [-] 9.1 实现 Vue Plugin 和 Provide/Inject
+  - [x] 9.1 实现 Vue Plugin 和 Provide/Inject
     - 创建 `@chunkflow/upload-client-vue` 包
     - 实现 Vue Plugin
     - 实现 provide/inject 机制
     - _需求: 10.2, 10.3, 10.4_
   
-  - [~] 9.2 实现 useUpload Composable
+  - [x] 9.2 实现 useUpload Composable
     - 使用 ref 和 reactive 实现响应式状态
     - 实现 upload、pause、resume、cancel 方法
     - 集成生命周期回调
     - _需求: 10.2, 10.5_
   
-  - [~] 9.3 实现 useUploadList Composable
+  - [x] 9.3 实现 useUploadList Composable
     - 实现响应式任务列表
     - 实现批量操作方法
     - _需求: 10.2, 10.5_
   
-  - [~] 9.4 编写 Vue 适配层单元测试
+  - [x] 9.4 编写 Vue 适配层单元测试
     - 测试 Plugin 安装和清理
     - 测试 useUpload Composable 的状态管理
     - 测试 useUploadList Composable 的任务管理
     - _需求: 10.2, 10.3, 10.4, 10.5_
 
 - [~] 10. Component 层 - React 组件
-  - [~] 10.1 实现 UploadButton 组件
+  - [x] 10.1 实现 UploadButton 组件
     - 创建 `@chunkflow/upload-component-react` 包
     - 实现文件选择功能
     - 实现文件验证（类型、大小）
     - _需求: 11.6_
   
-  - [~] 10.2 实现 UploadProgress 组件
+  - [x] 10.2 实现 UploadProgress 组件
     - 显示进度条
     - 显示上传速度和剩余时间
     - _需求: 11.4_

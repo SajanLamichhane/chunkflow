@@ -1,7 +1,11 @@
 // React components exports
-// TODO: Implement these modules (Task 10)
-// export * from './UploadButton';
-// export * from './UploadProgress';
+export { UploadButton, FileValidationError } from "./UploadButton";
+export type { UploadButtonProps } from "./UploadButton";
+
+export { UploadProgress } from "./UploadProgress";
+export type { UploadProgressProps } from "./UploadProgress";
+
+// TODO: Implement these modules (Task 10.3-10.4)
 // export * from './UploadList';
 // export * from './UploadDropzone';
 

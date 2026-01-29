@@ -213,7 +213,7 @@ pnpm test -- --coverage
 
 ## Documentation
 
-Full documentation is available at [https://yourusername.github.io/chunkflow-upload-sdk](https://yourusername.github.io/chunkflow-upload-sdk)
+Full documentation is available at [https://Sunny-117.github.io/chunkflow-upload-sdk](https://Sunny-117.github.io/chunkflow-upload-sdk)
 
 ## Contributing
 
@@ -221,7 +221,7 @@ Contributions are welcome! Please read our contributing guidelines before submit
 
 ## License
 
-MIT © [Your Name]
+MIT © [Sunny-117]
 
 ## Acknowledgments
 
