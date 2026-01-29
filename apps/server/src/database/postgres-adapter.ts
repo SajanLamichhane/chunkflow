@@ -29,8 +29,8 @@ export class PostgresAdapter implements DatabaseAdapter {
   async createFile(fileId: string, options: CreateFileOptions): Promise<FileMetadata> {
     const now = new Date();
     await this.pool.query(
-      `INSERT INTO files (file_id, file_name, file_size, file_type, file_hash, upload_token, created_at)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      `INSERT INTO files (file_id, file_name, file_size, file_type, file_hash, upload_token, chunk_size, total_chunks, created_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
       [
         fileId,
         options.filename,
@@ -38,6 +38,8 @@ export class PostgresAdapter implements DatabaseAdapter {
         options.mimeType,
         options.fileHash,
         options.uploadToken,
+        options.chunkSize,
+        options.totalChunks,
         now,
       ],
     );

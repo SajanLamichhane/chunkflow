@@ -183,6 +183,7 @@ export class UploadService {
    *
    * Checks if the file hash already exists (full instant upload)
    * or if any chunks already exist (partial instant upload).
+   * For existing chunks, automatically creates file-chunk relationships.
    */
   async verifyHash(request: VerifyHashRequest): Promise<VerifyHashResponse> {
     // Verify upload token
@@ -215,12 +216,53 @@ export class UploadService {
       const existingChunks: number[] = [];
       const missingChunks: number[] = [];
 
-      chunkExistence.forEach((exists, index) => {
+      // Process each chunk
+      for (let index = 0; index < chunkExistence.length; index++) {
+        const exists = chunkExistence[index];
         if (exists) {
           existingChunks.push(index);
+
+          // Automatically create file-chunk relationship for existing chunks
+          const chunkHash = request.chunkHashes[index];
+          try {
+            // Check if relationship already exists
+            const existingRelations = await this.databaseAdapter.getFileChunks(fileId);
+            const relationExists = existingRelations.some(
+              (fc) => fc.chunkIndex === index && fc.chunkHash === chunkHash,
+            );
+
+            if (!relationExists) {
+              // Create file-chunk relationship
+              await this.databaseAdapter.createFileChunk(fileId, chunkHash, index);
+
+              // Increment chunk reference count
+              const chunk = await this.databaseAdapter.getChunk(chunkHash);
+              if (chunk) {
+                await this.databaseAdapter.upsertChunk(chunkHash, chunk.size);
+              }
+            }
+          } catch (error) {
+            // Log error but don't fail the verification
+            console.error(`Failed to create file-chunk relationship for chunk ${index}:`, error);
+          }
         } else {
           missingChunks.push(index);
         }
+      }
+
+      // Update file metadata with uploaded chunks count
+      const fileChunks = await this.databaseAdapter.getFileChunks(fileId);
+      const uploadedChunks = fileChunks.length;
+      const status =
+        uploadedChunks === file.totalChunks
+          ? "completed"
+          : uploadedChunks > 0
+            ? "uploading"
+            : "pending";
+
+      await this.databaseAdapter.updateFile(fileId, {
+        uploadedChunks,
+        status,
       });
 
       return {
@@ -333,12 +375,12 @@ export class UploadService {
     const updatedFile = await this.databaseAdapter.getFile(fileId);
     if (updatedFile) {
       await this.databaseAdapter.updateFile(fileId, {
-        url: `/files/${fileId}`,
+        url: `/upload/files/${fileId}`,
       });
     }
 
     // Generate file access URL
-    const url = `/files/${fileId}`;
+    const url = `/upload/files/${fileId}`;
 
     return {
       success: true,
