@@ -179,27 +179,27 @@
     - 自动恢复或提示用户
     - _需求: 4.2, 4.3_
   
-  - [-] 7.3 实现插件系统
+  - [x] 7.3 实现插件系统
     - 定义 Plugin 接口
     - 实现 use 方法（注册插件）
     - 在任务生命周期中调用插件钩子
     - 实现示例插件（LoggerPlugin、StatisticsPlugin）
     - _需求: 6.5, 8.5_
   
-  - [~] 7.4 编写 UploadManager 单元测试
+  - [x] 7.4 编写 UploadManager 单元测试
     - 测试任务创建和管理
     - 测试任务恢复逻辑
     - 测试插件系统
     - _需求: 4.2, 4.3, 6.5, 8.6_
   
-  - [~] 7.5 编写 UploadManager 属性测试
+  - [x] 7.5 编写 UploadManager 属性测试
     - **属性 9**: 并发控制
     - **属性 11**: 状态机转换
     - **属性 12**: 队列管理
     - **验证需求**: 5.3, 8.4, 8.6
 
 - [~] 8. Client 层 - React 适配
-  - [~] 8.1 实现 UploadProvider 和 Context
+  - [-] 8.1 实现 UploadProvider 和 Context
     - 创建 `@chunkflow/upload-client-react` 包
     - 实现 UploadContext
     - 实现 UploadProvider 组件

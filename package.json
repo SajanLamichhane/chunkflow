@@ -19,16 +19,16 @@
     "prepare": "simple-git-hooks"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.1",
+    "@changesets/cli": "^2.29.8",
     "happy-dom": "^20.4.0",
-    "lint-staged": "^15.2.2",
+    "lint-staged": "^16.2.7",
     "oxfmt": "^0.27.0",
-    "oxlint": "^0.9.0",
-    "simple-git-hooks": "^2.11.1",
-    "tsdown": "^0.2.15",
-    "turbo": "^2.0.0",
-    "typescript": "^5.5.0",
-    "vitest": "^2.0.0"
+    "oxlint": "^1.42.0",
+    "simple-git-hooks": "^2.13.1",
+    "tsdown": "^0.20.1",
+    "turbo": "^2.8.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"

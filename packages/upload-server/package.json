@@ -34,16 +34,16 @@
   "license": "MIT",
   "dependencies": {
     "@chunkflow/protocol": "workspace:*",
-    "jsonwebtoken": "^9.0.2",
+    "jsonwebtoken": "^9.0.3",
     "spark-md5": "^3.0.2"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.6",
-    "@types/node": "^20.14.0",
-    "@types/spark-md5": "^3.0.4",
-    "fast-check": "^3.19.0",
-    "tsdown": "^0.2.15",
-    "typescript": "^5.5.0",
-    "vitest": "^2.0.0"
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.1.0",
+    "@types/spark-md5": "^3.0.5",
+    "fast-check": "^4.5.3",
+    "tsdown": "^0.20.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   }
 }

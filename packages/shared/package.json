@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "description": "Shared utilities and tools for ChunkFlow Upload SDK",
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
     }
   },
   "files": [
@@ -33,16 +33,16 @@
   "license": "MIT",
   "dependencies": {
     "mitt": "^3.0.1",
-    "p-limit": "^5.0.0",
+    "p-limit": "^7.2.0",
     "spark-md5": "^3.0.2"
   },
   "devDependencies": {
-    "@types/spark-md5": "^3.0.4",
+    "@types/spark-md5": "^3.0.5",
     "fake-indexeddb": "^6.2.5",
-    "fast-check": "^3.19.0",
+    "fast-check": "^4.5.3",
     "happy-dom": "^20.4.0",
-    "tsdown": "^0.2.15",
-    "typescript": "^5.5.0",
-    "vitest": "^2.0.0"
+    "tsdown": "^0.20.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   }
 }
