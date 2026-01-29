@@ -16,8 +16,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown src/index.ts --format esm --dts",
-    "dev": "tsdown src/index.ts --format esm --dts --watch",
+    "build": "tsdown src/index.ts --format esm && tsc --emitDeclarationOnly --declaration --outDir dist",
+    "dev": "tsdown src/index.ts --format esm --watch",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",

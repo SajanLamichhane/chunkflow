@@ -15,7 +15,7 @@
   - _需求: 14.1, 14.2, 14.3, 15.1, 15.2, 15.3, 15.4_
 
 - [ ] 2. Protocol 层实现
-  - [~] 2.1 定义核心类型和接口
+  - [x] 2.1 定义核心类型和接口
     - 创建 `@chunkflow/protocol` 包
     - 定义 FileInfo、ChunkInfo、UploadToken 等核心类型
     - 定义 UploadStatus 枚举
@@ -23,65 +23,65 @@
     - 定义 RequestAdapter 接口
     - _需求: 7.1, 7.2, 7.3, 7.4, 7.5_
   
-  - [~] 2.2 编写 Protocol 层单元测试
+  - [x] 2.2 编写 Protocol 层单元测试
     - 测试类型定义的完整性
     - 测试接口的类型安全性
     - _需求: 7.5_
 
 - [ ] 3. Shared 层实现
-  - [~] 3.1 实现事件系统
+  - [x] 3.1 实现事件系统
     - 创建 `@chunkflow/shared` 包
     - 集成 mitt 库
     - 定义 UploadEvents 类型
     - 实现 createEventBus 工具函数
     - _需求: 6.1, 6.2, 9.1_
   
-  - [~] 3.2 实现并发控制
+  - [x] 3.2 实现并发控制
     - 集成 p-limit 库
     - 实现 ConcurrencyController 类
     - 支持动态调整并发限制
     - _需求: 5.4, 9.2_
   
-  - [~] 3.3 实现文件工具函数
+  - [x] 3.3 实现文件工具函数
     - 实现 sliceFile 函数
     - 实现 calculateFileHash 函数（使用 spark-md5）
     - 实现 calculateChunkHash 函数
     - 实现 formatFileSize、calculateSpeed、estimateRemainingTime 工具函数
     - _需求: 9.3_
   
-  - [~] 3.4 实现 IndexedDB 存储
+  - [x] 3.4 实现 IndexedDB 存储
     - 实现 UploadStorage 类
     - 实现 init、saveRecord、getRecord、updateRecord、deleteRecord、getAllRecords 方法
     - 处理 IndexedDB 错误和降级
     - _需求: 4.1, 4.2, 9.3_
   
-  - [~] 3.5 编写 Shared 层单元测试
+  - [x] 3.5 编写 Shared 层单元测试
     - 测试事件系统的发布订阅
     - 测试并发控制的队列管理
     - 测试文件工具函数的正确性
     - 测试 IndexedDB 存储的 CRUD 操作
     - _需求: 9.1, 9.2, 9.3_
   
-  - [~] 3.6 编写 Shared 层属性测试
+  - [x] 3.6 编写 Shared 层属性测试
     - **属性 22**: 分片 Hash 唯一性
     - **验证需求**: 18.1
 
 - [ ] 4. Core 层 - 动态切片大小调整器
-  - [~] 4.1 实现 ChunkSizeAdjuster 类
+  - [x] 4.1 实现 ChunkSizeAdjuster 类
     - 创建 `@chunkflow/core` 包
     - 实现初始化逻辑
     - 实现 adjust 方法（类似 TCP 慢启动）
     - 实现 getCurrentSize 方法
     - _需求: 2.1, 2.2, 2.3, 2.4, 2.5_
   
-  - [~] 4.2 编写 ChunkSizeAdjuster 单元测试
+  - [x] 4.2 编写 ChunkSizeAdjuster 单元测试
     - 测试初始大小设置
     - 测试快速上传时增大分片
     - 测试慢速上传时减小分片
     - 测试边界值（最小/最大）
     - _需求: 2.1, 2.2, 2.3, 2.4_
   
-  - [~] 4.3 编写 ChunkSizeAdjuster 属性测试
+  - [x] 4.3 编写 ChunkSizeAdjuster 属性测试
     - **属性 2**: 动态分片大小调整
     - **验证需求**: 2.2, 2.3, 2.4
 

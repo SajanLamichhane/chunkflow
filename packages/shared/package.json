@@ -16,8 +16,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown src/index.ts --format esm --dts",
-    "dev": "tsdown src/index.ts --format esm --dts --watch",
+    "build": "tsdown src/index.ts --format esm && tsc --emitDeclarationOnly --declaration --outDir dist",
+    "dev": "tsdown src/index.ts --format esm --watch",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
@@ -38,6 +38,9 @@
   },
   "devDependencies": {
     "@types/spark-md5": "^3.0.4",
+    "fake-indexeddb": "^6.2.5",
+    "fast-check": "^3.19.0",
+    "happy-dom": "^20.4.0",
     "tsdown": "^0.2.15",
     "typescript": "^5.5.0",
     "vitest": "^2.0.0"
