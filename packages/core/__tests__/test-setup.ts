@@ -4,6 +4,7 @@
  */
 
 import { vi } from "vitest";
+import "fake-indexeddb/auto";
 
 // Mock FileReader for Node.js environment
 if (typeof FileReader === "undefined") {

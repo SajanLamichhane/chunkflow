@@ -2,5 +2,4 @@
 export * from "./chunk-size-adjuster";
 export * from "./upload-task";
 export * from "./upload-manager";
-// TODO: Uncomment as these are implemented
-// export * from './plugin';
+export * from "./plugins";

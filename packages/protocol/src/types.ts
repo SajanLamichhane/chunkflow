@@ -67,3 +67,23 @@ export enum UploadStatus {
   /** Upload cancelled by user */
   CANCELLED = "cancelled",
 }
+
+/**
+ * Upload progress information
+ */
+export interface UploadProgress {
+  /** Number of bytes uploaded */
+  uploadedBytes: number;
+  /** Total file size in bytes */
+  totalBytes: number;
+  /** Upload percentage (0-100) */
+  percentage: number;
+  /** Upload speed in bytes per second */
+  speed: number;
+  /** Estimated remaining time in seconds */
+  remainingTime: number;
+  /** Number of chunks uploaded */
+  uploadedChunks: number;
+  /** Total number of chunks */
+  totalChunks: number;
+}

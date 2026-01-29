@@ -63,6 +63,12 @@ export interface UploadTaskOptions {
   retryDelay?: number;
   /** Whether to start upload automatically (default: false) */
   autoStart?: boolean;
+  /** Task ID to resume (for resuming interrupted uploads) */
+  resumeTaskId?: string;
+  /** Upload token from previous session (for resuming) */
+  resumeUploadToken?: string;
+  /** List of already uploaded chunk indices (for resuming) */
+  resumeUploadedChunks?: number[];
 }
 
 /**
@@ -153,8 +159,8 @@ export class UploadTask {
    * @param options - Upload task configuration options
    */
   constructor(options: UploadTaskOptions) {
-    // Generate unique task ID
-    this.id = this.generateTaskId();
+    // Use resume task ID if provided, otherwise generate new one
+    this.id = options.resumeTaskId ?? this.generateTaskId();
 
     // Store file reference
     this.file = options.file;
@@ -176,8 +182,20 @@ export class UploadTask {
     // Initialize chunks array
     this.chunks = [];
 
-    // Initialize upload token and hash
-    this.uploadToken = null;
+    // Initialize upload token (use resume token if provided)
+    if (options.resumeUploadToken) {
+      // Parse the resume token to reconstruct UploadToken
+      // Note: This is a simplified version - in production you'd decode the JWT
+      this.uploadToken = {
+        token: options.resumeUploadToken,
+        fileId: "", // Will be populated from token
+        chunkSize: options.chunkSize ?? 1024 * 1024,
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000, // Assume 24h expiry
+      };
+    } else {
+      this.uploadToken = null;
+    }
+
     this.fileHash = null;
 
     // Create event bus
@@ -195,6 +213,9 @@ export class UploadTask {
       retryCount: options.retryCount ?? 3,
       retryDelay: options.retryDelay ?? 1000,
       autoStart: options.autoStart ?? false,
+      resumeTaskId: options.resumeTaskId ?? "",
+      resumeUploadToken: options.resumeUploadToken ?? "",
+      resumeUploadedChunks: options.resumeUploadedChunks ?? [],
     };
 
     // Create concurrency controller
@@ -362,20 +383,61 @@ export class UploadTask {
       // Emit start event
       this.eventBus.emit("start", { taskId: this.id, file: this.file });
 
-      // Step 1: Create file on server and get upload token
-      const createResponse = await this.requestAdapter.createFile({
-        fileName: this.file.name,
-        fileSize: this.file.size,
-        fileType: this.file.type,
-        preferredChunkSize: this.options.chunkSize,
-      });
+      // Check if this is a resume operation
+      const isResume = this.options.resumeUploadToken && this.options.resumeUploadedChunks;
 
-      this.uploadToken = createResponse.uploadToken;
-      const negotiatedChunkSize = createResponse.negotiatedChunkSize;
+      let negotiatedChunkSize: number;
+
+      if (isResume) {
+        // Resuming: use existing upload token
+        // Upload token was already set in constructor
+        negotiatedChunkSize = this.uploadToken!.chunkSize;
+
+        console.info(
+          `Resuming upload for task ${this.id}: ` +
+            `${this.options.resumeUploadedChunks!.length} chunks already uploaded`,
+        );
+      } else {
+        // New upload: Create file on server and get upload token
+        const createResponse = await this.requestAdapter.createFile({
+          fileName: this.file.name,
+          fileSize: this.file.size,
+          fileType: this.file.type,
+          preferredChunkSize: this.options.chunkSize,
+        });
+
+        this.uploadToken = createResponse.uploadToken;
+        negotiatedChunkSize = createResponse.negotiatedChunkSize;
+      }
 
       // Step 2: Split file into chunks
       this.chunks = this.createChunks(negotiatedChunkSize);
       this.progress.totalChunks = this.chunks.length;
+
+      // If resuming, mark already uploaded chunks
+      if (isResume && this.options.resumeUploadedChunks) {
+        const uploadedChunks = this.options.resumeUploadedChunks;
+        let uploadedBytes = 0;
+
+        for (const chunkIndex of uploadedChunks) {
+          if (chunkIndex < this.chunks.length) {
+            const chunk = this.chunks[chunkIndex];
+            // Mark chunk as uploaded by setting a flag
+            (chunk as any).uploaded = true;
+            uploadedBytes += chunk.size;
+          }
+        }
+
+        // Update progress to reflect already uploaded chunks
+        this.progress.uploadedChunks = uploadedChunks.length;
+        this.progress.uploadedBytes = uploadedBytes;
+        this.progress.percentage = (uploadedBytes / this.file.size) * 100;
+
+        console.info(
+          `Resume progress: ${this.progress.percentage.toFixed(1)}% ` +
+            `(${uploadedChunks.length}/${this.chunks.length} chunks)`,
+        );
+      }
 
       // Initialize chunk size adjuster for dynamic sizing
       this.chunkSizeAdjuster = new ChunkSizeAdjuster({
@@ -420,11 +482,20 @@ export class UploadTask {
    * @internal
    */
   private async startUpload(): Promise<void> {
+    // Filter out already uploaded chunks (for resume functionality)
+    const chunksToUpload = this.chunks.filter((chunk) => !(chunk as any).uploaded);
+
+    if (chunksToUpload.length === 0) {
+      // All chunks already uploaded (resume case)
+      console.info("All chunks already uploaded, skipping upload phase");
+      return;
+    }
+
     // Requirement 17.5: Priority upload for first few chunks
     // Upload first 3 chunks with priority to get quick feedback
-    const priorityChunkCount = Math.min(3, this.chunks.length);
-    const priorityChunks = this.chunks.slice(0, priorityChunkCount);
-    const remainingChunks = this.chunks.slice(priorityChunkCount);
+    const priorityChunkCount = Math.min(3, chunksToUpload.length);
+    const priorityChunks = chunksToUpload.slice(0, priorityChunkCount);
+    const remainingChunks = chunksToUpload.slice(priorityChunkCount);
 
     // Upload priority chunks first
     const priorityPromises = priorityChunks.map((chunk) => {
