@@ -47,13 +47,11 @@ const createMockAdapter = (): RequestAdapter => ({
       chunkHash: request.chunkHash,
     }),
   ),
-  mergeFile: vi
-    .fn()
-    .mockResolvedValue({
-      success: true,
-      fileUrl: "https://example.com/file.txt",
-      fileId: "test-file-id",
-    }),
+  mergeFile: vi.fn().mockResolvedValue({
+    success: true,
+    fileUrl: "https://example.com/file.txt",
+    fileId: "test-file-id",
+  }),
 });
 
 // Helper to create a mock File
