@@ -1,4 +1,4 @@
-import { ReactNode, CSSProperties } from "react";
+import { ReactNode, CSSProperties, useState, useEffect } from "react";
 import type { UploadTask } from "@chunkflow/core";
 import { UploadStatus } from "@chunkflow/protocol";
 import { formatFileSize } from "@chunkflow/shared";
@@ -18,6 +18,12 @@ export interface UploadListProps {
    * Custom styles for the container
    */
   style?: CSSProperties;
+
+  /**
+   * Base URL for file downloads (e.g., "http://localhost:3001")
+   * If provided, relative file URLs will be converted to absolute URLs
+   */
+  baseURL?: string;
 
   /**
    * Custom render function for each upload item
@@ -76,6 +82,7 @@ export interface UploadItemActions {
 interface DefaultUploadItemProps {
   task: UploadTask;
   onRemove: () => void;
+  baseURL?: string;
 }
 
 /**
@@ -83,16 +90,41 @@ interface DefaultUploadItemProps {
  *
  * Displays file info, progress, and action buttons
  */
-function DefaultUploadItem({ task, onRemove }: DefaultUploadItemProps) {
+function DefaultUploadItem({ task, onRemove, baseURL }: DefaultUploadItemProps) {
   const status = task.getStatus();
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
+
+  // Listen to success event to get fileUrl
+  useEffect(() => {
+    const handleSuccess = ({ fileUrl }: { fileUrl: string }) => {
+      // Convert relative URL to absolute URL if baseURL is provided
+      const absoluteUrl = baseURL && fileUrl.startsWith("/") ? `${baseURL}${fileUrl}` : fileUrl;
+      setFileUrl(absoluteUrl);
+    };
+
+    task.on("success", handleSuccess);
+
+    return () => {
+      task.off("success", handleSuccess);
+    };
+  }, [task, baseURL]);
+
+  const handleClick = () => {
+    // Only open file if upload is successful and we have a URL
+    if (status === UploadStatus.SUCCESS && fileUrl) {
+      window.open(fileUrl, "_blank");
+    }
+  };
 
   const defaultStyles = {
     container: {
       padding: "16px",
-      border: "1px solid #e0e0e0",
+      border: "1px solid var(--border, #333)",
       borderRadius: "8px",
       marginBottom: "8px",
-      backgroundColor: "#fff",
+      backgroundColor: "var(--darker-bg, #0f0f0f)",
+      cursor: status === UploadStatus.SUCCESS && fileUrl ? "pointer" : "default",
+      transition: "all 0.2s",
     } as CSSProperties,
     fileInfo: {
       display: "flex",
@@ -103,7 +135,7 @@ function DefaultUploadItem({ task, onRemove }: DefaultUploadItemProps) {
     fileName: {
       fontWeight: 500,
       fontSize: "14px",
-      color: "#333",
+      color: "var(--text, #e0e0e0)",
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap" as const,
@@ -112,7 +144,7 @@ function DefaultUploadItem({ task, onRemove }: DefaultUploadItemProps) {
     } as CSSProperties,
     fileSize: {
       fontSize: "12px",
-      color: "#999",
+      color: "var(--text-dim, #999)",
     } as CSSProperties,
     status: {
       fontSize: "12px",
@@ -128,9 +160,10 @@ function DefaultUploadItem({ task, onRemove }: DefaultUploadItemProps) {
     button: {
       padding: "4px 12px",
       fontSize: "12px",
-      border: "1px solid #ddd",
+      border: "1px solid var(--border, #333)",
       borderRadius: "4px",
-      backgroundColor: "#fff",
+      backgroundColor: "var(--card-bg, #1e1e1e)",
+      color: "var(--text, #e0e0e0)",
       cursor: "pointer",
       transition: "all 0.2s",
     } as CSSProperties,
@@ -140,17 +173,17 @@ function DefaultUploadItem({ task, onRemove }: DefaultUploadItemProps) {
     const baseStyle = defaultStyles.status;
     switch (status) {
       case UploadStatus.UPLOADING:
-        return { ...baseStyle, backgroundColor: "#e3f2fd", color: "#1976d2" };
+        return { ...baseStyle, backgroundColor: "rgba(33, 150, 243, 0.15)", color: "#42a5f5" };
       case UploadStatus.SUCCESS:
-        return { ...baseStyle, backgroundColor: "#e8f5e9", color: "#388e3c" };
+        return { ...baseStyle, backgroundColor: "rgba(76, 175, 80, 0.15)", color: "#66bb6a" };
       case UploadStatus.ERROR:
-        return { ...baseStyle, backgroundColor: "#ffebee", color: "#d32f2f" };
+        return { ...baseStyle, backgroundColor: "rgba(244, 67, 54, 0.15)", color: "#ef5350" };
       case UploadStatus.PAUSED:
-        return { ...baseStyle, backgroundColor: "#fff3e0", color: "#f57c00" };
+        return { ...baseStyle, backgroundColor: "rgba(255, 152, 0, 0.15)", color: "#ffa726" };
       case UploadStatus.CANCELLED:
-        return { ...baseStyle, backgroundColor: "#f5f5f5", color: "#757575" };
+        return { ...baseStyle, backgroundColor: "rgba(158, 158, 158, 0.15)", color: "#bdbdbd" };
       default:
-        return { ...baseStyle, backgroundColor: "#f5f5f5", color: "#757575" };
+        return { ...baseStyle, backgroundColor: "rgba(158, 158, 158, 0.15)", color: "#bdbdbd" };
     }
   };
 
@@ -176,7 +209,20 @@ function DefaultUploadItem({ task, onRemove }: DefaultUploadItemProps) {
   };
 
   return (
-    <div style={defaultStyles.container} data-testid="upload-item">
+    <div
+      style={defaultStyles.container}
+      data-testid="upload-item"
+      onClick={handleClick}
+      onMouseEnter={(e) => {
+        if (status === UploadStatus.SUCCESS && fileUrl) {
+          e.currentTarget.style.backgroundColor = "var(--card-bg, #1e1e1e)";
+        }
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundColor = "var(--darker-bg, #0f0f0f)";
+      }}
+      title={status === UploadStatus.SUCCESS && fileUrl ? "Click to open file" : ""}
+    >
       {/* File info */}
       <div style={defaultStyles.fileInfo}>
         <div style={{ display: "flex", alignItems: "center", flex: 1, minWidth: 0 }}>
@@ -196,7 +242,7 @@ function DefaultUploadItem({ task, onRemove }: DefaultUploadItemProps) {
         status === UploadStatus.HASHING) && <UploadProgress task={task} />}
 
       {/* Actions */}
-      <div style={defaultStyles.actions}>
+      <div style={defaultStyles.actions} onClick={(e) => e.stopPropagation()}>
         {status === UploadStatus.UPLOADING && (
           <button
             onClick={() => task.pause()}
@@ -227,6 +273,17 @@ function DefaultUploadItem({ task, onRemove }: DefaultUploadItemProps) {
             type="button"
           >
             Cancel
+          </button>
+        )}
+
+        {status === UploadStatus.SUCCESS && fileUrl && (
+          <button
+            onClick={handleClick}
+            style={defaultStyles.button}
+            data-testid="open-button"
+            type="button"
+          >
+            Open
           </button>
         )}
 
@@ -276,6 +333,7 @@ function DefaultUploadItem({ task, onRemove }: DefaultUploadItemProps) {
 export function UploadList({
   className,
   style,
+  baseURL,
   renderItem,
   showCompleted = true,
   showFailed = true,
@@ -314,7 +372,7 @@ export function UploadList({
     empty: {
       padding: "32px",
       textAlign: "center" as const,
-      color: "#999",
+      color: "var(--text-dim, #999)",
       fontSize: "14px",
     } as CSSProperties,
   };
@@ -347,7 +405,7 @@ export function UploadList({
             {renderItem ? (
               renderItem(task, actions)
             ) : (
-              <DefaultUploadItem task={task} onRemove={actions.remove} />
+              <DefaultUploadItem task={task} onRemove={actions.remove} baseURL={baseURL} />
             )}
           </div>
         );

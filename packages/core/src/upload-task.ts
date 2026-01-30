@@ -451,7 +451,65 @@ export class UploadTask {
       // This implements requirement 3.6 and 17.2 - hash calculation and upload should be parallel
       await Promise.all([this.startUpload(), this.calculateAndVerifyHash()]);
 
-      // Step 4: Merge file if upload completed successfully
+      // Check if upload was paused or cancelled during the process
+      if (this.status === "paused") {
+        console.info(`Upload paused at ${this.progress.percentage.toFixed(1)}%`);
+        return;
+      }
+
+      if (this.status === "cancelled" || this.shouldCancelUpload) {
+        console.info("Upload cancelled");
+        return;
+      }
+
+      // If instant upload was triggered, status is already success
+      if (this.status === "success") {
+        console.info("Instant upload already completed");
+        return;
+      }
+
+      // Step 4: Verify hash with server (now that all chunk hashes are calculated)
+      // Only do this if we're still in uploading state and have fileHash
+      if (this.status === "uploading" && this.fileHash) {
+        try {
+          const chunkHashes = this.chunks.map((chunk) => chunk.hash);
+
+          const verifyResponse = await this.requestAdapter.verifyHash({
+            fileHash: this.fileHash,
+            chunkHashes,
+            uploadToken: this.uploadToken!.token,
+          });
+
+          // Check if file already exists (instant upload)
+          // Note: This is the second verifyHash call after upload completes
+          // At this point, if file exists, it means we just uploaded it successfully
+          if (verifyResponse.fileExists && verifyResponse.fileUrl) {
+            // File already exists on server - instant upload (秒传)
+            this.status = "success" as UploadStatus;
+            this.endTime = Date.now();
+
+            // Update progress to 100%
+            this.progress.uploadedBytes = this.file.size;
+            this.progress.uploadedChunks = this.chunks.length;
+            this.progress.percentage = 100;
+
+            // Emit success event with file URL
+            this.eventBus.emit("success", {
+              taskId: this.id,
+              fileUrl: verifyResponse.fileUrl,
+            });
+
+            return;
+          }
+        } catch (error) {
+          // Hash verification failed, continue with merge
+          console.warn("Hash verification failed:", error);
+        }
+      } else if (this.status === "uploading" && !this.fileHash) {
+        console.warn("No fileHash available, skipping hash verification");
+      }
+
+      // Step 5: Merge file if upload completed successfully
       if (this.status === "uploading" && !this.shouldCancelUpload) {
         // Call merge API
         const mergeResponse = await this.requestAdapter.mergeFile({
@@ -473,20 +531,19 @@ export class UploadTask {
         } else {
           throw new Error("Merge failed: response.success is false");
         }
-      } else {
-        // If instant upload was triggered, status is already success
-        if (this.status !== "success") {
-          this.status = "success" as UploadStatus;
-          this.endTime = Date.now();
-        }
       }
+      // If we reach here without uploading status, it means upload was paused/cancelled/instant
+      // The status and events were already handled above
     } catch (error) {
-      this.status = "error" as UploadStatus;
-      this.endTime = Date.now();
-      this.eventBus.emit("error", {
-        taskId: this.id,
-        error: error as Error,
-      });
+      // Only set error status if not paused or cancelled
+      if (this.status !== "paused" && this.status !== "cancelled") {
+        this.status = "error" as UploadStatus;
+        this.endTime = Date.now();
+        this.eventBus.emit("error", {
+          taskId: this.id,
+          error: error as Error,
+        });
+      }
       throw error;
     }
   }
@@ -618,6 +675,9 @@ export class UploadTask {
           chunk: blob,
         });
 
+        // Mark chunk as uploaded to prevent duplicate uploads
+        (chunk as any).uploaded = true;
+
         // Upload successful - update progress
         await this.updateProgress(chunk);
 
@@ -682,12 +742,36 @@ export class UploadTask {
    * @internal
    */
   private async updateProgress(chunk: ChunkInfo): Promise<void> {
+    // Check if this chunk was already counted to prevent duplicate progress updates
+    if ((chunk as any).progressCounted) {
+      console.warn(`Chunk ${chunk.index} progress already counted, skipping update`);
+      return;
+    }
+
+    // Mark chunk as counted
+    (chunk as any).progressCounted = true;
+
     // Update uploaded bytes and chunks
     this.progress.uploadedBytes += chunk.size;
     this.progress.uploadedChunks++;
 
+    // Ensure progress doesn't exceed 100%
+    if (this.progress.uploadedBytes > this.file.size) {
+      console.warn(
+        `Progress overflow detected: ${this.progress.uploadedBytes} > ${this.file.size}, capping to file size`,
+      );
+      this.progress.uploadedBytes = this.file.size;
+    }
+
+    if (this.progress.uploadedChunks > this.progress.totalChunks) {
+      console.warn(
+        `Chunk count overflow detected: ${this.progress.uploadedChunks} > ${this.progress.totalChunks}, capping to total chunks`,
+      );
+      this.progress.uploadedChunks = this.progress.totalChunks;
+    }
+
     // Calculate percentage
-    this.progress.percentage = (this.progress.uploadedBytes / this.file.size) * 100;
+    this.progress.percentage = Math.min(100, (this.progress.uploadedBytes / this.file.size) * 100);
 
     // Calculate speed and remaining time
     const elapsedTime = Date.now() - this.startTime;
@@ -760,7 +844,8 @@ export class UploadTask {
         hash: this.fileHash,
       });
 
-      // Verify hash with server
+      // Verify hash with server (without chunk hashes for now)
+      // This allows early detection of full instant upload
       if (!this.uploadToken) {
         // Upload token not available yet, skip verification
         return;
@@ -769,10 +854,17 @@ export class UploadTask {
       const verifyResponse = await this.requestAdapter.verifyHash({
         fileHash: this.fileHash,
         uploadToken: this.uploadToken.token,
+        // Note: chunkHashes not included here because they're calculated during upload
+        // We'll do a second verification with chunk hashes before merge
       });
 
       // Requirement 3.4: Handle instant upload (file already exists)
       if (verifyResponse.fileExists && verifyResponse.fileUrl) {
+        // Check if upload was paused or cancelled by user
+        if (this.status === "paused" || this.status === "cancelled") {
+          return;
+        }
+
         // File already exists on server - instant upload (秒传)
         // Cancel ongoing chunk uploads
         this.shouldCancelUpload = true;
@@ -794,6 +886,8 @@ export class UploadTask {
       }
 
       // Requirement 3.5: Handle partial instant upload (skip existing chunks)
+      // Note: This won't work well without chunk hashes, but server might return
+      // existing chunks based on file hash if it has seen this file before
       if (verifyResponse.existingChunks && verifyResponse.existingChunks.length > 0) {
         // Some chunks already exist on server
         // Mark them as uploaded to skip them
@@ -827,7 +921,13 @@ export class UploadTask {
       const chunk = this.chunks[chunkIndex];
       if (!chunk) continue;
 
-      // Mark chunk as uploaded by updating progress
+      // Mark chunk as uploaded to skip it in startUpload
+      (chunk as any).uploaded = true;
+
+      // Mark chunk as progress counted to prevent duplicate counting
+      (chunk as any).progressCounted = true;
+
+      // Update progress for skipped chunk
       this.progress.uploadedBytes += chunk.size;
       this.progress.uploadedChunks++;
       this.progress.percentage = (this.progress.uploadedBytes / this.file.size) * 100;
@@ -1008,6 +1108,71 @@ export class UploadTask {
       // The startUpload method will skip already uploaded chunks
       // because progress.uploadedChunks tracks which chunks are done
       await this.startUpload();
+
+      // Check if upload was cancelled during resume
+      if (this.status === "cancelled" || this.shouldCancelUpload) {
+        console.info("Upload cancelled during resume");
+        return;
+      }
+
+      // If status is still uploading, proceed with verification and merge
+      if (this.status === "uploading") {
+        // Step 1: Verify hash with server (if we have fileHash and chunk hashes)
+        if (this.fileHash) {
+          try {
+            const chunkHashes = this.chunks.map((chunk) => chunk.hash);
+
+            const verifyResponse = await this.requestAdapter.verifyHash({
+              fileHash: this.fileHash,
+              chunkHashes,
+              uploadToken: this.uploadToken!.token,
+            });
+
+            // Check if file already exists (instant upload)
+            if (verifyResponse.fileExists && verifyResponse.fileUrl) {
+              this.status = "success" as UploadStatus;
+              this.endTime = Date.now();
+
+              // Update progress to 100%
+              this.progress.uploadedBytes = this.file.size;
+              this.progress.uploadedChunks = this.chunks.length;
+              this.progress.percentage = 100;
+
+              // Emit success event with file URL
+              this.eventBus.emit("success", {
+                taskId: this.id,
+                fileUrl: verifyResponse.fileUrl,
+              });
+
+              return;
+            }
+          } catch (error) {
+            // Hash verification failed, continue with merge
+            console.warn("Hash verification failed:", error);
+          }
+        }
+
+        // Step 2: Merge file
+        const mergeResponse = await this.requestAdapter.mergeFile({
+          uploadToken: this.uploadToken!.token,
+          fileHash: this.fileHash || "",
+          chunkHashes: this.chunks.map((chunk) => chunk.hash),
+        });
+
+        if (mergeResponse.success) {
+          // Upload completed successfully
+          this.status = "success" as UploadStatus;
+          this.endTime = Date.now();
+
+          // Emit success event with file URL
+          this.eventBus.emit("success", {
+            taskId: this.id,
+            fileUrl: mergeResponse.fileUrl,
+          });
+        } else {
+          throw new Error("Merge failed: response.success is false");
+        }
+      }
     } catch (error) {
       this.status = "error" as UploadStatus;
       this.endTime = Date.now();

@@ -19,9 +19,11 @@ function SimpleTest() {
 
     task.on("progress", () => {
       const progress = task.getProgress();
-      console.log(
-        `[Event] Progress: ${progress.percentage.toFixed(1)}% (${progress.uploadedChunks}/${progress.totalChunks} chunks)`,
-      );
+      if (progress >= 95) {
+        console.log(
+          `[Event] Progress: ${progress.percentage.toFixed(1)}% (${progress.uploadedChunks}/${progress.totalChunks} chunks)`,
+        );
+      }
     });
 
     task.on("success", ({ fileUrl }) => {

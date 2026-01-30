@@ -14,7 +14,7 @@
   - 创建所有包的基础目录结构
   - _需求: 14.1, 14.2, 14.3, 15.1, 15.2, 15.3, 15.4_
 
-- [~] 2. Protocol 层实现
+- [ ] 2. Protocol 层实现
   - [x] 2.1 定义核心类型和接口
     - 创建 `@chunkflow/protocol` 包
     - 定义 FileInfo、ChunkInfo、UploadToken 等核心类型
@@ -27,7 +27,7 @@
     - 测试接口的类型安全性
     - _需求: 7.5_
 
-- [~] 3. Shared 层实现
+- [ ] 3. Shared 层实现
   - [x] 3.1 实现事件系统
     - 创建 `@chunkflow/shared` 包
     - 集成 mitt 库
@@ -77,7 +77,7 @@
     - **属性 2**: 动态分片大小调整
     - **验证需求**: 2.2, 2.3, 2.4
 
-- [~] 5. Core 层 - UploadTask 实现
+- [ ] 5. Core 层 - UploadTask 实现
   - [x] 5.1 实现 UploadTask 基础结构
     - 定义 UploadTaskOptions 和 UploadProgress 接口
     - 实现 UploadTask 类构造函数
@@ -147,7 +147,7 @@
   - 手动测试文件上传、暂停、恢复、取消功能
   - 验证 Hash 计算和秒传功能
 
-- [~] 7. Core 层 - UploadManager 和插件系统
+- [ ] 7. Core 层 - UploadManager 和插件系统
   - [x] 7.1 实现 UploadManager 类
     - 定义 UploadManagerOptions 接口
     - 实现构造函数和初始化
@@ -177,7 +177,7 @@
     - **属性 12**: 队列管理
     - **验证需求**: 5.3, 8.4, 8.6
 
-- [~] 8. Client 层 - React 适配
+- [ ] 8. Client 层 - React 适配
   - [x] 8.1 实现 UploadProvider 和 Context
     - 创建 `@chunkflow/upload-client-react` 包
     - 实现 UploadContext
@@ -205,7 +205,7 @@
     - **属性 13**: 响应式状态更新
     - **验证需求**: 10.5
 
-- [~] 9. Client 层 - Vue 适配
+- [ ] 9. Client 层 - Vue 适配
   - [x] 9.1 实现 Vue Plugin 和 Provide/Inject
     - 创建 `@chunkflow/upload-client-vue` 包
     - 实现 Vue Plugin
@@ -226,7 +226,7 @@
     - 测试 useUploadList Composable 的任务管理
     - _需求: 10.2, 10.3, 10.4, 10.5_
 
-- [~] 10. Component 层 - React 组件
+- [ ] 10. Component 层 - React 组件
   - [x] 10.1 实现 UploadButton 组件
     - 创建 `@chunkflow/upload-component-react` 包
     - 实现文件选择功能
@@ -247,14 +247,14 @@
     - 实现文件验证
     - 实现拖拽状态视觉反馈
     - _需求: 11.5_
-  - [~]\* 10.5 编写 React 组件单元测试
+  - [ ]\* 10.5 编写 React 组件单元测试
     - 测试 UploadButton 的文件选择和验证
     - 测试 UploadProgress 的进度显示
     - 测试 UploadList 的任务管理
     - 测试 UploadDropzone 的拖拽功能
     - _需求: 11.1, 11.2, 11.4, 11.5, 11.6_
 
-- [~] 11. Component 层 - Vue 组件
+- [ ] 11. Component 层 - Vue 组件
   - [x] 11.1 实现 Vue 上传组件
     - 创建 `@chunkflow/upload-component-vue` 包
     - 实现 UploadButton.vue
@@ -262,17 +262,17 @@
     - 实现 UploadList.vue
     - 实现 UploadDropzone.vue
     - _需求: 11.1, 11.2, 11.4, 11.5, 11.6_
-  - [~]\* 11.2 编写 Vue 组件单元测试
+  - [ ]\* 11.2 编写 Vue 组件单元测试
     - 测试各组件的功能
     - _需求: 11.1, 11.2, 11.4, 11.5, 11.6_
 
-- [~]\* 12. Checkpoint - 前端功能完整性验证
+- [ ]\* 12. Checkpoint - 前端功能完整性验证
   - 确保所有前端测试通过
   - 在 Playground 中测试完整的上传流程
   - 测试 React 和 Vue 组件的功能
   - 如有问题请向用户询问
 
-- [~] 13. Server 层 - 存储适配器
+- [ ] 13. Server 层 - 存储适配器
   - [x] 13.1 定义存储适配器接口
     - 创建 `@chunkflow/upload-server` 包
     - 定义 StorageAdapter 接口
@@ -283,7 +283,7 @@
     - 实现 chunksExist、getChunkStream 方法
     - 使用 Hash 前两位作为子目录
     - _需求: 12.6_
-  - [~] 13.3 实现 OSS 存储适配器（可选）
+  - [ ] 13.3 实现 OSS 存储适配器（可选）
     - 实现 OSSStorageAdapter 类
     - 集成 OSS SDK
     - _需求: 12.6_
@@ -293,7 +293,7 @@
     - 测试流式读取
     - _需求: 12.6_
 
-- [~] 14. Server 层 - 数据库适配器
+- [ ] 14. Server 层 - 数据库适配器
   - [x] 14.1 定义数据库适配器接口
     - 定义 DatabaseAdapter 接口
     - 定义 FileMetadata、ChunkEntity、FileChunkEntity 类型
@@ -310,7 +310,7 @@
     - 测试事务回滚
     - _需求: 13.2, 13.3_
 
-- [~] 15. Server 层 - UploadService 实现
+- [ ] 15. Server 层 - UploadService 实现
   - [x] 15.1 实现 createFile 方法
     - 生成 fileId 和 uploadToken
     - 协商分片大小
@@ -347,7 +347,7 @@
     - 测试逻辑合并
     - 测试文件流式输出
     - _需求: 12.1, 12.2, 12.3, 12.4, 13.4, 19.1, 19.2_
-  - [~] 15.7 编写 UploadService 属性测试
+  - [ ] 15.7 编写 UploadService 属性测试
     - **属性 14**: 分片去重存储
     - **属性 15**: 分片永久性
     - **属性 16**: 文件删除隔离
@@ -355,7 +355,7 @@
     - **属性 18**: Range 请求正确性
     - **验证需求**: 18.2, 18.4, 18.5, 19.1, 19.2, 19.4, 19.5
 
-- [~] 16. 服务端应用 - Nest.js 实现
+- [ ] 16. 服务端应用 - Nest.js 实现
   - [x] 16.1 创建 Nest.js 项目
     - 创建 `apps/server` 目录
     - 初始化 Nest.js + Fastify 项目
@@ -384,19 +384,19 @@
     - 配置 PostgreSQL 服务
     - 配置 Nest.js 应用服务
     - _需求: 13.5_
-  - [~] 16.6 编写服务端集成测试
+  - [ ] 16.6 编写服务端集成测试
     - 测试完整的上传流程
     - 测试秒传功能
     - 测试文件访问和 Range 请求
     - _需求: 12.1, 12.2, 12.3, 12.4, 19.4_
 
-- [~] 17. Checkpoint - 服务端功能验证
+- [ ] 17. Checkpoint - 服务端功能验证
   - 使用 docker-compose 启动服务端
   - 测试所有 API 接口
   - 测试分片去重和文件访问
   - 如有问题请向用户询问
 
-- [~] 18. Playground 应用
+- [ ] 18. Playground 应用
   - [x] 18.1 创建 React Playground
     - 创建 `apps/playground` 目录
     - 使用 Vite 初始化 React 项目
@@ -415,30 +415,30 @@
     - 连接到本地服务端
     - _需求: 8.3_
 
-- [~] 19. 文档站点
-  - [~] 19.1 创建 VitePress 项目
+- [ ] 19. 文档站点
+  - [ ] 19.1 创建 VitePress 项目
     - 创建 `apps/website` 目录
     - 初始化 VitePress
     - 配置主题和导航
     - _需求: 16.1, 16.5_
-  - [~] 19.2 编写核心文档
+  - [ ] 19.2 编写核心文档
     - 编写快速开始指南
     - 编写 API 文档（Protocol、Core、Client、Component、Server）
     - 编写配置指南
     - 编写最佳实践
     - _需求: 16.2, 16.3_
-  - [~] 19.3 编写示例代码
+  - [ ] 19.3 编写示例代码
     - 提供 React 使用示例
     - 提供 Vue 使用示例
     - 提供服务端集成示例
     - _需求: 16.3_
-  - [~] 19.4 配置 GitHub Pages 部署
+  - [ ] 19.4 配置 GitHub Pages 部署
     - 创建 GitHub Actions 工作流
     - 配置自动部署
     - _需求: 16.5_
 
-- [~] 20. 发布准备
-  - [~] 20.1 配置 changeset
+- [ ] 20. 发布准备
+  - [ ] 20.1 配置 changeset
     - 安装和配置 @changesets/cli
     - 创建初始 changeset
     - _需求: 15.6_
@@ -446,18 +446,18 @@
     - 为每个包编写 README
     - 包含安装、使用、API 文档链接
     - _需求: 16.2_
-  - [~] 20.3 配置 npm 发布
+  - [ ] 20.3 配置 npm 发布
     - 配置 package.json 的发布字段
     - 配置 .npmignore
     - 测试本地发布
     - _需求: 14.5_
-  - [~] 20.4 创建 GitHub Release
+  - [ ] 20.4 创建 GitHub Release
     - 编写 CHANGELOG
     - 创建 Git tag
     - 发布到 GitHub
     - _需求: 15.6_
 
-- [~] 21. 最终验证
+- [ ] 21. 最终验证
   - 运行所有测试（单元测试 + 属性测试）
   - 验证测试覆盖率达标
   - 在 Playground 中进行完整的功能测试

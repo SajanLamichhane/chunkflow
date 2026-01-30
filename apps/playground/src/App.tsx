@@ -13,6 +13,8 @@ const requestAdapter = new FetchRequestAdapter({
   baseURL: "http://localhost:3001",
 });
 
+const SERVER_BASE_URL = "http://localhost:3001";
+
 type DemoTab = "simple" | "basic" | "multi" | "resume" | "instant";
 
 function App() {
@@ -73,7 +75,7 @@ function App() {
 
             <div className="upload-list-container">
               <h3>Upload Queue</h3>
-              <UploadList />
+              <UploadList baseURL={SERVER_BASE_URL} />
             </div>
           </main>
         </div>

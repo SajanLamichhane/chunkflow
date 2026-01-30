@@ -1,7 +1,7 @@
 import { randomBytes } from "crypto";
 import { sign, verify } from "jsonwebtoken";
 import type { StorageAdapter } from "./storage-adapter";
-import type { DatabaseAdapter } from "./database-adapter";
+import type { DatabaseAdapter, FileMetadata } from "./database-adapter";
 import type {
   CreateFileRequest,
   CreateFileResponse,
@@ -384,6 +384,15 @@ export class UploadService {
   }
 
   /**
+   * Get file metadata
+   *
+   * Retrieves file metadata from database without creating a stream.
+   */
+  async getFileMetadata(fileId: string): Promise<FileMetadata | null> {
+    return await this.databaseAdapter.getFile(fileId);
+  }
+
+  /**
    * Get file stream for download
    *
    * Reads chunks in order and creates a stream pipeline for file output.
@@ -414,50 +423,62 @@ export class UploadService {
     const stream = new Readable({
       async read() {
         try {
-          if (currentChunkIndex >= chunkHashes.length) {
-            this.push(null); // End of stream
-            return;
-          }
+          // Skip chunks until we find one in the requested range
+          while (currentChunkIndex < chunkHashes.length) {
+            const chunkHash = chunkHashes[currentChunkIndex];
+            const chunkData = await storageAdapter.getChunk(chunkHash);
 
-          const chunkHash = chunkHashes[currentChunkIndex];
-          const chunkData = await storageAdapter.getChunk(chunkHash);
+            if (!chunkData) {
+              this.destroy(new Error(`Chunk ${chunkHash} not found`));
+              return;
+            }
 
-          if (!chunkData) {
-            this.destroy(new Error(`Chunk ${chunkHash} not found`));
-            return;
-          }
+            // Handle range requests
+            const chunkStart = currentChunkIndex * file.chunkSize;
+            const chunkEnd = chunkStart + chunkData.length - 1;
 
-          // Handle range requests
-          const chunkStart = currentChunkIndex * file.chunkSize;
-          const chunkEnd = chunkStart + chunkData.length - 1;
+            // Skip chunks outside the requested range
+            if (chunkEnd < startByte) {
+              currentChunkIndex++;
+              continue;
+            }
 
-          if (chunkEnd < startByte || chunkStart > endByte) {
-            // Skip this chunk
+            // Stop if we've passed the requested range
+            if (chunkStart > endByte) {
+              this.push(null); // End of stream
+              return;
+            }
+
+            // This chunk is in the requested range
+            let sliceStart = 0;
+            let sliceEnd = chunkData.length;
+
+            if (chunkStart < startByte) {
+              sliceStart = startByte - chunkStart;
+            }
+
+            if (chunkEnd > endByte) {
+              sliceEnd = endByte - chunkStart + 1;
+            }
+
+            const slicedData = chunkData.slice(sliceStart, sliceEnd);
+            this.push(slicedData);
+
+            bytesRead += slicedData.length;
             currentChunkIndex++;
-            this.read();
+
+            // Check if we've sent all requested bytes
+            if (bytesRead >= endByte - startByte + 1) {
+              this.push(null); // End of stream
+              return;
+            }
+
+            // Exit the loop to allow backpressure handling
             return;
           }
 
-          let sliceStart = 0;
-          let sliceEnd = chunkData.length;
-
-          if (chunkStart < startByte) {
-            sliceStart = startByte - chunkStart;
-          }
-
-          if (chunkEnd > endByte) {
-            sliceEnd = endByte - chunkStart + 1;
-          }
-
-          const slicedData = chunkData.slice(sliceStart, sliceEnd);
-          this.push(slicedData);
-
-          bytesRead += slicedData.length;
-          currentChunkIndex++;
-
-          if (bytesRead >= endByte - startByte + 1) {
-            this.push(null); // End of stream
-          }
+          // All chunks processed
+          this.push(null); // End of stream
         } catch (error) {
           this.destroy(error as Error);
         }

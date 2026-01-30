@@ -103,19 +103,27 @@ export class UploadController {
     @Res() reply: FastifyReply,
   ): Promise<void> {
     try {
+      // Get file metadata to know the size
+      const fileMetadata = await this.uploadService.getFileMetadata(fileId);
+
+      if (!fileMetadata || fileMetadata.status !== "completed") {
+        throw new Error("File not found or not completed");
+      }
+
       // Parse range header
       let range: { start: number; end: number } | undefined;
       if (rangeHeader) {
         const match = rangeHeader.match(/bytes=(\d+)-(\d*)/);
         if (match) {
           const start = parseInt(match[1]);
-          const end = match[2] ? parseInt(match[2]) : undefined;
-          if (!isNaN(start)) {
-            range = { start, end: end || start + 10 * 1024 * 1024 }; // Default to 10MB range
+          const end = match[2] ? parseInt(match[2]) : fileMetadata.size - 1;
+          if (!isNaN(start) && start < fileMetadata.size) {
+            range = { start, end: Math.min(end, fileMetadata.size - 1) };
           }
         }
       }
 
+      // Get the file stream
       const result = await this.uploadService.getFileStream(fileId, range);
 
       if (!result) {
@@ -128,11 +136,12 @@ export class UploadController {
 
       if (range) {
         reply.status(206);
-        reply.header("Content-Range", `bytes ${range.start}-${range.end}/${result.size}`);
-        reply.header("Content-Length", range.end - range.start + 1);
+        const contentLength = range.end - range.start + 1;
+        reply.header("Content-Range", `bytes ${range.start}-${range.end}/${fileMetadata.size}`);
+        reply.header("Content-Length", contentLength);
       } else {
         reply.status(200);
-        reply.header("Content-Length", result.size);
+        reply.header("Content-Length", fileMetadata.size);
       }
 
       // Pipe stream to response
