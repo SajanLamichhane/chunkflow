@@ -4,6 +4,8 @@
  */
 
 import SparkMD5 from "spark-md5";
+// @ts-ignore - Import worker code as raw string
+import workerCode from "./hash-worker-inline.ts?raw";
 
 /**
  * Slice a file into a blob chunk
@@ -92,6 +94,7 @@ export async function calculateFileHash(
 
 /**
  * Calculate file hash using Web Worker (non-blocking)
+ * Uses bundled worker code that includes SparkMD5
  * @internal
  */
 async function calculateFileHashWithWorker(
@@ -110,44 +113,7 @@ async function calculateFileHashWithWorker(
 
       const fileData = e.target.result as ArrayBuffer;
 
-      // Create worker from inline code to avoid bundling issues
-      const workerCode = `
-        importScripts('https://cdn.jsdelivr.net/npm/spark-md5@3.0.2/spark-md5.min.js');
-        
-        self.onmessage = async (e) => {
-          const { type, fileData, chunkSize, totalSize } = e.data;
-          
-          if (type === 'hash') {
-            try {
-              const spark = new SparkMD5.ArrayBuffer();
-              const chunks = Math.ceil(totalSize / chunkSize);
-              let currentChunk = 0;
-              
-              while (currentChunk < chunks) {
-                const start = currentChunk * chunkSize;
-                const end = Math.min(start + chunkSize, totalSize);
-                const chunk = fileData.slice(start, end);
-                
-                spark.append(chunk);
-                currentChunk++;
-                
-                const progress = (currentChunk / chunks) * 100;
-                self.postMessage({ type: 'progress', progress: Math.min(progress, 100) });
-                
-                if (currentChunk % 10 === 0) {
-                  await new Promise(resolve => setTimeout(resolve, 0));
-                }
-              }
-              
-              const hash = spark.end();
-              self.postMessage({ type: 'result', hash });
-            } catch (error) {
-              self.postMessage({ type: 'error', error: error.message });
-            }
-          }
-        };
-      `;
-
+      // Create worker from raw imported code (tsdown will bundle SparkMD5 inline)
       const blob = new Blob([workerCode], { type: "application/javascript" });
       const workerUrl = URL.createObjectURL(blob);
       const worker = new Worker(workerUrl);

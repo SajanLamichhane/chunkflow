@@ -24,7 +24,7 @@ function SimpleTest() {
 
     task.on("progress", () => {
       const progress = task.getProgress();
-      if (progress >= 95) {
+      if (progress.percentage >= 95) {
         console.log(
           `[Event] Progress: ${progress.percentage.toFixed(1)}% (${progress.uploadedChunks}/${progress.totalChunks} chunks)`,
         );

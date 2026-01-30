@@ -138,9 +138,6 @@ function ResumeUploadDemo() {
 
           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             {unfinishedTasks.map((taskInfo) => {
-              const progress =
-                (taskInfo.uploadedChunks.length / (taskInfo.fileInfo.size / (1024 * 1024))) * 100;
-
               return (
                 <div
                   key={taskInfo.taskId}

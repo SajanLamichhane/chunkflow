@@ -16,7 +16,7 @@ function InstantUploadDemo() {
       try {
         const task = manager.createTask(file);
 
-        let wasInstant = false;
+        let instantUpload = false;
         let maxProgress = 0;
 
         // Track progress to detect instant upload
@@ -29,7 +29,7 @@ function InstantUploadDemo() {
           console.log(`[InstantUpload] Hash calculated for ${file.name}`);
         });
 
-        task.on("success", ({ fileUrl }) => {
+        task.on("success", () => {
           const duration = Date.now() - startTime;
 
           // Instant upload is detected when:
