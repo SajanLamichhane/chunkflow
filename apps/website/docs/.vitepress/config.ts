@@ -52,6 +52,7 @@ export default defineConfig({
                 { text: "哈希与秒传", link: "/zh/guide/hash-instant-upload" },
                 { text: "断点续传", link: "/zh/guide/resumable-upload" },
                 { text: "动态分片", link: "/zh/guide/dynamic-chunking" },
+                { text: "TCP 慢启动对比", link: "/zh/guide/tcp-slow-start-comparison" },
               ],
             },
             {
@@ -135,6 +136,7 @@ export default defineConfig({
             { text: "Hash & Instant Upload", link: "/guide/hash-instant-upload" },
             { text: "Resumable Upload", link: "/guide/resumable-upload" },
             { text: "Dynamic Chunking", link: "/guide/dynamic-chunking" },
+            { text: "TCP Slow Start Comparison", link: "/guide/tcp-slow-start-comparison" },
           ],
         },
         {

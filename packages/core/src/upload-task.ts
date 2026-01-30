@@ -23,6 +23,8 @@ import {
   calculateSpeed,
   estimateRemainingTime,
 } from "@chunkflow/shared";
+import type { IChunkSizeAdjuster } from "./chunk-size-adjuster-interface";
+import { TCPChunkSizeAdjuster } from "./chunk-size-adjuster-tcp";
 import { ChunkSizeAdjuster } from "./chunk-size-adjuster";
 
 /**
@@ -69,6 +71,18 @@ export interface UploadTaskOptions {
   resumeUploadToken?: string;
   /** List of already uploaded chunk indices (for resuming) */
   resumeUploadedChunks?: number[];
+  /**
+   * Chunk size adjustment strategy (default: 'tcp-like')
+   * - 'simple': Simple binary adjustment (fast → double, slow → halve)
+   * - 'tcp-like': TCP slow start inspired algorithm with state machine (recommended)
+   * - Custom: Provide your own IChunkSizeAdjuster implementation
+   */
+  chunkSizeStrategy?: "simple" | "tcp-like" | IChunkSizeAdjuster;
+  /**
+   * Initial slow start threshold for TCP-like strategy (default: 5MB)
+   * Only used when chunkSizeStrategy is 'tcp-like'
+   */
+  initialSsthresh?: number;
 }
 
 /**
@@ -148,7 +162,7 @@ export class UploadTask {
   private endTime: number | null;
 
   /** Chunk size adjuster for dynamic sizing */
-  private chunkSizeAdjuster: ChunkSizeAdjuster | null;
+  private chunkSizeAdjuster: IChunkSizeAdjuster | null;
 
   /** Flag to indicate if upload should be cancelled (e.g., instant upload) */
   private shouldCancelUpload: boolean;
@@ -216,6 +230,8 @@ export class UploadTask {
       resumeTaskId: options.resumeTaskId ?? "",
       resumeUploadToken: options.resumeUploadToken ?? "",
       resumeUploadedChunks: options.resumeUploadedChunks ?? [],
+      chunkSizeStrategy: options.chunkSizeStrategy ?? "tcp-like", // Default to TCP-like
+      initialSsthresh: options.initialSsthresh ?? 5 * 1024 * 1024, // 5MB default
     };
 
     // Create concurrency controller
@@ -440,12 +456,32 @@ export class UploadTask {
       }
 
       // Initialize chunk size adjuster for dynamic sizing
-      this.chunkSizeAdjuster = new ChunkSizeAdjuster({
-        initialSize: negotiatedChunkSize,
-        minSize: 256 * 1024, // 256KB
-        maxSize: 10 * 1024 * 1024, // 10MB
-        targetTime: 3000, // 3 seconds target per chunk
-      });
+      const strategy = this.options.chunkSizeStrategy;
+      const minSize = 256 * 1024; // 256KB
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      const targetTime = 3000; // 3 seconds target per chunk
+
+      if (typeof strategy === "object") {
+        // Custom adjuster provided
+        this.chunkSizeAdjuster = strategy;
+      } else if (strategy === "tcp-like") {
+        // Use TCP-like adjuster (default, recommended)
+        this.chunkSizeAdjuster = new TCPChunkSizeAdjuster({
+          initialSize: negotiatedChunkSize,
+          minSize,
+          maxSize,
+          targetTime,
+          initialSsthresh: this.options.initialSsthresh,
+        });
+      } else {
+        // Use simple adjuster
+        this.chunkSizeAdjuster = new ChunkSizeAdjuster({
+          initialSize: negotiatedChunkSize,
+          minSize,
+          maxSize,
+          targetTime,
+        });
+      }
 
       // Step 3: Start uploading chunks AND calculate hash in parallel
       // This implements requirement 3.6 and 17.2 - hash calculation and upload should be parallel

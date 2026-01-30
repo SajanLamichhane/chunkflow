@@ -1,30 +1,16 @@
+import type {
+  IChunkSizeAdjuster,
+  BaseChunkSizeAdjusterOptions,
+} from "./chunk-size-adjuster-interface";
+
 /**
  * Options for configuring the ChunkSizeAdjuster
  */
-export interface ChunkSizeAdjusterOptions {
-  /**
-   * Initial chunk size in bytes
-   */
-  initialSize: number;
-  /**
-   * Minimum chunk size in bytes
-   */
-  minSize: number;
-  /**
-   * Maximum chunk size in bytes
-   */
-  maxSize: number;
-  /**
-   * Target upload time in milliseconds (default: 3000ms = 3 seconds)
-   * The adjuster will try to keep upload times close to this target
-   */
-  targetTime?: number;
-}
+export interface ChunkSizeAdjusterOptions extends BaseChunkSizeAdjusterOptions {}
 
 /**
  * ChunkSizeAdjuster dynamically adjusts chunk sizes based on upload performance.
- * Similar to TCP slow start, it increases chunk size when uploads are fast
- * and decreases when uploads are slow, optimizing for network conditions.
+ * Uses a simple binary strategy: doubles size when fast, halves when slow.
  *
  * @example
  * ```typescript
@@ -40,7 +26,7 @@ export interface ChunkSizeAdjusterOptions {
  * const newSize = adjuster.adjust(uploadTimeMs);
  * ```
  */
-export class ChunkSizeAdjuster {
+export class ChunkSizeAdjuster implements IChunkSizeAdjuster {
   private currentSize: number;
   private readonly options: Required<ChunkSizeAdjusterOptions>;
 
@@ -68,7 +54,7 @@ export class ChunkSizeAdjuster {
 
   /**
    * Adjusts the chunk size based on the upload time of the previous chunk.
-   * Uses a TCP slow start-like algorithm:
+   * Uses a simple binary strategy:
    * - If upload is fast (< 50% of target time): double the chunk size
    * - If upload is slow (> 150% of target time): halve the chunk size
    * - Otherwise: keep the current size
