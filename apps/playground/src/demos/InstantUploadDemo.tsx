@@ -16,7 +16,6 @@ function InstantUploadDemo() {
       try {
         const task = manager.createTask(file);
 
-        let instantUpload = false;
         let maxProgress = 0;
 
         // Track progress to detect instant upload

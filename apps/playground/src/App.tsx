@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { UploadProvider } from "@chunkflow/upload-client-react";
 import { FetchRequestAdapter } from "./adapters/fetch-request-adapter";
 import { UploadList } from "@chunkflow/upload-component-react";
@@ -19,7 +19,30 @@ const SERVER_BASE_URL = "http://localhost:3001";
 type DemoTab = "simple" | "basic" | "multi" | "resume" | "instant" | "performance";
 
 function App() {
-  const [activeTab, setActiveTab] = useState<DemoTab>("simple");
+  // Initialize from URL hash
+  const getTabFromHash = (): DemoTab => {
+    const hash = window.location.hash.slice(1); // Remove #
+    const validTabs: DemoTab[] = ["simple", "basic", "multi", "resume", "instant", "performance"];
+    return validTabs.includes(hash as DemoTab) ? (hash as DemoTab) : "simple";
+  };
+
+  const [activeTab, setActiveTab] = useState<DemoTab>(getTabFromHash);
+
+  // Update URL when tab changes
+  const handleTabChange = (tab: DemoTab) => {
+    setActiveTab(tab);
+    window.location.hash = tab;
+  };
+
+  // Listen to hash changes (browser back/forward)
+  useEffect(() => {
+    const handleHashChange = () => {
+      setActiveTab(getTabFromHash());
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   return (
     <UploadProvider requestAdapter={requestAdapter}>
@@ -34,37 +57,37 @@ function App() {
             <nav className="app-nav">
               <button
                 className={activeTab === "simple" ? "active" : ""}
-                onClick={() => setActiveTab("simple")}
+                onClick={() => handleTabChange("simple")}
               >
                 <span>Simple Test</span>
               </button>
               <button
                 className={activeTab === "basic" ? "active" : ""}
-                onClick={() => setActiveTab("basic")}
+                onClick={() => handleTabChange("basic")}
               >
                 <span>Basic Upload</span>
               </button>
               <button
                 className={activeTab === "multi" ? "active" : ""}
-                onClick={() => setActiveTab("multi")}
+                onClick={() => handleTabChange("multi")}
               >
                 <span>Multi-File</span>
               </button>
               <button
                 className={activeTab === "resume" ? "active" : ""}
-                onClick={() => setActiveTab("resume")}
+                onClick={() => handleTabChange("resume")}
               >
                 <span>Breakpoint Resume</span>
               </button>
               <button
                 className={activeTab === "instant" ? "active" : ""}
-                onClick={() => setActiveTab("instant")}
+                onClick={() => handleTabChange("instant")}
               >
                 <span>Instant Upload</span>
               </button>
               <button
                 className={activeTab === "performance" ? "active" : ""}
-                onClick={() => setActiveTab("performance")}
+                onClick={() => handleTabChange("performance")}
               >
                 <span>⚡ Hash Performance</span>
               </button>
