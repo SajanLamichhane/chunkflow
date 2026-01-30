@@ -12,54 +12,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { UploadManager } from "../src/upload-manager";
 import { UploadStorage } from "@chunkflow/shared";
 import type { RequestAdapter } from "@chunkflow/protocol";
-import type {
-  CreateFileRequest,
-  CreateFileResponse,
-  VerifyHashRequest,
-  VerifyHashResponse,
-  UploadChunkRequest,
-  UploadChunkResponse,
-} from "@chunkflow/protocol";
-
-// Mock RequestAdapter
-const createMockAdapter = (): RequestAdapter => ({
-  createFile: vi.fn(
-    async (request: CreateFileRequest): Promise<CreateFileResponse> => ({
-      uploadToken: {
-        token: "mock-token",
-        fileId: "mock-file-id",
-        chunkSize: request.preferredChunkSize || 1024 * 1024,
-        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
-      },
-      negotiatedChunkSize: request.preferredChunkSize || 1024 * 1024,
-    }),
-  ),
-  verifyHash: vi.fn(
-    async (_request: VerifyHashRequest): Promise<VerifyHashResponse> => ({
-      fileExists: false,
-      existingChunks: [],
-      missingChunks: [],
-    }),
-  ),
-  uploadChunk: vi.fn(
-    async (request: UploadChunkRequest): Promise<UploadChunkResponse> => ({
-      success: true,
-      chunkHash: request.chunkHash,
-    }),
-  ),
-  mergeFile: vi.fn(),
-});
-
-// Helper to create a mock File
-const createMockFile = (
-  name: string,
-  size: number,
-  type: string = "text/plain",
-  lastModified: number = Date.now(),
-): File => {
-  const content = new Array(size).fill("a").join("");
-  return new File([content], name, { type, lastModified });
-};
+import { createMockAdapter, createMockFile } from "./setup";
 
 describe("UploadManager - Edge Cases", () => {
   let manager: UploadManager;
@@ -210,10 +163,26 @@ describe("UploadManager - Edge Cases", () => {
       const task2 = manager.createTask(file2);
       const task3 = manager.createTask(file3);
 
-      // Set different statuses
+      // Set different statuses and initialize upload tokens for paused tasks
       (task1 as any).status = "paused";
+      (task1 as any).uploadToken = {
+        token: "test-token-1",
+        fileId: "file-1",
+        chunkSize: 1024 * 1024,
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
+      };
+      (task1 as any).chunks = [];
+
       (task2 as any).status = "uploading";
+
       (task3 as any).status = "paused";
+      (task3 as any).uploadToken = {
+        token: "test-token-3",
+        fileId: "file-3",
+        chunkSize: 1024 * 1024,
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
+      };
+      (task3 as any).chunks = [];
 
       const resumed = await manager.resumeAll();
 
@@ -228,9 +197,24 @@ describe("UploadManager - Edge Cases", () => {
       const task1 = manager.createTask(file1);
       const task2 = manager.createTask(file2);
 
-      // Set both to paused
+      // Set both to paused and initialize upload tokens
       (task1 as any).status = "paused";
+      (task1 as any).uploadToken = {
+        token: "test-token-1",
+        fileId: "file-1",
+        chunkSize: 1024 * 1024,
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
+      };
+      (task1 as any).chunks = [];
+
       (task2 as any).status = "paused";
+      (task2 as any).uploadToken = {
+        token: "test-token-2",
+        fileId: "file-2",
+        chunkSize: 1024 * 1024,
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
+      };
+      (task2 as any).chunks = [];
 
       // Mock task2.resume to fail
       const consoleSpy = vi.spyOn(console, "warn").mockImplementation(() => {});

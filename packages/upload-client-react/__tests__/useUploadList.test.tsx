@@ -12,36 +12,52 @@ import React from "react";
 import { UploadProvider, useUploadList } from "../src";
 import type { RequestAdapter } from "@chunkflow/protocol";
 
-// Mock RequestAdapter
+// Mock RequestAdapter with delays to make state transitions observable
 const mockRequestAdapter: RequestAdapter = {
-  createFile: vi.fn().mockResolvedValue({
-    uploadToken: {
-      token: "test-token",
+  createFile: vi.fn().mockImplementation(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    return {
+      uploadToken: {
+        token: "test-token",
+        fileId: "test-file-id",
+        chunkSize: 1024 * 1024,
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
+      },
+      negotiatedChunkSize: 1024 * 1024,
+    };
+  }),
+  verifyHash: vi.fn().mockImplementation(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    return {
+      fileExists: false,
+      existingChunks: [],
+      missingChunks: [],
+    };
+  }),
+  uploadChunk: vi.fn().mockImplementation(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    return {
+      success: true,
+      chunkHash: "test-hash",
+    };
+  }),
+  mergeFile: vi.fn().mockImplementation(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    return {
+      success: true,
+      fileUrl: "https://example.com/file.txt",
       fileId: "test-file-id",
-      chunkSize: 1024 * 1024,
-      expiresAt: Date.now() + 24 * 60 * 60 * 1000,
-    },
-    negotiatedChunkSize: 1024 * 1024,
-  }),
-  verifyHash: vi.fn().mockResolvedValue({
-    fileExists: false,
-    existingChunks: [],
-    missingChunks: [],
-  }),
-  uploadChunk: vi.fn().mockResolvedValue({
-    success: true,
-    chunkHash: "test-hash",
-  }),
-  mergeFile: vi.fn().mockResolvedValue({
-    success: true,
-    fileUrl: "https://example.com/file.txt",
-    fileId: "test-file-id",
+    };
   }),
 };
 
 // Wrapper component for hooks
 function wrapper({ children }: { children: React.ReactNode }) {
-  return <UploadProvider requestAdapter={mockRequestAdapter}>{children}</UploadProvider>;
+  return (
+    <UploadProvider requestAdapter={mockRequestAdapter} options={{ autoResumeUnfinished: false }}>
+      {children}
+    </UploadProvider>
+  );
 }
 
 describe("useUploadList", () => {
@@ -137,10 +153,13 @@ describe("useUploadList", () => {
     });
 
     // Wait for tasks to be paused
-    await waitFor(() => {
-      const pausedCount = result.current.tasks.filter((t) => t.getStatus() === "paused").length;
-      expect(pausedCount).toBeGreaterThan(0);
-    });
+    await waitFor(
+      () => {
+        const pausedCount = result.current.tasks.filter((t) => t.getStatus() === "paused").length;
+        expect(pausedCount).toBeGreaterThan(0);
+      },
+      { timeout: 2000 },
+    );
   });
 
   it("should cancel all tasks", async () => {
@@ -166,12 +185,15 @@ describe("useUploadList", () => {
     });
 
     // Wait for tasks to be cancelled
-    await waitFor(() => {
-      const cancelledCount = result.current.tasks.filter(
-        (t) => t.getStatus() === "cancelled",
-      ).length;
-      expect(cancelledCount).toBeGreaterThan(0);
-    });
+    await waitFor(
+      () => {
+        const cancelledCount = result.current.tasks.filter(
+          (t) => t.getStatus() === "cancelled",
+        ).length;
+        expect(cancelledCount).toBeGreaterThan(0);
+      },
+      { timeout: 2000 },
+    );
   });
 
   it("should provide task statistics", async () => {
@@ -219,10 +241,13 @@ describe("useUploadList", () => {
     });
 
     // Wait for task to be cancelled
-    await waitFor(() => {
-      const task = result.current.tasks[0];
-      expect(task.getStatus()).toBe("cancelled");
-    });
+    await waitFor(
+      () => {
+        const task = result.current.tasks[0];
+        expect(task.getStatus()).toBe("cancelled");
+      },
+      { timeout: 2000 },
+    );
 
     // Clear completed tasks
     act(() => {

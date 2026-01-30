@@ -1,3 +1,6 @@
+// Version constant
+export const UPLOAD_COMPONENT_VUE_VERSION = "0.0.0";
+
 // Vue components exports
 export { default as UploadButton } from "./UploadButton.vue";
 export { default as UploadProgress } from "./UploadProgress.vue";

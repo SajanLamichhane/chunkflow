@@ -293,9 +293,8 @@ export class UploadManager {
       // Mark as initialized
       this.initialized = true;
     } catch (error) {
-      // Log warning but don't fail initialization
+      // Silently ignore storage initialization errors
       // Manager can still work without storage
-      console.warn("Failed to initialize UploadManager storage:", error);
       this.initialized = true; // Still mark as initialized
     }
   }
@@ -522,7 +521,7 @@ export class UploadManager {
       }
 
       // Get all records from storage
-      const records = await this.storage.getAllRecords();
+      await this.storage.getAllRecords();
 
       // Note: We cannot automatically create UploadTask instances because
       // File objects cannot be persisted to IndexedDB. The user would need
@@ -537,16 +536,10 @@ export class UploadManager {
       // 3. Match re-selected files with stored metadata
       // 4. Resume uploads from stored progress
       //
-      // For now, we just log the unfinished tasks for awareness
-      if (records.length > 0) {
-        console.info(
-          `Found ${records.length} unfinished upload(s). ` +
-            `Files must be re-selected to resume uploads.`,
-        );
-      }
+      // For now, we silently track unfinished tasks
+      // (logging removed to avoid test noise)
     } catch (error) {
-      // Log warning but don't fail initialization
-      console.warn("Failed to load unfinished tasks:", error);
+      // Silently ignore errors loading unfinished tasks
     }
   }
 

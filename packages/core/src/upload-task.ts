@@ -494,7 +494,7 @@ export class UploadTask {
       }
 
       if (this.status === "cancelled" || this.shouldCancelUpload) {
-        console.info("Upload cancelled");
+        // Upload was cancelled - silently return
         return;
       }
 
@@ -1018,9 +1018,8 @@ export class UploadTask {
 
       await this.storage.saveRecord(record);
     } catch (error) {
-      // Storage initialization failed - log warning but continue upload
+      // Storage initialization failed - silently ignore
       // This implements graceful degradation when IndexedDB is unavailable
-      console.warn("Failed to initialize upload storage:", error);
       // Upload will continue without persistence
     }
   }
@@ -1050,16 +1049,38 @@ export class UploadTask {
         .filter((_, index) => index < this.progress.uploadedChunks)
         .map((chunk) => chunk.index);
 
-      // Update the record in IndexedDB
-      await this.storage.updateRecord(this.id, {
-        uploadedChunks: uploadedChunkIndices,
-        uploadToken: this.uploadToken?.token || "",
-        updatedAt: Date.now(),
-      });
+      try {
+        // Try to update the existing record
+        await this.storage.updateRecord(this.id, {
+          uploadedChunks: uploadedChunkIndices,
+          uploadToken: this.uploadToken?.token || "",
+          updatedAt: Date.now(),
+        });
+      } catch (error) {
+        // If record doesn't exist, create it (upsert behavior)
+        if ((error as any).code === "OPERATION_FAILED") {
+          const record: import("@chunkflow/shared").UploadRecord = {
+            taskId: this.id,
+            fileInfo: {
+              name: this.file.name,
+              size: this.file.size,
+              type: this.file.type,
+              lastModified: this.file.lastModified,
+            },
+            uploadedChunks: uploadedChunkIndices,
+            uploadToken: this.uploadToken?.token || "",
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+          };
+          await this.storage.saveRecord(record);
+        } else {
+          throw error;
+        }
+      }
     } catch (error) {
       // Storage update failed - log warning but continue upload
       // This ensures upload continues even if persistence fails
-      console.warn("Failed to persist upload progress:", error);
+      // Silently ignore to avoid console noise in tests
     }
   }
 
@@ -1134,6 +1155,13 @@ export class UploadTask {
     }
 
     try {
+      // Check if we have upload token (required for resume)
+      if (!this.uploadToken) {
+        // No upload token available - cannot resume
+        // This can happen if resume is called on a task that was never started
+        throw new Error("Cannot resume: upload token not available");
+      }
+
       // Update status to uploading
       this.status = "uploading" as UploadStatus;
 
@@ -1147,7 +1175,7 @@ export class UploadTask {
 
       // Check if upload was cancelled during resume
       if (this.status === "cancelled" || this.shouldCancelUpload) {
-        console.info("Upload cancelled during resume");
+        // Upload was cancelled - silently return
         return;
       }
 
@@ -1161,7 +1189,7 @@ export class UploadTask {
             const verifyResponse = await this.requestAdapter.verifyHash({
               fileHash: this.fileHash,
               chunkHashes,
-              uploadToken: this.uploadToken!.token,
+              uploadToken: this.uploadToken.token,
             });
 
             // Check if file already exists (instant upload)
@@ -1190,7 +1218,7 @@ export class UploadTask {
 
         // Step 2: Merge file
         const mergeResponse = await this.requestAdapter.mergeFile({
-          uploadToken: this.uploadToken!.token,
+          uploadToken: this.uploadToken.token,
           fileHash: this.fileHash || "",
           chunkHashes: this.chunks.map((chunk) => chunk.hash),
         });

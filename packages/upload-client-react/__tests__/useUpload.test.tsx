@@ -12,36 +12,52 @@ import React from "react";
 import { UploadProvider, useUpload } from "../src";
 import type { RequestAdapter } from "@chunkflow/protocol";
 
-// Mock RequestAdapter
+// Mock RequestAdapter with delays to make state transitions observable
 const mockRequestAdapter: RequestAdapter = {
-  createFile: vi.fn().mockResolvedValue({
-    uploadToken: {
-      token: "test-token",
+  createFile: vi.fn().mockImplementation(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    return {
+      uploadToken: {
+        token: "test-token",
+        fileId: "test-file-id",
+        chunkSize: 1024 * 1024,
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
+      },
+      negotiatedChunkSize: 1024 * 1024,
+    };
+  }),
+  verifyHash: vi.fn().mockImplementation(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    return {
+      fileExists: false,
+      existingChunks: [],
+      missingChunks: [],
+    };
+  }),
+  uploadChunk: vi.fn().mockImplementation(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    return {
+      success: true,
+      chunkHash: "test-hash",
+    };
+  }),
+  mergeFile: vi.fn().mockImplementation(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    return {
+      success: true,
+      fileUrl: "https://example.com/file.txt",
       fileId: "test-file-id",
-      chunkSize: 1024 * 1024,
-      expiresAt: Date.now() + 24 * 60 * 60 * 1000,
-    },
-    negotiatedChunkSize: 1024 * 1024,
-  }),
-  verifyHash: vi.fn().mockResolvedValue({
-    fileExists: false,
-    existingChunks: [],
-    missingChunks: [],
-  }),
-  uploadChunk: vi.fn().mockResolvedValue({
-    success: true,
-    chunkHash: "test-hash",
-  }),
-  mergeFile: vi.fn().mockResolvedValue({
-    success: true,
-    fileUrl: "https://example.com/file.txt",
-    fileId: "test-file-id",
+    };
   }),
 };
 
 // Wrapper component for hooks
 function wrapper({ children }: { children: React.ReactNode }) {
-  return <UploadProvider requestAdapter={mockRequestAdapter}>{children}</UploadProvider>;
+  return (
+    <UploadProvider requestAdapter={mockRequestAdapter} options={{ autoResumeUnfinished: false }}>
+      {children}
+    </UploadProvider>
+  );
 }
 
 describe("useUpload", () => {
@@ -136,9 +152,12 @@ describe("useUpload", () => {
     });
 
     // Wait for upload to start
-    await waitFor(() => {
-      expect(result.current.status).toBe("uploading");
-    });
+    await waitFor(
+      () => {
+        expect(result.current.status).toBe("uploading");
+      },
+      { timeout: 2000 },
+    );
 
     // Pause the upload
     act(() => {
@@ -146,9 +165,12 @@ describe("useUpload", () => {
     });
 
     // Status should change to paused
-    await waitFor(() => {
-      expect(result.current.status).toBe("paused");
-    });
+    await waitFor(
+      () => {
+        expect(result.current.status).toBe("paused");
+      },
+      { timeout: 2000 },
+    );
   });
 
   it("should handle cancel operation", async () => {
@@ -161,9 +183,12 @@ describe("useUpload", () => {
     });
 
     // Wait for upload to start
-    await waitFor(() => {
-      expect(result.current.status).toBe("uploading");
-    });
+    await waitFor(
+      () => {
+        expect(result.current.status).toBe("uploading");
+      },
+      { timeout: 2000 },
+    );
 
     // Cancel the upload
     act(() => {
@@ -171,9 +196,12 @@ describe("useUpload", () => {
     });
 
     // Status should change to cancelled
-    await waitFor(() => {
-      expect(result.current.status).toBe("cancelled");
-    });
+    await waitFor(
+      () => {
+        expect(result.current.status).toBe("cancelled");
+      },
+      { timeout: 2000 },
+    );
   });
 
   it("should reset state when starting new upload", async () => {
@@ -187,9 +215,12 @@ describe("useUpload", () => {
       result.current.upload(file1);
     });
 
-    await waitFor(() => {
-      expect(result.current.status).toBe("uploading");
-    });
+    await waitFor(
+      () => {
+        expect(result.current.status).toBe("uploading");
+      },
+      { timeout: 2000 },
+    );
 
     // Start second upload
     act(() => {
@@ -209,9 +240,12 @@ describe("useUpload", () => {
       result.current.upload(file);
     });
 
-    await waitFor(() => {
-      expect(result.current.status).toBe("uploading");
-    });
+    await waitFor(
+      () => {
+        expect(result.current.status).toBe("uploading");
+      },
+      { timeout: 2000 },
+    );
 
     // Unmount should cancel the task
     unmount();

@@ -6,20 +6,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { UploadTask } from "../src/upload-task";
 import type { RequestAdapter } from "@chunkflow/protocol";
-
-// Mock RequestAdapter for testing
-const createMockAdapter = (): RequestAdapter => ({
-  createFile: vi.fn(),
-  verifyHash: vi.fn(),
-  uploadChunk: vi.fn(),
-  mergeFile: vi.fn(),
-});
-
-// Create a mock File object for testing
-const createMockFile = (name: string, size: number, type: string): File => {
-  const blob = new Blob(["x".repeat(size)], { type });
-  return new File([blob], name, { type, lastModified: Date.now() });
-};
+import { createMockAdapter, createMockFile } from "./setup";
 
 describe("UploadTask - Basic Structure", () => {
   let mockAdapter: RequestAdapter;
@@ -256,8 +243,20 @@ describe("UploadTask - Basic Structure", () => {
         chunkHash: "test-hash",
       });
 
-      // Initialize chunks array
+      vi.mocked(mockAdapter.mergeFile).mockResolvedValue({
+        success: true,
+        fileUrl: "https://example.com/file.txt",
+        fileId: "test-file-id",
+      });
+
+      // Initialize chunks array and upload token
       (task as any).chunks = [];
+      (task as any).uploadToken = {
+        token: "test-token",
+        fileId: "test-file-id",
+        chunkSize: 1024 * 1024,
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
+      };
 
       // Resume should not throw
       await expect(task.resume()).resolves.not.toThrow();

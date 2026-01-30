@@ -13,49 +13,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { UploadManager } from "../src/upload-manager";
 import type { RequestAdapter } from "@chunkflow/protocol";
-import type {
-  CreateFileRequest,
-  CreateFileResponse,
-  VerifyHashRequest,
-  VerifyHashResponse,
-  UploadChunkRequest,
-  UploadChunkResponse,
-} from "@chunkflow/protocol";
-
-// Mock RequestAdapter
-const createMockAdapter = (): RequestAdapter => ({
-  createFile: vi.fn(
-    async (request: CreateFileRequest): Promise<CreateFileResponse> => ({
-      uploadToken: {
-        token: "mock-token",
-        fileId: "mock-file-id",
-        chunkSize: request.preferredChunkSize || 1024 * 1024,
-        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
-      },
-      negotiatedChunkSize: request.preferredChunkSize || 1024 * 1024,
-    }),
-  ),
-  verifyHash: vi.fn(
-    async (_request: VerifyHashRequest): Promise<VerifyHashResponse> => ({
-      fileExists: false,
-      existingChunks: [],
-      missingChunks: [],
-    }),
-  ),
-  uploadChunk: vi.fn(
-    async (request: UploadChunkRequest): Promise<UploadChunkResponse> => ({
-      success: true,
-      chunkHash: request.chunkHash,
-    }),
-  ),
-  mergeFile: vi.fn(),
-});
-
-// Helper to create a mock File
-const createMockFile = (name: string, size: number): File => {
-  const content = new Array(size).fill("a").join("");
-  return new File([content], name, { type: "text/plain" });
-};
+import { createMockAdapter, createMockFile } from "./setup";
 
 describe("UploadManager", () => {
   let manager: UploadManager;

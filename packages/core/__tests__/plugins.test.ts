@@ -14,7 +14,13 @@ const mockRequestAdapter = {
   createFile: vi.fn(),
   verifyHash: vi.fn(),
   uploadChunk: vi.fn(),
-  mergeFile: vi.fn(),
+  mergeFile: vi
+    .fn()
+    .mockResolvedValue({
+      success: true,
+      fileUrl: "https://example.com/file.txt",
+      fileId: "test-file-id",
+    }),
 };
 
 describe("Plugin System", () => {
