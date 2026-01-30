@@ -83,7 +83,7 @@ export function UploadProvider({
 }: UploadProviderProps): React.JSX.Element {
   // Create UploadManager instance once using useRef
   // This ensures the manager persists across re-renders
-  const managerRef = useRef<UploadManager>();
+  const managerRef = useRef<UploadManager | null>(null);
 
   // Initialize manager if not already created
   if (!managerRef.current) {

@@ -2,7 +2,14 @@
 
 本文档对比了 ChunkFlow 当前的分片大小调整算法与真实的 TCP 慢启动算法。
 
-## 当前实现
+## 概述
+
+ChunkFlow 提供两种内置的分片大小调整策略：
+
+1. **类 TCP 策略**（默认）- 完整的 TCP 慢启动实现，带有状态机
+2. **简单策略** - 简化的二元调整，适用于稳定网络
+
+## 简单策略
 
 ChunkFlow 的 `ChunkSizeAdjuster` 使用了简化的算法：
 
@@ -60,7 +67,7 @@ TCP 的拥塞控制有多个阶段：
 
 ## 关键差异
 
-| 方面 | 当前实现 | TCP 慢启动 |
+| 方面 | 简单策略 | 类 TCP 策略 |
 |--------|----------------------|----------------|
 | **状态** | 无（无状态） | 3 个状态（慢启动、拥塞避免、快速恢复） |
 | **阈值** | 无 | `ssthresh` 决定阶段转换 |
@@ -68,10 +75,12 @@ TCP 的拥塞控制有多个阶段：
 | **减少** | 始终减半（0.5x） | 减半并进入恢复状态 |
 | **复杂度** | 简单 | 更复杂 |
 | **适应性** | 二元（快/慢） | 渐进式，具有状态感知 |
+| **默认** | 否 | **是** ✅ |
+| **最适合** | 稳定网络，简单用例 | 可变网络，生产环境 |
 
-## 改进的类 TCP 实现
+## 改进的类 TCP 实现（默认）✅
 
-我们在 `chunk-size-adjuster-tcp.ts` 中创建了改进的实现：
+ChunkFlow 在 `TCPChunkSizeAdjuster` 中实现了完整的 TCP 慢启动算法：
 
 ```typescript
 enum CongestionState {
@@ -134,7 +143,7 @@ class TCPChunkSizeAdjuster {
 }
 ```
 
-## 类 TCP 方法的优势
+## 类 TCP 策略的优势（默认）✅
 
 ### 1. 渐进式增长
 
@@ -216,7 +225,27 @@ class TCPChunkSizeAdjuster {
 
 ## 何时使用
 
-### 当前实现（简单）
+### 类 TCP 策略（默认）✅
+
+**优点**：
+- 在可变网络上更稳定
+- 从过去的性能中学习
+- 更好的拥塞处理
+- 更接近经过验证的 TCP 算法
+- 减少振荡
+
+**缺点**：
+- 更复杂
+- 略高的开销
+
+**最适合**：
+- 可变的网络条件
+- 生产环境
+- 当稳定性至关重要时
+- 大文件上传
+- **大多数用例（默认）**
+
+### 简单策略
 
 **优点**：
 - 易于理解
@@ -232,53 +261,69 @@ class TCPChunkSizeAdjuster {
 - 稳定的网络条件
 - 简单的用例
 - 当简单性优先时
+- 教育目的
 
-### 类 TCP 实现
+## 配置
 
-**优点**：
-- 在可变网络上更稳定
-- 从过去的性能中学习
-- 更好的拥塞处理
-- 更接近经过验证的 TCP 算法
+ChunkFlow 让您可以轻松选择策略或提供自己的实现：
 
-**缺点**：
-- 更复杂
-- 略高的开销
-- 需要调整 ssthresh
-
-**最适合**：
-- 可变的网络条件
-- 生产环境
-- 当稳定性至关重要时
-- 大文件上传
-
-## 建议
-
-对于 ChunkFlow，我们建议：
-
-1. **保持当前实现作为默认**，以保持简单性
-2. **提供类 TCP 实现作为选项**，供高级用户使用
-3. **添加配置**以在算法之间选择：
+### 使用默认（类 TCP）✅
 
 ```typescript
 const manager = new UploadManager({
   requestAdapter: adapter,
-  chunkSizeStrategy: 'simple', // 或 'tcp-like'
-  chunkSizeOptions: {
-    initialSize: 1024 * 1024,
-    minSize: 256 * 1024,
-    maxSize: 10 * 1024 * 1024,
-    // 类 TCP 特定选项
-    initialSsthresh: 5 * 1024 * 1024,
-  },
+});
+
+const task = manager.createTask(file);
+// 默认使用类 TCP 策略
+```
+
+### 选择简单策略
+
+```typescript
+const task = manager.createTask(file, {
+  chunkSizeStrategy: 'simple',
+});
+```
+
+### 自定义类 TCP 策略
+
+```typescript
+const task = manager.createTask(file, {
+  chunkSizeStrategy: 'tcp-like',
+  initialSsthresh: 5 * 1024 * 1024,  // 5MB 阈值（默认）
+});
+```
+
+### 自定义实现
+
+```typescript
+import type { IChunkSizeAdjuster } from '@chunkflow/core';
+
+class CustomAdjuster implements IChunkSizeAdjuster {
+  adjust(uploadTimeMs: number): number {
+    // 你的自定义逻辑
+  }
+  getCurrentSize(): number {
+    // 返回当前大小
+  }
+  reset(): void {
+    // 重置到初始状态
+  }
+}
+
+const task = manager.createTask(file, {
+  chunkSizeStrategy: new CustomAdjuster(),
 });
 ```
 
 ## 结论
 
-虽然 ChunkFlow 的当前实现**受 TCP 慢启动启发**，但它是一个**简化版本**，捕获了核心思想（快速时指数级增长，慢速时减少），但缺少完整 TCP 算法的复杂性。
+ChunkFlow **默认使用受 TCP 慢启动启发的算法**，提供复杂的拥塞控制，包含三个阶段：慢启动、拥塞避免和快速恢复。
 
-类 TCP 实现以增加复杂性为代价提供了更好的稳定性和适应性。两者都有各自的用途，取决于使用场景。
+类 TCP 策略（默认）相比简单策略提供了更好的稳定性和适应性，使其成为生产环境和可变网络条件的理想选择。简单策略仍然可用于简单性优先或网络条件稳定的用例。
+
+两种策略都实现了 `IChunkSizeAdjuster` 接口，允许您轻松在它们之间切换或提供自己的自定义实现。
 
 ## 另请参阅
 

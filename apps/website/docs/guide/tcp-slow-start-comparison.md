@@ -1,10 +1,17 @@
 # TCP Slow Start Comparison
 
-This document compares ChunkFlow's current chunk size adjustment algorithm with the actual TCP slow start algorithm.
+This document compares ChunkFlow's chunk size adjustment strategies and explains the differences between them and the actual TCP slow start algorithm.
 
-## Current Implementation
+## Overview
 
-ChunkFlow's `ChunkSizeAdjuster` uses a simplified algorithm:
+ChunkFlow provides two built-in strategies for chunk size adjustment:
+
+1. **TCP-Like Strategy** (Default) - Full TCP slow start implementation with state machine
+2. **Simple Strategy** - Simplified binary adjustment for stable networks
+
+## Simple Strategy
+
+ChunkFlow's `ChunkSizeAdjuster` uses a simplified binary algorithm:
 
 ```typescript
 adjust(uploadTimeMs: number): number {
@@ -60,7 +67,7 @@ TCP's congestion control has multiple phases:
 
 ## Key Differences
 
-| Aspect | Current Implementation | TCP Slow Start |
+| Aspect | Simple Strategy | TCP-Like Strategy |
 |--------|----------------------|----------------|
 | **States** | None (stateless) | 3 states (Slow Start, Congestion Avoidance, Fast Recovery) |
 | **Threshold** | None | `ssthresh` determines phase transition |
@@ -68,10 +75,12 @@ TCP's congestion control has multiple phases:
 | **Reduction** | Always halve (0.5x) | Halve and enter recovery state |
 | **Complexity** | Simple | More sophisticated |
 | **Adaptability** | Binary (fast/slow) | Gradual with state awareness |
+| **Default** | No | **Yes** ✅ |
+| **Best For** | Stable networks, simple use cases | Variable networks, production environments |
 
-## Improved TCP-Like Implementation
+## TCP-Like Strategy (Default)
 
-We've created an improved implementation in `chunk-size-adjuster-tcp.ts`:
+ChunkFlow's `TCPChunkSizeAdjuster` implements a proper TCP slow start algorithm with state machine:
 
 ```typescript
 enum CongestionState {
@@ -134,37 +143,46 @@ class TCPChunkSizeAdjuster {
 }
 ```
 
-## Advantages of TCP-Like Approach
+## Advantages of Each Strategy
 
-### 1. Gradual Growth
+### TCP-Like Strategy (Default) ✅
 
-Instead of always doubling, the algorithm transitions from exponential to linear growth:
+**Pros**:
+- More stable on variable networks
+- Learns from past performance
+- Better congestion handling
+- Closer to proven TCP algorithm
+- Reduces oscillation
+- **Recommended for most use cases**
 
-- **Early stage**: Fast exponential growth to find optimal size quickly
-- **Later stage**: Conservative linear growth to avoid overshooting
+**Cons**:
+- More complex
+- Slightly higher overhead
 
-### 2. Better Congestion Handling
+**Best for**:
+- Variable network conditions
+- Production environments
+- When stability is critical
+- Large file uploads
+- **Most use cases (default)**
 
-When congestion is detected:
+### Simple Strategy
 
-- Sets a threshold based on current performance
-- Reduces size but remembers the threshold
-- Avoids repeated overshooting
+**Pros**:
+- Simple to understand
+- Low overhead
+- Works well for stable networks
 
-### 3. State Awareness
+**Cons**:
+- Can oscillate on variable networks
+- No learning from past performance
+- May overshoot optimal size
 
-The algorithm "remembers" past performance:
-
-- Knows if it's in exploration phase (slow start)
-- Knows if it's in optimization phase (congestion avoidance)
-- Knows if it's recovering from congestion
-
-### 4. More Stable
-
-Reduces oscillation between extreme values:
-
-- Current: 1MB → 2MB → 4MB → 2MB → 4MB → 2MB (oscillating)
-- TCP-like: 1MB → 2MB → 4MB → 5MB → 5.5MB → 6MB (stable growth)
+**Best for**:
+- Stable network conditions
+- Simple use cases
+- When simplicity is preferred
+- Educational purposes
 
 ## Performance Comparison
 
@@ -216,7 +234,27 @@ Reduces oscillation between extreme values:
 
 ## When to Use Each
 
-### Current Implementation (Simple)
+### TCP-Like Strategy (Default) ✅
+
+**Pros**:
+- More stable on variable networks
+- Learns from past performance
+- Better congestion handling
+- Closer to proven TCP algorithm
+- Reduces oscillation
+
+**Cons**:
+- More complex
+- Slightly higher overhead
+
+**Best for**:
+- Variable network conditions
+- Production environments
+- When stability is critical
+- Large file uploads
+- **Most use cases (default)**
+
+### Simple Strategy
 
 **Pros**:
 - Simple to understand
@@ -232,53 +270,69 @@ Reduces oscillation between extreme values:
 - Stable network conditions
 - Simple use cases
 - When simplicity is preferred
+- Educational purposes
 
-### TCP-Like Implementation
+## Configuration
 
-**Pros**:
-- More stable on variable networks
-- Learns from past performance
-- Better congestion handling
-- Closer to proven TCP algorithm
+ChunkFlow makes it easy to choose between strategies or provide your own:
 
-**Cons**:
-- More complex
-- Slightly higher overhead
-- Requires tuning ssthresh
-
-**Best for**:
-- Variable network conditions
-- Production environments
-- When stability is critical
-- Large file uploads
-
-## Recommendation
-
-For ChunkFlow, we recommend:
-
-1. **Keep current implementation as default** for simplicity
-2. **Offer TCP-like implementation as option** for advanced users
-3. **Add configuration** to choose between algorithms:
+### Using Default (TCP-Like) ✅
 
 ```typescript
 const manager = new UploadManager({
   requestAdapter: adapter,
-  chunkSizeStrategy: 'simple', // or 'tcp-like'
-  chunkSizeOptions: {
-    initialSize: 1024 * 1024,
-    minSize: 256 * 1024,
-    maxSize: 10 * 1024 * 1024,
-    // TCP-like specific options
-    initialSsthresh: 5 * 1024 * 1024,
-  },
+});
+
+const task = manager.createTask(file);
+// Uses TCP-like strategy by default
+```
+
+### Choosing Simple Strategy
+
+```typescript
+const task = manager.createTask(file, {
+  chunkSizeStrategy: 'simple',
+});
+```
+
+### Customizing TCP-Like Strategy
+
+```typescript
+const task = manager.createTask(file, {
+  chunkSizeStrategy: 'tcp-like',
+  initialSsthresh: 5 * 1024 * 1024,  // 5MB threshold (default)
+});
+```
+
+### Custom Implementation
+
+```typescript
+import type { IChunkSizeAdjuster } from '@chunkflow/core';
+
+class CustomAdjuster implements IChunkSizeAdjuster {
+  adjust(uploadTimeMs: number): number {
+    // Your custom logic
+  }
+  getCurrentSize(): number {
+    // Return current size
+  }
+  reset(): void {
+    // Reset to initial state
+  }
+}
+
+const task = manager.createTask(file, {
+  chunkSizeStrategy: new CustomAdjuster(),
 });
 ```
 
 ## Conclusion
 
-While ChunkFlow's current implementation is **inspired by** TCP slow start, it's a **simplified version** that captures the core idea (exponential growth when fast, reduction when slow) but lacks the sophistication of the full TCP algorithm.
+ChunkFlow uses a **TCP slow start inspired algorithm by default**, providing sophisticated congestion control with three phases: Slow Start, Congestion Avoidance, and Fast Recovery.
 
-The TCP-like implementation provides better stability and adaptability at the cost of increased complexity. Both have their place depending on the use case.
+The TCP-like strategy (default) provides better stability and adaptability compared to the simple strategy, making it ideal for production environments and variable network conditions. The simple strategy remains available for use cases where simplicity is preferred or network conditions are stable.
+
+Both strategies implement the `IChunkSizeAdjuster` interface, allowing you to easily switch between them or provide your own custom implementation.
 
 ## See Also
 
