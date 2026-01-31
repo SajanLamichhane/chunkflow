@@ -3,3 +3,4 @@
  */
 
 export * from "./fetch-adapter";
+export * from "./xhr-adapter";
