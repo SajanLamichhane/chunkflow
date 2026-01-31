@@ -11,8 +11,8 @@
  */
 
 import React, { createContext, useRef, useEffect, type ReactNode } from "react";
-import { UploadManager, type UploadManagerOptions } from "@chunkflow/core";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import { UploadManager, type UploadManagerOptions } from "@chunkflowjs/core";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 
 /**
  * Context value containing the UploadManager instance
@@ -58,7 +58,7 @@ export interface UploadProviderProps {
  *
  * @example
  * ```tsx
- * import { UploadProvider } from '@chunkflow/upload-client-react';
+ * import { UploadProvider } from '@chunkflowjs/upload-client-react';
  * import { myRequestAdapter } from './api';
  *
  * function App() {

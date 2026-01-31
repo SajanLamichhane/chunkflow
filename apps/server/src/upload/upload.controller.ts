@@ -12,7 +12,7 @@ import {
   HttpStatus,
 } from "@nestjs/common";
 import type { FastifyRequest, FastifyReply } from "fastify";
-import type { UploadService } from "@chunkflow/upload-server";
+import type { UploadService } from "@chunkflowjs/upload-server";
 import type {
   CreateFileRequest,
   CreateFileResponse,
@@ -22,7 +22,7 @@ import type {
   UploadChunkResponse,
   MergeFileRequest,
   MergeFileResponse,
-} from "@chunkflow/protocol";
+} from "@chunkflowjs/protocol";
 import { UPLOAD_SERVICE } from "./upload-service.provider";
 
 @Controller("upload")

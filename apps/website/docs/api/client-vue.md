@@ -8,7 +8,7 @@ Vue plugin for upload functionality.
 
 ```typescript
 import { createApp } from "vue";
-import { UploadPlugin } from "@chunkflow/upload-client-vue";
+import { UploadPlugin } from "@chunkflowjs/upload-client-vue";
 
 const app = createApp(App);
 app.use(UploadPlugin, { requestAdapter: adapter });
@@ -20,7 +20,7 @@ Composable for single file upload.
 
 ```vue
 <script setup>
-import { useUpload } from "@chunkflow/upload-client-vue";
+import { useUpload } from "@chunkflowjs/upload-client-vue";
 
 const { upload, status, progress, pause, resume, cancel } = useUpload({
   onSuccess: (fileUrl) => console.log(fileUrl),
@@ -43,7 +43,7 @@ Composable for multiple file uploads.
 
 ```vue
 <script setup>
-import { useUploadList } from "@chunkflow/upload-client-vue";
+import { useUploadList } from "@chunkflowjs/upload-client-vue";
 
 const { tasks, uploadFiles, pauseAll, resumeAll, cancelAll } = useUploadList();
 </script>

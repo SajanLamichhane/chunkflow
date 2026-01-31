@@ -18,12 +18,12 @@ COPY apps/server ./apps/server
 RUN pnpm install --frozen-lockfile
 
 # Build dependencies first
-RUN pnpm --filter @chunkflow/protocol build
-RUN pnpm --filter @chunkflow/shared build
-RUN pnpm --filter @chunkflow/upload-server build
+RUN pnpm --filter @chunkflowjs/protocol build
+RUN pnpm --filter @chunkflowjs/shared build
+RUN pnpm --filter @chunkflowjs/upload-server build
 
 # Build server
-RUN pnpm --filter @chunkflow/server-app build
+RUN pnpm --filter @chunkflowjs/server-app build
 
 FROM base AS runner
 
@@ -38,12 +38,12 @@ COPY --from=builder /app/pnpm-lock.yaml ./
 COPY --from=builder /app/apps/server/dist ./dist
 
 # Copy built dependencies
-COPY --from=builder /app/packages/protocol/dist ./node_modules/@chunkflow/protocol/dist
-COPY --from=builder /app/packages/protocol/package.json ./node_modules/@chunkflow/protocol/
-COPY --from=builder /app/packages/shared/dist ./node_modules/@chunkflow/shared/dist
-COPY --from=builder /app/packages/shared/package.json ./node_modules/@chunkflow/shared/
-COPY --from=builder /app/packages/upload-server/dist ./node_modules/@chunkflow/upload-server/dist
-COPY --from=builder /app/packages/upload-server/package.json ./node_modules/@chunkflow/upload-server/
+COPY --from=builder /app/packages/protocol/dist ./node_modules/@chunkflowjs/protocol/dist
+COPY --from=builder /app/packages/protocol/package.json ./node_modules/@chunkflowjs/protocol/
+COPY --from=builder /app/packages/shared/dist ./node_modules/@chunkflowjs/shared/dist
+COPY --from=builder /app/packages/shared/package.json ./node_modules/@chunkflowjs/shared/
+COPY --from=builder /app/packages/upload-server/dist ./node_modules/@chunkflowjs/upload-server/dist
+COPY --from=builder /app/packages/upload-server/package.json ./node_modules/@chunkflowjs/upload-server/
 
 # Install production dependencies only
 RUN pnpm install --prod --frozen-lockfile

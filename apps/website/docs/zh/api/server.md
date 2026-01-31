@@ -7,7 +7,7 @@
 处理上传的主服务类。
 
 ```typescript
-import { UploadService, LocalStorageAdapter, PostgreSQLAdapter } from "@chunkflow/upload-server";
+import { UploadService, LocalStorageAdapter, PostgreSQLAdapter } from "@chunkflowjs/upload-server";
 
 const service = new UploadService({
   storageAdapter: new LocalStorageAdapter("./storage"),

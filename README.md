@@ -5,7 +5,7 @@
     <strong>A Universal Large File Upload Solution</strong>
   </p>
   <p>
-    <a href="https://www.npmjs.com/package/@chunkflow/core"><img src="https://img.shields.io/npm/v/@chunkflow/core.svg" alt="npm version"></a>
+    <a href="https://www.npmjs.com/package/@chunkflowjs/core"><img src="https://img.shields.io/npm/v/@chunkflowjs/core.svg" alt="npm version"></a>
     <a href="https://github.com/Sunny-117/chunkflow/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license"></a>
     <a href="https://github.com/Sunny-117/chunkflow"><img src="https://img.shields.io/github/stars/Sunny-117/chunkflow.svg?style=social" alt="GitHub stars"></a>
   </p>
@@ -36,20 +36,20 @@
 
 ### Core Packages
 
-- **[@chunkflow/protocol](./packages/protocol)** - Protocol layer with type definitions and API interfaces
-- **[@chunkflow/shared](./packages/shared)** - Shared utilities (event system, concurrency, file utils, storage)
-- **[@chunkflow/core](./packages/core)** - Core upload engine with state machine and task management
+- **[@chunkflowjs/protocol](./packages/protocol)** - Protocol layer with type definitions and API interfaces
+- **[@chunkflowjs/shared](./packages/shared)** - Shared utilities (event system, concurrency, file utils, storage)
+- **[@chunkflowjs/core](./packages/core)** - Core upload engine with state machine and task management
 
 ### Client Packages
 
-- **[@chunkflow/upload-client-react](./packages/upload-client-react)** - React adapter with hooks
-- **[@chunkflow/upload-client-vue](./packages/upload-client-vue)** - Vue adapter with composables
-- **[@chunkflow/upload-component-react](./packages/upload-component-react)** - Ready-to-use React components
-- **[@chunkflow/upload-component-vue](./packages/upload-component-vue)** - Ready-to-use Vue components
+- **[@chunkflowjs/upload-client-react](./packages/upload-client-react)** - React adapter with hooks
+- **[@chunkflowjs/upload-client-vue](./packages/upload-client-vue)** - Vue adapter with composables
+- **[@chunkflowjs/upload-component-react](./packages/upload-component-react)** - Ready-to-use React components
+- **[@chunkflowjs/upload-component-vue](./packages/upload-component-vue)** - Ready-to-use Vue components
 
 ### Server Package
 
-- **[@chunkflow/upload-server](./packages/upload-server)** - Server-side SDK with storage adapters
+- **[@chunkflowjs/upload-server](./packages/upload-server)** - Server-side SDK with storage adapters
 
 ## 🚀 Quick Start
 
@@ -57,17 +57,17 @@
 
 ```bash
 # For React projects
-pnpm add @chunkflow/core @chunkflow/upload-client-react
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-react
 
 # For Vue projects
-pnpm add @chunkflow/core @chunkflow/upload-client-vue
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-vue
 ```
 
 ### React Usage
 
 ```tsx
-import { UploadProvider, useUpload } from "@chunkflow/upload-client-react";
-import { createFetchAdapter } from "@chunkflow/core";
+import { UploadProvider, useUpload } from "@chunkflowjs/upload-client-react";
+import { createFetchAdapter } from "@chunkflowjs/core";
 
 const adapter = createFetchAdapter({
   baseURL: "http://localhost:3000/api",
@@ -107,7 +107,7 @@ function UploadComponent() {
 
 ```html
 <script setup>
-  import { useUpload } from "@chunkflow/upload-client-vue";
+  import { useUpload } from "@chunkflowjs/upload-client-vue";
 
   const { upload, status, progress } = useUpload({
     onSuccess: (fileUrl) => console.log("Upload complete:", fileUrl),

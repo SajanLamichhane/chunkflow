@@ -7,7 +7,7 @@
 文件选择按钮。
 
 ```tsx
-import { UploadButton } from "@chunkflow/upload-component-react";
+import { UploadButton } from "@chunkflowjs/upload-component-react";
 
 <UploadButton
   accept="image/*,video/*"
@@ -33,7 +33,7 @@ import { UploadButton } from "@chunkflow/upload-component-react";
 进度条组件。
 
 ```tsx
-import { UploadProgress } from "@chunkflow/upload-component-react";
+import { UploadProgress } from "@chunkflowjs/upload-component-react";
 
 <UploadProgress task={task} showSpeed showRemainingTime />;
 ```
@@ -50,7 +50,7 @@ import { UploadProgress } from "@chunkflow/upload-component-react";
 任务列表组件。
 
 ```tsx
-import { UploadList } from "@chunkflow/upload-component-react";
+import { UploadList } from "@chunkflowjs/upload-component-react";
 
 <UploadList renderItem={(task) => <CustomItem task={task} />} />;
 ```
@@ -65,7 +65,7 @@ import { UploadList } from "@chunkflow/upload-component-react";
 拖放区域。
 
 ```tsx
-import { UploadDropzone } from "@chunkflow/upload-component-react";
+import { UploadDropzone } from "@chunkflowjs/upload-component-react";
 
 <UploadDropzone accept="image/*" maxSize={50 * 1024 * 1024} onDrop={(files) => console.log(files)}>
   <p>拖放文件到这里或点击选择</p>

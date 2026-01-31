@@ -1,11 +1,11 @@
-# @chunkflow/shared
+# @chunkflowjs/shared
 
 Shared utilities and tools for ChunkFlow Upload SDK.
 
 ## Installation
 
 ```bash
-pnpm add @chunkflow/shared
+pnpm add @chunkflowjs/shared
 ```
 
 ## Features
@@ -17,7 +17,7 @@ The file utilities provide functions for file slicing, hash calculation, and for
 #### File Slicing
 
 ```typescript
-import { sliceFile } from "@chunkflow/shared";
+import { sliceFile } from "@chunkflowjs/shared";
 
 const file = new File(["Hello, World!"], "test.txt", { type: "text/plain" });
 
@@ -31,7 +31,7 @@ console.log(chunk.size); // 5
 Calculate MD5 hash for files and chunks using [spark-md5](https://github.com/satazor/js-spark-md5):
 
 ```typescript
-import { calculateFileHash, calculateChunkHash } from "@chunkflow/shared";
+import { calculateFileHash, calculateChunkHash } from "@chunkflowjs/shared";
 
 // Calculate hash for entire file with progress tracking
 const file = new File(["content"], "test.txt", { type: "text/plain" });
@@ -49,7 +49,7 @@ console.log("Chunk hash:", chunkHash);
 #### File Size Formatting
 
 ```typescript
-import { formatFileSize } from "@chunkflow/shared";
+import { formatFileSize } from "@chunkflowjs/shared";
 
 console.log(formatFileSize(0)); // "0 B"
 console.log(formatFileSize(1024)); // "1.00 KB"
@@ -62,7 +62,7 @@ console.log(formatFileSize(1024 * 1024 * 1024)); // "1.00 GB"
 #### Upload Speed Calculation
 
 ```typescript
-import { calculateSpeed } from "@chunkflow/shared";
+import { calculateSpeed } from "@chunkflowjs/shared";
 
 const uploadedBytes = 1024 * 1024; // 1 MB
 const elapsedMs = 1000; // 1 second
@@ -75,7 +75,7 @@ console.log(formatFileSize(speed) + "/s"); // "1.00 MB/s"
 #### Remaining Time Estimation
 
 ```typescript
-import { estimateRemainingTime, formatFileSize } from "@chunkflow/shared";
+import { estimateRemainingTime, formatFileSize } from "@chunkflowjs/shared";
 
 const remainingBytes = 10 * 1024 * 1024; // 10 MB
 const speed = 1024 * 1024; // 1 MB/s
@@ -99,7 +99,7 @@ import {
   formatFileSize,
   calculateSpeed,
   estimateRemainingTime,
-} from "@chunkflow/shared";
+} from "@chunkflowjs/shared";
 
 async function uploadWithProgress(file: File) {
   const chunkSize = 1024 * 1024; // 1 MB chunks
@@ -149,7 +149,7 @@ The event system provides a type-safe event bus for managing upload lifecycle ev
 #### Usage
 
 ```typescript
-import { createEventBus } from "@chunkflow/shared";
+import { createEventBus } from "@chunkflowjs/shared";
 
 // Create an event bus
 const eventBus = createEventBus();
@@ -198,7 +198,7 @@ The concurrency controller manages concurrent operations using [p-limit](https:/
 #### Usage
 
 ```typescript
-import { ConcurrencyController } from "@chunkflow/shared";
+import { ConcurrencyController } from "@chunkflowjs/shared";
 
 // Create a controller with a limit of 3 concurrent operations
 const controller = new ConcurrencyController({ limit: 3 });
@@ -276,7 +276,7 @@ controller.clearQueue();
 #### Real-World Example
 
 ```typescript
-import { ConcurrencyController } from "@chunkflow/shared";
+import { ConcurrencyController } from "@chunkflowjs/shared";
 
 async function uploadFileInChunks(file: File, chunkSize: number) {
   // Create controller with 3 concurrent uploads

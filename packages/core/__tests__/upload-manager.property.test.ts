@@ -13,7 +13,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import fc from "fast-check";
 import { UploadManager } from "../src/upload-manager";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 import type {
   CreateFileRequest,
   CreateFileResponse,
@@ -21,7 +21,7 @@ import type {
   VerifyHashResponse,
   UploadChunkRequest,
   UploadChunkResponse,
-} from "@chunkflow/protocol";
+} from "@chunkflowjs/protocol";
 
 // Helper to create mock File objects
 const createMockFile = (name: string, size: number, type: string): File => {

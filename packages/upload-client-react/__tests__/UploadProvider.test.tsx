@@ -11,7 +11,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, waitFor } from "@testing-library/react";
 import React from "react";
 import { UploadProvider, useUploadManager } from "../src";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 
 // Mock RequestAdapter
 const mockRequestAdapter: RequestAdapter = {

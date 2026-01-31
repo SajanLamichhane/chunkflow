@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useUploadManager } from "@chunkflow/upload-client-react";
+import { useUploadManager } from "@chunkflowjs/upload-client-react";
 import { message } from "antd";
 
 function SimpleTest() {

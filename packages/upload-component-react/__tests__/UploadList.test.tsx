@@ -9,8 +9,8 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { UploadList } from "../src/UploadList";
-import { UploadProvider } from "@chunkflow/upload-client-react";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import { UploadProvider } from "@chunkflowjs/upload-client-react";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 
 // Mock request adapter
 const mockRequestAdapter: RequestAdapter = {

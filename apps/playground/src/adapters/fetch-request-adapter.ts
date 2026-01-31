@@ -9,7 +9,7 @@ import type {
   MergeFileRequest,
   MergeFileResponse,
   UploadToken,
-} from "@chunkflow/protocol";
+} from "@chunkflowjs/protocol";
 
 export interface FetchRequestAdapterOptions {
   baseURL: string;

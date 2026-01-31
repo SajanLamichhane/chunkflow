@@ -1,5 +1,5 @@
 /**
- * Placeholder test for @chunkflow/upload-component-vue
+ * Placeholder test for @chunkflowjs/upload-component-vue
  *
  * This package is not yet implemented (Task 11).
  * This test file exists to prevent build failures.

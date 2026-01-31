@@ -17,15 +17,15 @@ Choose the packages you need based on your use case:
 ::: code-group
 
 ```bash [pnpm]
-pnpm add @chunkflow/core @chunkflow/upload-client-react @chunkflow/upload-component-react
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-react @chunkflowjs/upload-component-react
 ```
 
 ```bash [npm]
-npm install @chunkflow/core @chunkflow/upload-client-react @chunkflow/upload-component-react
+npm install @chunkflowjs/core @chunkflowjs/upload-client-react @chunkflowjs/upload-component-react
 ```
 
 ```bash [yarn]
-yarn add @chunkflow/core @chunkflow/upload-client-react @chunkflow/upload-component-react
+yarn add @chunkflowjs/core @chunkflowjs/upload-client-react @chunkflowjs/upload-component-react
 ```
 
 :::
@@ -35,15 +35,15 @@ yarn add @chunkflow/core @chunkflow/upload-client-react @chunkflow/upload-compon
 ::: code-group
 
 ```bash [pnpm]
-pnpm add @chunkflow/core @chunkflow/upload-client-vue @chunkflow/upload-component-vue
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-vue @chunkflowjs/upload-component-vue
 ```
 
 ```bash [npm]
-npm install @chunkflow/core @chunkflow/upload-client-vue @chunkflow/upload-component-vue
+npm install @chunkflowjs/core @chunkflowjs/upload-client-vue @chunkflowjs/upload-component-vue
 ```
 
 ```bash [yarn]
-yarn add @chunkflow/core @chunkflow/upload-client-vue @chunkflow/upload-component-vue
+yarn add @chunkflowjs/core @chunkflowjs/upload-client-vue @chunkflowjs/upload-component-vue
 ```
 
 :::
@@ -53,15 +53,15 @@ yarn add @chunkflow/core @chunkflow/upload-client-vue @chunkflow/upload-componen
 ::: code-group
 
 ```bash [pnpm]
-pnpm add @chunkflow/core
+pnpm add @chunkflowjs/core
 ```
 
 ```bash [npm]
-npm install @chunkflow/core
+npm install @chunkflowjs/core
 ```
 
 ```bash [yarn]
-yarn add @chunkflow/core
+yarn add @chunkflowjs/core
 ```
 
 :::
@@ -71,15 +71,15 @@ yarn add @chunkflow/core
 ::: code-group
 
 ```bash [pnpm]
-pnpm add @chunkflow/upload-server
+pnpm add @chunkflowjs/upload-server
 ```
 
 ```bash [npm]
-npm install @chunkflow/upload-server
+npm install @chunkflowjs/upload-server
 ```
 
 ```bash [yarn]
-yarn add @chunkflow/upload-server
+yarn add @chunkflowjs/upload-server
 ```
 
 :::
@@ -90,14 +90,14 @@ ChunkFlow is organized into multiple packages:
 
 | Package                             | Description                                        |
 | ----------------------------------- | -------------------------------------------------- |
-| `@chunkflow/protocol`               | TypeScript type definitions and interfaces         |
-| `@chunkflow/shared`                 | Common utilities (events, concurrency, file utils) |
-| `@chunkflow/core`                   | Core upload logic and state machine                |
-| `@chunkflow/upload-client-react`    | React Hooks and Context                            |
-| `@chunkflow/upload-client-vue`      | Vue Composables and Plugin                         |
-| `@chunkflow/upload-component-react` | Ready-to-use React components                      |
-| `@chunkflow/upload-component-vue`   | Ready-to-use Vue components                        |
-| `@chunkflow/upload-server`          | Server-side SDK for Node.js                        |
+| `@chunkflowjs/protocol`               | TypeScript type definitions and interfaces         |
+| `@chunkflowjs/shared`                 | Common utilities (events, concurrency, file utils) |
+| `@chunkflowjs/core`                   | Core upload logic and state machine                |
+| `@chunkflowjs/upload-client-react`    | React Hooks and Context                            |
+| `@chunkflowjs/upload-client-vue`      | Vue Composables and Plugin                         |
+| `@chunkflowjs/upload-component-react` | Ready-to-use React components                      |
+| `@chunkflowjs/upload-component-vue`   | Ready-to-use Vue components                        |
+| `@chunkflowjs/upload-server`          | Server-side SDK for Node.js                        |
 
 ## Quick Start with React
 
@@ -106,7 +106,7 @@ ChunkFlow is organized into multiple packages:
 The request adapter handles communication with your server:
 
 ```typescript
-import { createFetchAdapter } from "@chunkflow/core";
+import { createFetchAdapter } from "@chunkflowjs/core";
 
 const adapter = createFetchAdapter({
   baseURL: "http://localhost:3000/api",
@@ -119,7 +119,7 @@ const adapter = createFetchAdapter({
 ### 2. Wrap Your App with UploadProvider
 
 ```tsx
-import { UploadProvider } from "@chunkflow/upload-client-react";
+import { UploadProvider } from "@chunkflowjs/upload-client-react";
 
 function App() {
   return (
@@ -133,7 +133,7 @@ function App() {
 ### 3. Use Upload Components
 
 ```tsx
-import { UploadButton, UploadList } from "@chunkflow/upload-component-react";
+import { UploadButton, UploadList } from "@chunkflowjs/upload-component-react";
 
 function UploadPage() {
   return (
@@ -151,7 +151,7 @@ function UploadPage() {
 ### 4. Or Use Hooks for Custom UI
 
 ```tsx
-import { useUpload } from "@chunkflow/upload-client-react";
+import { useUpload } from "@chunkflowjs/upload-client-react";
 
 function CustomUpload() {
   const { upload, status, progress, pause, resume, cancel } = useUpload({
@@ -193,8 +193,8 @@ function CustomUpload() {
 
 ```typescript
 import { createApp } from "vue";
-import { UploadPlugin } from "@chunkflow/upload-client-vue";
-import { createFetchAdapter } from "@chunkflow/core";
+import { UploadPlugin } from "@chunkflowjs/upload-client-vue";
+import { createFetchAdapter } from "@chunkflowjs/core";
 import App from "./App.vue";
 
 const adapter = createFetchAdapter({
@@ -210,7 +210,7 @@ app.mount("#app");
 
 ```vue
 <script setup>
-import { UploadButton, UploadList } from "@chunkflow/upload-component-vue";
+import { UploadButton, UploadList } from "@chunkflowjs/upload-component-vue";
 </script>
 
 <template>
@@ -228,7 +228,7 @@ import { UploadButton, UploadList } from "@chunkflow/upload-component-vue";
 
 ```vue
 <script setup>
-import { useUpload } from '@chunkflow/upload-client-vue';
+import { useUpload } from '@chunkflowjs/upload-client-vue';
 import { ref } from 'vue';
 
 const { upload, status, progress, pause, resume, cancel } = useUpload({
@@ -265,7 +265,7 @@ const handleFileSelect = (e: Event) => {
 ## Quick Start with Vanilla JavaScript
 
 ```typescript
-import { UploadManager, createFetchAdapter } from "@chunkflow/core";
+import { UploadManager, createFetchAdapter } from "@chunkflowjs/core";
 
 const adapter = createFetchAdapter({
   baseURL: "http://localhost:3000/api",
@@ -301,7 +301,7 @@ await task.start();
 To use ChunkFlow, you need a server that implements the upload protocol. You can either:
 
 1. **Use the provided Nest.js server** (recommended for quick start)
-2. **Implement the protocol yourself** using `@chunkflow/upload-server`
+2. **Implement the protocol yourself** using `@chunkflowjs/upload-server`
 
 See the [Server Configuration](/guide/server-config) guide for detailed instructions.
 

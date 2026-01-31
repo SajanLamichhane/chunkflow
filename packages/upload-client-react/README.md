@@ -1,17 +1,17 @@
-# @chunkflow/upload-client-react
+# @chunkflowjs/upload-client-react
 
 React adapter for ChunkFlow Upload SDK with hooks and context providers.
 
 ## Installation
 
 ```bash
-pnpm add @chunkflow/upload-client-react
+pnpm add @chunkflowjs/upload-client-react
 ```
 
 ## Usage
 
 ```tsx
-import { UploadProvider, useUpload } from "@chunkflow/upload-client-react";
+import { UploadProvider, useUpload } from "@chunkflowjs/upload-client-react";
 
 function App() {
   return (

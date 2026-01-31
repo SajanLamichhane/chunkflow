@@ -7,14 +7,14 @@
 ### 步骤 1：安装
 
 ```bash
-pnpm add @chunkflow/core @chunkflow/upload-client-react @chunkflow/upload-component-react
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-react @chunkflowjs/upload-component-react
 ```
 
 ### 步骤 2：创建适配器
 
 ```typescript
 // src/lib/upload.ts
-import { createFetchAdapter } from "@chunkflow/core";
+import { createFetchAdapter } from "@chunkflowjs/core";
 
 export const uploadAdapter = createFetchAdapter({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
@@ -25,7 +25,7 @@ export const uploadAdapter = createFetchAdapter({
 
 ```tsx
 // src/App.tsx
-import { UploadProvider } from "@chunkflow/upload-client-react";
+import { UploadProvider } from "@chunkflowjs/upload-client-react";
 import { uploadAdapter } from "./lib/upload";
 import { UploadPage } from "./pages/UploadPage";
 
@@ -42,7 +42,7 @@ export default function App() {
 
 ```tsx
 // src/pages/UploadPage.tsx
-import { UploadButton, UploadList } from "@chunkflow/upload-component-react";
+import { UploadButton, UploadList } from "@chunkflowjs/upload-component-react";
 
 export function UploadPage() {
   return (
@@ -68,7 +68,7 @@ export function UploadPage() {
 ### 步骤 1：安装
 
 ```bash
-pnpm add @chunkflow/core @chunkflow/upload-client-vue @chunkflow/upload-component-vue
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-vue @chunkflowjs/upload-component-vue
 ```
 
 ### 步骤 2：设置插件
@@ -76,8 +76,8 @@ pnpm add @chunkflow/core @chunkflow/upload-client-vue @chunkflow/upload-componen
 ```typescript
 // src/main.ts
 import { createApp } from "vue";
-import { UploadPlugin } from "@chunkflow/upload-client-vue";
-import { createFetchAdapter } from "@chunkflow/core";
+import { UploadPlugin } from "@chunkflowjs/upload-client-vue";
+import { createFetchAdapter } from "@chunkflowjs/core";
 import App from "./App.vue";
 
 const adapter = createFetchAdapter({
@@ -94,7 +94,7 @@ app.mount("#app");
 ```vue
 <!-- src/pages/UploadPage.vue -->
 <script setup>
-import { UploadButton, UploadList } from "@chunkflow/upload-component-vue";
+import { UploadButton, UploadList } from "@chunkflowjs/upload-component-vue";
 </script>
 
 <template>

@@ -69,9 +69,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, type CSSProperties } from "vue";
-import type { UploadTask } from "@chunkflow/core";
-import { UploadStatus } from "@chunkflow/protocol";
-import { formatFileSize } from "@chunkflow/shared";
+import type { UploadTask } from "@chunkflowjs/core";
+import { UploadStatus } from "@chunkflowjs/protocol";
+import { formatFileSize } from "@chunkflowjs/shared";
 import UploadProgress from "./UploadProgress.vue";
 
 /**

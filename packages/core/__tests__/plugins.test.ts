@@ -7,7 +7,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { UploadManager, LoggerPlugin, StatisticsPlugin, type Plugin } from "../src";
 import type { UploadTask } from "../src/upload-task";
-import type { UploadProgress } from "@chunkflow/protocol";
+import type { UploadProgress } from "@chunkflowjs/protocol";
 
 // Mock RequestAdapter
 const mockRequestAdapter = {

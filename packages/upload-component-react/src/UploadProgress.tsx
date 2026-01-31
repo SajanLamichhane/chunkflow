@@ -1,6 +1,6 @@
 import { useEffect, useState, CSSProperties } from "react";
-import type { UploadTask } from "@chunkflow/core";
-import { formatFileSize } from "@chunkflow/shared";
+import type { UploadTask } from "@chunkflowjs/core";
+import { formatFileSize } from "@chunkflowjs/shared";
 
 /**
  * Props for the UploadProgress component

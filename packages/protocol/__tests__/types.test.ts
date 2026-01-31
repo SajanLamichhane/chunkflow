@@ -1,5 +1,5 @@
 /**
- * Type definition tests for @chunkflow/protocol
+ * Type definition tests for @chunkflowjs/protocol
  *
  * This package contains only TypeScript type definitions and interfaces.
  * These tests verify that the types are properly exported and can be imported.

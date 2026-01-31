@@ -10,7 +10,7 @@
  */
 
 import { useState, useCallback, useEffect } from "react";
-import type { UploadTask } from "@chunkflow/core";
+import type { UploadTask } from "@chunkflowjs/core";
 import { useUploadManager } from "./useUploadManager";
 
 /**
@@ -60,7 +60,7 @@ export interface UseUploadListReturn {
  *
  * @example
  * ```tsx
- * import { useUploadList } from '@chunkflow/upload-client-react';
+ * import { useUploadList } from '@chunkflowjs/upload-client-react';
  *
  * function UploadList() {
  *   const {

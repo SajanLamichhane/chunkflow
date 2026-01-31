@@ -10,7 +10,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act, waitFor } from "@testing-library/react";
 import React from "react";
 import { UploadProvider, useUpload } from "../src";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 
 // Mock RequestAdapter with delays to make state transitions observable
 const mockRequestAdapter: RequestAdapter = {

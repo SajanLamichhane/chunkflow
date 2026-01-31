@@ -9,7 +9,7 @@
  */
 
 import { inject } from "vue";
-import type { UploadManager } from "@chunkflow/core";
+import type { UploadManager } from "@chunkflowjs/core";
 import { UPLOAD_MANAGER_KEY } from "./plugin";
 
 /**
@@ -29,7 +29,7 @@ import { UPLOAD_MANAGER_KEY } from "./plugin";
  * @example
  * ```vue
  * <script setup lang="ts">
- * import { useUploadManager } from '@chunkflow/upload-client-vue';
+ * import { useUploadManager } from '@chunkflowjs/upload-client-vue';
  *
  * const manager = useUploadManager();
  *

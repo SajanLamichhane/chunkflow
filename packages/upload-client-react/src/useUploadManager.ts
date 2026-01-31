@@ -10,7 +10,7 @@
  */
 
 import { useContext } from "react";
-import type { UploadManager } from "@chunkflow/core";
+import type { UploadManager } from "@chunkflowjs/core";
 import { UploadContext } from "./UploadProvider";
 
 /**
@@ -29,7 +29,7 @@ import { UploadContext } from "./UploadProvider";
  *
  * @example
  * ```tsx
- * import { useUploadManager } from '@chunkflow/upload-client-react';
+ * import { useUploadManager } from '@chunkflowjs/upload-client-react';
  *
  * function MyComponent() {
  *   const manager = useUploadManager();

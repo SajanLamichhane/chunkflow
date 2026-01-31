@@ -87,7 +87,7 @@ const task = manager.createTask(file, {
 你可以提供自己的分片大小调整器：
 
 ```typescript
-import type { IChunkSizeAdjuster } from "@chunkflow/core";
+import type { IChunkSizeAdjuster } from "@chunkflowjs/core";
 
 class CustomAdjuster implements IChunkSizeAdjuster {
   private currentSize: number;

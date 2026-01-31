@@ -1,6 +1,6 @@
 import { Provider } from "@nestjs/common";
 import { Pool } from "pg";
-import { UploadService, LocalStorageAdapter } from "@chunkflow/upload-server";
+import { UploadService, LocalStorageAdapter } from "@chunkflowjs/upload-server";
 import { PostgresAdapter } from "../database/postgres-adapter";
 import { DATABASE_POOL } from "../database/database.module";
 

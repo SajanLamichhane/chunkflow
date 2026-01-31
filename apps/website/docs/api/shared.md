@@ -5,7 +5,7 @@ Common utilities and helpers used across ChunkFlow.
 ## Event System
 
 ```typescript
-import { createEventBus } from "@chunkflow/shared";
+import { createEventBus } from "@chunkflowjs/shared";
 
 const eventBus = createEventBus();
 
@@ -19,7 +19,7 @@ eventBus.emit("event", { data: "value" });
 ## Concurrency Control
 
 ```typescript
-import { ConcurrencyController } from "@chunkflow/shared";
+import { ConcurrencyController } from "@chunkflowjs/shared";
 
 const controller = new ConcurrencyController({ limit: 3 });
 
@@ -33,7 +33,7 @@ await controller.run(async () => {
 ### sliceFile()
 
 ```typescript
-import { sliceFile } from "@chunkflow/shared";
+import { sliceFile } from "@chunkflowjs/shared";
 
 const chunk = sliceFile(file, 0, 1024 * 1024); // First 1MB
 ```
@@ -41,7 +41,7 @@ const chunk = sliceFile(file, 0, 1024 * 1024); // First 1MB
 ### calculateFileHash()
 
 ```typescript
-import { calculateFileHash } from "@chunkflow/shared";
+import { calculateFileHash } from "@chunkflowjs/shared";
 
 const hash = await calculateFileHash(file, (progress) => {
   console.log(`Progress: ${progress}%`);
@@ -51,7 +51,7 @@ const hash = await calculateFileHash(file, (progress) => {
 ### calculateChunkHash()
 
 ```typescript
-import { calculateChunkHash } from "@chunkflow/shared";
+import { calculateChunkHash } from "@chunkflowjs/shared";
 
 const hash = await calculateChunkHash(chunk);
 ```
@@ -59,7 +59,7 @@ const hash = await calculateChunkHash(chunk);
 ### formatFileSize()
 
 ```typescript
-import { formatFileSize } from "@chunkflow/shared";
+import { formatFileSize } from "@chunkflowjs/shared";
 
 console.log(formatFileSize(1024)); // "1.00 KB"
 console.log(formatFileSize(1024 * 1024)); // "1.00 MB"
@@ -68,7 +68,7 @@ console.log(formatFileSize(1024 * 1024)); // "1.00 MB"
 ## IndexedDB Storage
 
 ```typescript
-import { UploadStorage } from "@chunkflow/shared";
+import { UploadStorage } from "@chunkflowjs/shared";
 
 const storage = new UploadStorage();
 await storage.init();

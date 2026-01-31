@@ -48,15 +48,15 @@ features:
 ::: code-group
 
 ```bash [pnpm]
-pnpm add @chunkflow/core @chunkflow/upload-client-react
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-react
 ```
 
 ```bash [npm]
-npm install @chunkflow/core @chunkflow/upload-client-react
+npm install @chunkflowjs/core @chunkflowjs/upload-client-react
 ```
 
 ```bash [yarn]
-yarn add @chunkflow/core @chunkflow/upload-client-react
+yarn add @chunkflowjs/core @chunkflowjs/upload-client-react
 ```
 
 :::
@@ -64,9 +64,9 @@ yarn add @chunkflow/core @chunkflow/upload-client-react
 ## React Example
 
 ```tsx
-import { UploadProvider } from "@chunkflow/upload-client-react";
-import { UploadButton, UploadList } from "@chunkflow/upload-component-react";
-import { createFetchAdapter } from "@chunkflow/core";
+import { UploadProvider } from "@chunkflowjs/upload-client-react";
+import { UploadButton, UploadList } from "@chunkflowjs/upload-component-react";
+import { createFetchAdapter } from "@chunkflowjs/core";
 
 const adapter = createFetchAdapter({
   baseURL: "http://localhost:3000/api",
@@ -89,9 +89,9 @@ function App() {
 ```vue
 <script setup>
 import { createApp } from "vue";
-import { UploadPlugin } from "@chunkflow/upload-client-vue";
-import { UploadButton, UploadList } from "@chunkflow/upload-component-vue";
-import { createFetchAdapter } from "@chunkflow/core";
+import { UploadPlugin } from "@chunkflowjs/upload-client-vue";
+import { UploadButton, UploadList } from "@chunkflowjs/upload-component-vue";
+import { createFetchAdapter } from "@chunkflowjs/core";
 
 const adapter = createFetchAdapter({
   baseURL: "http://localhost:3000/api",

@@ -32,9 +32,9 @@
 
 <script setup lang="ts">
 import { computed, type CSSProperties } from "vue";
-import type { UploadTask } from "@chunkflow/core";
-import { UploadStatus } from "@chunkflow/protocol";
-import { useUploadList } from "@chunkflow/upload-client-vue";
+import type { UploadTask } from "@chunkflowjs/core";
+import { UploadStatus } from "@chunkflowjs/protocol";
+import { useUploadList } from "@chunkflowjs/upload-client-vue";
 import DefaultUploadItem from "./DefaultUploadItem.vue";
 
 /**

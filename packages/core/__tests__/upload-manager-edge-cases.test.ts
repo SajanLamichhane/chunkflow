@@ -10,8 +10,8 @@
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { UploadManager } from "../src/upload-manager";
-import { UploadStorage } from "@chunkflow/shared";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import { UploadStorage } from "@chunkflowjs/shared";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 import { createMockAdapter, createMockFile } from "./setup";
 
 describe("UploadManager - Edge Cases", () => {

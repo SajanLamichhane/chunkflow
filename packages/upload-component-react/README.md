@@ -1,11 +1,11 @@
-# @chunkflow/upload-component-react
+# @chunkflowjs/upload-component-react
 
 Ready-to-use React UI components for ChunkFlow Upload SDK.
 
 ## Installation
 
 ```bash
-pnpm add @chunkflow/upload-component-react
+pnpm add @chunkflowjs/upload-component-react
 ```
 
 ## Components
@@ -28,7 +28,7 @@ A button component that triggers file selection and validates files before passi
 #### Example
 
 ```tsx
-import { UploadButton } from "@chunkflow/upload-component-react";
+import { UploadButton } from "@chunkflowjs/upload-component-react";
 
 function MyComponent() {
   const handleSelect = (files: File[]) => {

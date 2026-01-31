@@ -10,8 +10,8 @@
  */
 
 import { ref, onUnmounted, type Ref } from "vue";
-import type { UploadTask, UploadTaskOptions } from "@chunkflow/core";
-import type { UploadStatus, UploadProgress } from "@chunkflow/protocol";
+import type { UploadTask, UploadTaskOptions } from "@chunkflowjs/core";
+import type { UploadStatus, UploadProgress } from "@chunkflowjs/protocol";
 import { useUploadManager } from "./useUploadManager";
 
 /**
@@ -76,7 +76,7 @@ export interface UseUploadReturn {
  * @example
  * ```vue
  * <script setup lang="ts">
- * import { useUpload } from '@chunkflow/upload-client-vue';
+ * import { useUpload } from '@chunkflowjs/upload-client-vue';
  *
  * const { upload, pause, resume, cancel, status, progress, error } = useUpload({
  *   onSuccess: (fileUrl) => {

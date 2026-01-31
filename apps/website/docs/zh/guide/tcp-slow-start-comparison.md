@@ -316,7 +316,7 @@ const task = manager.createTask(file, {
 ### 自定义实现
 
 ```typescript
-import type { IChunkSizeAdjuster } from "@chunkflow/core";
+import type { IChunkSizeAdjuster } from "@chunkflowjs/core";
 
 class CustomAdjuster implements IChunkSizeAdjuster {
   adjust(uploadTimeMs: number): number {

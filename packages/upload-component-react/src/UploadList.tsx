@@ -1,8 +1,8 @@
 import { ReactNode, CSSProperties, useState, useEffect } from "react";
-import type { UploadTask } from "@chunkflow/core";
-import { UploadStatus } from "@chunkflow/protocol";
-import { formatFileSize } from "@chunkflow/shared";
-import { useUploadList } from "@chunkflow/upload-client-react";
+import type { UploadTask } from "@chunkflowjs/core";
+import { UploadStatus } from "@chunkflowjs/protocol";
+import { formatFileSize } from "@chunkflowjs/shared";
+import { useUploadList } from "@chunkflowjs/upload-client-react";
 import { UploadProgress } from "./UploadProgress";
 
 /**

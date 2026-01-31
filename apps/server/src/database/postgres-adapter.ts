@@ -6,7 +6,7 @@ import type {
   FileChunkEntity,
   CreateFileOptions,
   UpdateFileOptions,
-} from "@chunkflow/upload-server";
+} from "@chunkflowjs/upload-server";
 
 export class PostgresAdapter implements DatabaseAdapter {
   constructor(private pool: Pool) {}

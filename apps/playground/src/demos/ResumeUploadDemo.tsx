@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useUploadManager, useUploadList } from "@chunkflow/upload-client-react";
-import { UploadButton } from "@chunkflow/upload-component-react";
+import { useUploadManager, useUploadList } from "@chunkflowjs/upload-client-react";
+import { UploadButton } from "@chunkflowjs/upload-component-react";
 import { message } from "antd";
 
 interface UnfinishedTaskInfo {

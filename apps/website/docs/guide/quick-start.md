@@ -7,14 +7,14 @@ Get up and running with ChunkFlow in under 5 minutes.
 ### Step 1: Install
 
 ```bash
-pnpm add @chunkflow/core @chunkflow/upload-client-react @chunkflow/upload-component-react
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-react @chunkflowjs/upload-component-react
 ```
 
 ### Step 2: Create Adapter
 
 ```typescript
 // src/lib/upload.ts
-import { createFetchAdapter } from "@chunkflow/core";
+import { createFetchAdapter } from "@chunkflowjs/core";
 
 export const uploadAdapter = createFetchAdapter({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
@@ -25,7 +25,7 @@ export const uploadAdapter = createFetchAdapter({
 
 ```tsx
 // src/App.tsx
-import { UploadProvider } from "@chunkflow/upload-client-react";
+import { UploadProvider } from "@chunkflowjs/upload-client-react";
 import { uploadAdapter } from "./lib/upload";
 import { UploadPage } from "./pages/UploadPage";
 
@@ -42,7 +42,7 @@ export default function App() {
 
 ```tsx
 // src/pages/UploadPage.tsx
-import { UploadButton, UploadList } from "@chunkflow/upload-component-react";
+import { UploadButton, UploadList } from "@chunkflowjs/upload-component-react";
 
 export function UploadPage() {
   return (
@@ -74,7 +74,7 @@ That's it! You now have a fully functional upload interface with:
 ### Step 1: Install
 
 ```bash
-pnpm add @chunkflow/core @chunkflow/upload-client-vue @chunkflow/upload-component-vue
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-vue @chunkflowjs/upload-component-vue
 ```
 
 ### Step 2: Setup Plugin
@@ -82,8 +82,8 @@ pnpm add @chunkflow/core @chunkflow/upload-client-vue @chunkflow/upload-componen
 ```typescript
 // src/main.ts
 import { createApp } from "vue";
-import { UploadPlugin } from "@chunkflow/upload-client-vue";
-import { createFetchAdapter } from "@chunkflow/core";
+import { UploadPlugin } from "@chunkflowjs/upload-client-vue";
+import { createFetchAdapter } from "@chunkflowjs/core";
 import App from "./App.vue";
 
 const adapter = createFetchAdapter({
@@ -100,7 +100,7 @@ app.mount("#app");
 ```vue
 <!-- src/pages/UploadPage.vue -->
 <script setup>
-import { UploadButton, UploadList } from "@chunkflow/upload-component-vue";
+import { UploadButton, UploadList } from "@chunkflowjs/upload-component-vue";
 </script>
 
 <template>
@@ -119,13 +119,13 @@ import { UploadButton, UploadList } from "@chunkflow/upload-component-vue";
 ### Step 1: Install
 
 ```bash
-pnpm add @chunkflow/core
+pnpm add @chunkflowjs/core
 ```
 
 ### Step 2: Create Manager
 
 ```typescript
-import { UploadManager, createFetchAdapter } from "@chunkflow/core";
+import { UploadManager, createFetchAdapter } from "@chunkflowjs/core";
 
 const adapter = createFetchAdapter({
   baseURL: "http://localhost:3000/api",
@@ -222,7 +222,7 @@ The server will be available at `http://localhost:3000`.
 ### Option 2: Implement Your Own
 
 ```typescript
-import { UploadService, LocalStorageAdapter, PostgreSQLAdapter } from "@chunkflow/upload-server";
+import { UploadService, LocalStorageAdapter, PostgreSQLAdapter } from "@chunkflowjs/upload-server";
 
 const storage = new LocalStorageAdapter("./storage");
 const database = new PostgreSQLAdapter({

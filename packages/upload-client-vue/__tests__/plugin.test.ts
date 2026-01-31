@@ -10,7 +10,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { createApp, defineComponent, h } from "vue";
 import { createUploadPlugin, useUploadManager, UPLOAD_MANAGER_KEY } from "../src";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 
 // Mock RequestAdapter
 const mockRequestAdapter: RequestAdapter = {

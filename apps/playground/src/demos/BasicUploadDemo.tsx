@@ -1,5 +1,5 @@
-import { UploadButton } from "@chunkflow/upload-component-react";
-import { useUploadList } from "@chunkflow/upload-client-react";
+import { UploadButton } from "@chunkflowjs/upload-component-react";
+import { useUploadList } from "@chunkflowjs/upload-client-react";
 import { message } from "antd";
 
 function BasicUploadDemo() {

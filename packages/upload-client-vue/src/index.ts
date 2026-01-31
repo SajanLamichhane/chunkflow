@@ -1,5 +1,5 @@
 /**
- * @chunkflow/upload-client-vue
+ * @chunkflowjs/upload-client-vue
  *
  * Vue adapter for ChunkFlow Upload SDK
  * Provides Vue Plugin, composables, and reactive state management
@@ -29,7 +29,7 @@ export type {
   UploadManager,
   UploadTaskOptions,
   UploadManagerOptions,
-} from "@chunkflow/core";
+} from "@chunkflowjs/core";
 
 export type {
   UploadStatus,
@@ -38,4 +38,4 @@ export type {
   ChunkInfo,
   UploadToken,
   RequestAdapter,
-} from "@chunkflow/protocol";
+} from "@chunkflowjs/protocol";

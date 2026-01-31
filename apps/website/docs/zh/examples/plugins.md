@@ -5,7 +5,7 @@
 ## 日志插件
 
 ```typescript
-import { Plugin, UploadTask, UploadProgress } from "@chunkflow/core";
+import { Plugin, UploadTask, UploadProgress } from "@chunkflowjs/core";
 
 export class LoggerPlugin implements Plugin {
   name = "logger";
@@ -45,7 +45,7 @@ manager.use(new LoggerPlugin());
 ## 分析插件
 
 ```typescript
-import { Plugin, UploadTask, UploadProgress } from "@chunkflow/core";
+import { Plugin, UploadTask, UploadProgress } from "@chunkflowjs/core";
 
 export class AnalyticsPlugin implements Plugin {
   name = "analytics";
@@ -89,7 +89,7 @@ manager.use(new AnalyticsPlugin(analytics));
 ## 统计插件
 
 ```typescript
-import { Plugin, UploadTask } from "@chunkflow/core";
+import { Plugin, UploadTask } from "@chunkflowjs/core";
 
 interface UploadStats {
   totalUploaded: number;
@@ -154,7 +154,7 @@ console.log(stats.getStats());
 ## 通知插件
 
 ```typescript
-import { Plugin, UploadTask } from "@chunkflow/core";
+import { Plugin, UploadTask } from "@chunkflowjs/core";
 
 export class NotificationPlugin implements Plugin {
   name = "notification";
@@ -192,7 +192,7 @@ if ("Notification" in window) {
 ## 重试策略插件
 
 ```typescript
-import { Plugin, UploadTask } from "@chunkflow/core";
+import { Plugin, UploadTask } from "@chunkflowjs/core";
 
 export class RetryStrategyPlugin implements Plugin {
   name = "retry-strategy";

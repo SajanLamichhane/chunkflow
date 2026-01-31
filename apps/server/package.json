@@ -1,5 +1,5 @@
 {
-  "name": "@chunkflow/server-app",
+  "name": "@chunkflowjs/server-app",
   "version": "0.0.0",
   "private": true,
   "description": "Complete server application for ChunkFlow Upload SDK",
@@ -15,8 +15,8 @@
     "db:setup": "bash scripts/setup-db.sh"
   },
   "dependencies": {
-    "@chunkflow/protocol": "workspace:*",
-    "@chunkflow/upload-server": "workspace:*",
+    "@chunkflowjs/protocol": "workspace:*",
+    "@chunkflowjs/upload-server": "workspace:*",
     "@fastify/multipart": "^9.4.0",
     "@nestjs/common": "^11.1.12",
     "@nestjs/core": "^11.1.12",

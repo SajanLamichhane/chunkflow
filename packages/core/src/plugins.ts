@@ -5,7 +5,7 @@
  * how to extend the UploadManager with custom functionality.
  */
 
-import type { UploadProgress } from "@chunkflow/protocol";
+import type { UploadProgress } from "@chunkflowjs/protocol";
 import type { Plugin } from "./upload-manager";
 import type { UploadTask } from "./upload-task";
 

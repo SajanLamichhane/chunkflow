@@ -16,7 +16,7 @@ import {
   Res,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { UploadService } from "@chunkflow/upload-server";
+import { UploadService } from "@chunkflowjs/upload-server";
 import type { FastifyReply } from "fastify";
 
 @Controller("upload")
@@ -65,7 +65,7 @@ export class UploadController {
 ```typescript
 import express from "express";
 import multer from "multer";
-import { UploadService, LocalStorageAdapter, PostgreSQLAdapter } from "@chunkflow/upload-server";
+import { UploadService, LocalStorageAdapter, PostgreSQLAdapter } from "@chunkflowjs/upload-server";
 
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -143,7 +143,7 @@ app.listen(3000, () => {
 ## 自定义存储适配器
 
 ```typescript
-import { StorageAdapter } from "@chunkflow/upload-server";
+import { StorageAdapter } from "@chunkflowjs/upload-server";
 import AWS from "aws-sdk";
 
 export class S3StorageAdapter implements StorageAdapter {

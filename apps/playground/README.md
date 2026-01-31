@@ -53,7 +53,7 @@ pnpm build
 
 ```bash
 # Start the development server
-pnpm --filter @chunkflow/playground dev
+pnpm --filter @chunkflowjs/playground dev
 ```
 
 The playground will be available at `http://localhost:5173`.
@@ -62,10 +62,10 @@ The playground will be available at `http://localhost:5173`.
 
 ```bash
 # Build for production
-pnpm --filter @chunkflow/playground build
+pnpm --filter @chunkflowjs/playground build
 
 # Preview the production build
-pnpm --filter @chunkflow/playground preview
+pnpm --filter @chunkflowjs/playground preview
 ```
 
 ## Configuration
@@ -104,7 +104,7 @@ apps/playground/
 ### Basic Upload
 
 ```typescript
-import { UploadButton, UploadList } from '@chunkflow/upload-component-react';
+import { UploadButton, UploadList } from '@chunkflowjs/upload-component-react';
 
 function MyComponent() {
   return (
@@ -125,7 +125,7 @@ function MyComponent() {
 ### Multi-File Upload with Drag-and-Drop
 
 ```typescript
-import { UploadDropzone } from '@chunkflow/upload-component-react';
+import { UploadDropzone } from '@chunkflowjs/upload-component-react';
 
 function MyComponent() {
   const handleDrop = async (files: File[]) => {
@@ -147,7 +147,7 @@ function MyComponent() {
 ### Custom Upload Logic
 
 ```typescript
-import { useUpload } from '@chunkflow/upload-client-react';
+import { useUpload } from '@chunkflowjs/upload-client-react';
 
 function MyComponent() {
   const { upload, status, progress } = useUpload({
@@ -194,7 +194,7 @@ function MyComponent() {
 
 If you see connection errors, make sure:
 
-1. The upload server is running (`pnpm --filter @chunkflow/server-app dev`)
+1. The upload server is running (`pnpm --filter @chunkflowjs/server-app dev`)
 2. The server is accessible at `http://localhost:3001`
 3. CORS is properly configured on the server
 

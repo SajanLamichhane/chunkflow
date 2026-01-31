@@ -7,25 +7,25 @@ ChunkFlow supports all major package managers. Choose the one you prefer:
 ### pnpm (Recommended)
 
 ```bash
-pnpm add @chunkflow/core
+pnpm add @chunkflowjs/core
 ```
 
 ### npm
 
 ```bash
-npm install @chunkflow/core
+npm install @chunkflowjs/core
 ```
 
 ### yarn
 
 ```bash
-yarn add @chunkflow/core
+yarn add @chunkflowjs/core
 ```
 
 ### bun
 
 ```bash
-bun add @chunkflow/core
+bun add @chunkflowjs/core
 ```
 
 ## Package Selection
@@ -37,7 +37,7 @@ Choose the packages based on your needs:
 For vanilla JavaScript or custom integrations:
 
 ```bash
-pnpm add @chunkflow/core
+pnpm add @chunkflowjs/core
 ```
 
 ### React Setup
@@ -45,7 +45,7 @@ pnpm add @chunkflow/core
 For React applications with ready-to-use components:
 
 ```bash
-pnpm add @chunkflow/core @chunkflow/upload-client-react @chunkflow/upload-component-react
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-react @chunkflowjs/upload-component-react
 ```
 
 ### Vue Setup
@@ -53,7 +53,7 @@ pnpm add @chunkflow/core @chunkflow/upload-client-react @chunkflow/upload-compon
 For Vue applications with ready-to-use components:
 
 ```bash
-pnpm add @chunkflow/core @chunkflow/upload-client-vue @chunkflow/upload-component-vue
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-vue @chunkflowjs/upload-component-vue
 ```
 
 ### Server Setup
@@ -61,7 +61,7 @@ pnpm add @chunkflow/core @chunkflow/upload-client-vue @chunkflow/upload-componen
 For Node.js server implementation:
 
 ```bash
-pnpm add @chunkflow/upload-server
+pnpm add @chunkflowjs/upload-server
 ```
 
 ### Full Stack Setup
@@ -70,10 +70,10 @@ For complete client and server setup:
 
 ```bash
 # Client
-pnpm add @chunkflow/core @chunkflow/upload-client-react @chunkflow/upload-component-react
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-react @chunkflowjs/upload-component-react
 
 # Server
-pnpm add @chunkflow/upload-server
+pnpm add @chunkflowjs/upload-server
 ```
 
 ## TypeScript Support
@@ -110,7 +110,7 @@ You can also use ChunkFlow via CDN for quick prototyping:
 
 ```html
 <script type="module">
-  import { UploadManager } from "https://esm.sh/@chunkflow/core";
+  import { UploadManager } from "https://esm.sh/@chunkflowjs/core";
 
   // Your code here
 </script>
@@ -127,8 +127,8 @@ If you're using a monorepo (pnpm workspace, npm workspaces, yarn workspaces, or 
 ```json
 {
   "dependencies": {
-    "@chunkflow/core": "workspace:*",
-    "@chunkflow/upload-client-react": "workspace:*"
+    "@chunkflowjs/core": "workspace:*",
+    "@chunkflowjs/upload-client-react": "workspace:*"
   }
 }
 ```
@@ -138,7 +138,7 @@ If you're using a monorepo (pnpm workspace, npm workspaces, yarn workspaces, or 
 After installation, verify that ChunkFlow is installed correctly:
 
 ```typescript
-import { UploadManager } from "@chunkflow/core";
+import { UploadManager } from "@chunkflowjs/core";
 
 console.log(UploadManager); // Should output the class constructor
 ```

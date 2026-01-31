@@ -118,7 +118,7 @@ const task = manager.createTask(file, {
 ChunkFlow uses MD5 by default (fast and sufficient for deduplication):
 
 ```typescript
-import { calculateFileHash } from "@chunkflow/shared";
+import { calculateFileHash } from "@chunkflowjs/shared";
 
 const hash = await calculateFileHash(file);
 console.log(hash); // MD5 hash

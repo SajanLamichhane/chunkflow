@@ -9,8 +9,8 @@
  * - Persistent storage integration
  */
 
-import type { RequestAdapter, UploadProgress } from "@chunkflow/protocol";
-import { UploadStorage } from "@chunkflow/shared";
+import type { RequestAdapter, UploadProgress } from "@chunkflowjs/protocol";
+import { UploadStorage } from "@chunkflowjs/shared";
 import { UploadTask, type UploadTaskOptions } from "./upload-task";
 
 /**

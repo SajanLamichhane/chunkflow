@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { UploadProvider } from "@chunkflow/upload-client-react";
+import { UploadProvider } from "@chunkflowjs/upload-client-react";
 import { FetchRequestAdapter } from "./adapters/fetch-request-adapter";
-import { UploadList } from "@chunkflow/upload-component-react";
+import { UploadList } from "@chunkflowjs/upload-component-react";
 import BasicUploadDemo from "./demos/BasicUploadDemo";
 import MultiFileUploadDemo from "./demos/MultiFileUploadDemo";
 import ResumeUploadDemo from "./demos/ResumeUploadDemo";

@@ -5,7 +5,7 @@
     <strong>通用的大文件上传解决方案</strong>
   </p>
   <p>
-    <a href="https://www.npmjs.com/package/@chunkflow/core"><img src="https://img.shields.io/npm/v/@chunkflow/core.svg" alt="npm version"></a>
+    <a href="https://www.npmjs.com/package/@chunkflowjs/core"><img src="https://img.shields.io/npm/v/@chunkflowjs/core.svg" alt="npm version"></a>
     <a href="https://github.com/Sunny-117/chunkflow/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license"></a>
     <a href="https://github.com/Sunny-117/chunkflow"><img src="https://img.shields.io/github/stars/Sunny-117/chunkflow.svg?style=social" alt="GitHub stars"></a>
   </p>
@@ -36,20 +36,20 @@
 
 ### 核心包
 
-- **[@chunkflow/protocol](./packages/protocol)** - 协议层，包含类型定义和 API 接口
-- **[@chunkflow/shared](./packages/shared)** - 共享工具（事件系统、并发控制、文件工具、存储）
-- **[@chunkflow/core](./packages/core)** - 核心上传引擎，包含状态机和任务管理
+- **[@chunkflowjs/protocol](./packages/protocol)** - 协议层，包含类型定义和 API 接口
+- **[@chunkflowjs/shared](./packages/shared)** - 共享工具（事件系统、并发控制、文件工具、存储）
+- **[@chunkflowjs/core](./packages/core)** - 核心上传引擎，包含状态机和任务管理
 
 ### 客户端包
 
-- **[@chunkflow/upload-client-react](./packages/upload-client-react)** - React 适配器，提供 Hooks
-- **[@chunkflow/upload-client-vue](./packages/upload-client-vue)** - Vue 适配器，提供 Composables
-- **[@chunkflow/upload-component-react](./packages/upload-component-react)** - 开箱即用的 React 组件
-- **[@chunkflow/upload-component-vue](./packages/upload-component-vue)** - 开箱即用的 Vue 组件
+- **[@chunkflowjs/upload-client-react](./packages/upload-client-react)** - React 适配器，提供 Hooks
+- **[@chunkflowjs/upload-client-vue](./packages/upload-client-vue)** - Vue 适配器，提供 Composables
+- **[@chunkflowjs/upload-component-react](./packages/upload-component-react)** - 开箱即用的 React 组件
+- **[@chunkflowjs/upload-component-vue](./packages/upload-component-vue)** - 开箱即用的 Vue 组件
 
 ### 服务端包
 
-- **[@chunkflow/upload-server](./packages/upload-server)** - 服务端 SDK，包含存储适配器
+- **[@chunkflowjs/upload-server](./packages/upload-server)** - 服务端 SDK，包含存储适配器
 
 ## 🚀 快速开始
 
@@ -57,17 +57,17 @@
 
 ```bash
 # React 项目
-pnpm add @chunkflow/core @chunkflow/upload-client-react
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-react
 
 # Vue 项目
-pnpm add @chunkflow/core @chunkflow/upload-client-vue
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-vue
 ```
 
 ### React 使用
 
 ```tsx
-import { UploadProvider, useUpload } from "@chunkflow/upload-client-react";
-import { createFetchAdapter } from "@chunkflow/core";
+import { UploadProvider, useUpload } from "@chunkflowjs/upload-client-react";
+import { createFetchAdapter } from "@chunkflowjs/core";
 
 const adapter = createFetchAdapter({
   baseURL: "http://localhost:3000/api",
@@ -107,7 +107,7 @@ function UploadComponent() {
 
 ```html
 <script setup>
-  import { useUpload } from "@chunkflow/upload-client-vue";
+  import { useUpload } from "@chunkflowjs/upload-client-vue";
 
   const { upload, status, progress } = useUpload({
     onSuccess: (fileUrl) => console.log("上传完成:", fileUrl),

@@ -30,7 +30,7 @@ ChunkFlow is built with a layered architecture where each layer has a specific r
 ┌─────────────────────────────────────────────────────────────┐
 │                      核心层 (Core)                           │
 │  ┌──────────────────────────────────────────────────────┐   │
-│  │  @chunkflow/core                                     │   │
+│  │  @chunkflowjs/core                                     │   │
 │  │  - UploadManager (状态机、队列管理)                  │   │
 │  │  - UploadTask (单个上传任务)                         │   │
 │  │  - Plugin System (插件机制)                          │   │
@@ -40,7 +40,7 @@ ChunkFlow is built with a layered architecture where each layer has a specific r
 ┌─────────────────────────────────────────────────────────────┐
 │                   共享层 (Shared)                            │
 │  ┌──────────────────────────────────────────────────────┐   │
-│  │  @chunkflow/shared                                   │   │
+│  │  @chunkflowjs/shared                                   │   │
 │  │  - 事件系统 (mitt)                                    │   │
 │  │  - 并发控制 (p-limit)                                │   │
 │  │  - 文件工具 (切片、Hash)                             │   │
@@ -50,7 +50,7 @@ ChunkFlow is built with a layered architecture where each layer has a specific r
 ┌─────────────────────────────────────────────────────────────┐
 │                    协议层 (Protocol)                         │
 │  ┌──────────────────────────────────────────────────────┐   │
-│  │  @chunkflow/protocol                                 │   │
+│  │  @chunkflowjs/protocol                                 │   │
 │  │  - 接口定义 (TypeScript Types)                       │   │
 │  │  - 请求/响应格式                                      │   │
 │  └──────────────────────────────────────────────────────┘   │
@@ -59,7 +59,7 @@ ChunkFlow is built with a layered architecture where each layer has a specific r
 ┌─────────────────────────────────────────────────────────────┐
 │                   服务端层 (Server)                          │
 │  ┌──────────────────────────────────────────────────────┐   │
-│  │  @chunkflow/server                                   │   │
+│  │  @chunkflowjs/server                                   │   │
 │  │  - BFF SDK                                           │   │
 │  │  - 存储适配器                                         │   │
 │  └──────────────────────────────────────────────────────┘   │
@@ -68,7 +68,7 @@ ChunkFlow is built with a layered architecture where each layer has a specific r
 
 ## Layer Responsibilities
 
-### Protocol Layer (@chunkflow/protocol)
+### Protocol Layer (@chunkflowjs/protocol)
 
 **Purpose**: Define communication contracts
 
@@ -89,7 +89,7 @@ ChunkFlow is built with a layered architecture where each layer has a specific r
 - `interfaces.ts` - API interfaces
 - `constants.ts` - Constants
 
-### Shared Layer (@chunkflow/shared)
+### Shared Layer (@chunkflowjs/shared)
 
 **Purpose**: Provide common utilities
 
@@ -112,7 +112,7 @@ ChunkFlow is built with a layered architecture where each layer has a specific r
 - `file-utils.ts` - File operations
 - `storage.ts` - IndexedDB wrapper
 
-### Core Layer (@chunkflow/core)
+### Core Layer (@chunkflowjs/core)
 
 **Purpose**: Implement upload logic
 
@@ -186,7 +186,7 @@ ChunkFlow is built with a layered architecture where each layer has a specific r
 - `UploadProgress` - Progress bar
 - `UploadDropzone` - Drag & drop
 
-### Server Layer (@chunkflow/upload-server)
+### Server Layer (@chunkflowjs/upload-server)
 
 **Purpose**: Server-side implementation
 
@@ -216,14 +216,14 @@ Each layer is independent and can be used separately:
 
 ```typescript
 // Use only Core layer
-import { UploadManager } from "@chunkflow/core";
+import { UploadManager } from "@chunkflowjs/core";
 
 // Use Core + React Client
-import { UploadManager } from "@chunkflow/core";
-import { useUpload } from "@chunkflow/upload-client-react";
+import { UploadManager } from "@chunkflowjs/core";
+import { useUpload } from "@chunkflowjs/upload-client-react";
 
 // Use everything
-import { UploadButton } from "@chunkflow/upload-component-react";
+import { UploadButton } from "@chunkflowjs/upload-component-react";
 ```
 
 ### 2. Progressive Enhancement

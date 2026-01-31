@@ -10,8 +10,8 @@
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { UploadManager } from "../src/upload-manager";
-import { UploadStorage } from "@chunkflow/shared";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import { UploadStorage } from "@chunkflowjs/shared";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 import type {
   CreateFileRequest,
   CreateFileResponse,
@@ -19,7 +19,7 @@ import type {
   VerifyHashResponse,
   UploadChunkRequest,
   UploadChunkResponse,
-} from "@chunkflow/protocol";
+} from "@chunkflowjs/protocol";
 
 // Mock RequestAdapter
 const createMockAdapter = (): RequestAdapter => ({

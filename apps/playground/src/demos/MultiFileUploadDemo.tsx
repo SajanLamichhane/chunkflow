@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useUploadList } from "@chunkflow/upload-client-react";
-import { UploadDropzone } from "@chunkflow/upload-component-react";
+import { useUploadList } from "@chunkflowjs/upload-client-react";
+import { UploadDropzone } from "@chunkflowjs/upload-component-react";
 import { message } from "antd";
 
 function MultiFileUploadDemo() {

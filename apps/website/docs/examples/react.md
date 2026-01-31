@@ -5,9 +5,9 @@ Complete examples for using ChunkFlow with React.
 ## Basic Upload
 
 ```tsx
-import { UploadProvider } from "@chunkflow/upload-client-react";
-import { UploadButton, UploadList } from "@chunkflow/upload-component-react";
-import { createFetchAdapter } from "@chunkflow/core";
+import { UploadProvider } from "@chunkflowjs/upload-client-react";
+import { UploadButton, UploadList } from "@chunkflowjs/upload-component-react";
+import { createFetchAdapter } from "@chunkflowjs/core";
 
 const adapter = createFetchAdapter({
   baseURL: "http://localhost:3000/api",
@@ -31,7 +31,7 @@ function App() {
 ## Custom Upload UI
 
 ```tsx
-import { useUpload } from "@chunkflow/upload-client-react";
+import { useUpload } from "@chunkflowjs/upload-client-react";
 import { useState } from "react";
 
 function CustomUpload() {
@@ -107,7 +107,7 @@ function formatTime(seconds: number): string {
 ## Multiple File Upload
 
 ```tsx
-import { useUploadList } from "@chunkflow/upload-client-react";
+import { useUploadList } from "@chunkflowjs/upload-client-react";
 
 function MultipleUpload() {
   const { tasks, uploadFiles, pauseAll, resumeAll, cancelAll, removeTask } = useUploadList();
@@ -151,8 +151,8 @@ function MultipleUpload() {
 ## With Drag and Drop
 
 ```tsx
-import { UploadDropzone } from "@chunkflow/upload-component-react";
-import { useUploadList } from "@chunkflow/upload-client-react";
+import { UploadDropzone } from "@chunkflowjs/upload-component-react";
+import { useUploadList } from "@chunkflowjs/upload-client-react";
 
 function DragDropUpload() {
   const { uploadFiles } = useUploadList();

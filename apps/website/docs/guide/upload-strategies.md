@@ -58,7 +58,7 @@ await task.start(); // Uploads file in chunks
 You can customize the threshold:
 
 ```typescript
-import { DIRECT_UPLOAD_THRESHOLD } from "@chunkflow/protocol";
+import { DIRECT_UPLOAD_THRESHOLD } from "@chunkflowjs/protocol";
 
 // Default is 5MB
 console.log(DIRECT_UPLOAD_THRESHOLD); // 5242880

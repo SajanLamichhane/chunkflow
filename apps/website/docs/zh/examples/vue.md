@@ -6,7 +6,7 @@
 
 ```vue
 <script setup>
-import { UploadButton, UploadList } from "@chunkflow/upload-component-vue";
+import { UploadButton, UploadList } from "@chunkflowjs/upload-component-vue";
 </script>
 
 <template>
@@ -22,7 +22,7 @@ import { UploadButton, UploadList } from "@chunkflow/upload-component-vue";
 
 ```vue
 <script setup>
-import { useUpload } from '@chunkflow/upload-client-vue';
+import { useUpload } from '@chunkflowjs/upload-client-vue';
 import { ref } from 'vue';
 
 const file = ref<File | null>(null);
@@ -95,7 +95,7 @@ const formatTime = (seconds: number): string => {
 
 ```vue
 <script setup>
-import { useUploadList } from '@chunkflow/upload-client-vue';
+import { useUploadList } from '@chunkflowjs/upload-client-vue';
 
 const { tasks, uploadFiles, pauseAll, resumeAll, cancelAll, removeTask } = useUploadList();
 
@@ -139,8 +139,8 @@ const handleFilesChange = (e: Event) => {
 
 ```vue
 <script setup>
-import { UploadDropzone } from "@chunkflow/upload-component-vue";
-import { useUploadList } from "@chunkflow/upload-client-vue";
+import { UploadDropzone } from "@chunkflowjs/upload-component-vue";
+import { useUploadList } from "@chunkflowjs/upload-client-vue";
 
 const { uploadFiles } = useUploadList();
 </script>

@@ -11,8 +11,8 @@
  */
 
 import type { App, Plugin } from "vue";
-import { UploadManager, type UploadManagerOptions } from "@chunkflow/core";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import { UploadManager, type UploadManagerOptions } from "@chunkflowjs/core";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 
 /**
  * Injection key for UploadManager
@@ -50,7 +50,7 @@ export interface UploadPluginOptions {
  * @example
  * ```typescript
  * import { createApp } from 'vue';
- * import { createUploadPlugin } from '@chunkflow/upload-client-vue';
+ * import { createUploadPlugin } from '@chunkflowjs/upload-client-vue';
  * import { myRequestAdapter } from './api';
  * import App from './App.vue';
  *
@@ -110,7 +110,7 @@ export function createUploadPlugin(options: UploadPluginOptions): Plugin {
  *
  * @example
  * ```typescript
- * import UploadPlugin from '@chunkflow/upload-client-vue';
+ * import UploadPlugin from '@chunkflowjs/upload-client-vue';
  * app.use(UploadPlugin, { requestAdapter: myAdapter });
  * ```
  */

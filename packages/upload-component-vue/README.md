@@ -1,11 +1,11 @@
-# @chunkflow/upload-component-vue
+# @chunkflowjs/upload-component-vue
 
 Ready-to-use Vue UI components for ChunkFlow Upload SDK.
 
 ## Installation
 
 ```bash
-pnpm add @chunkflow/upload-component-vue
+pnpm add @chunkflowjs/upload-component-vue
 ```
 
 ## Components

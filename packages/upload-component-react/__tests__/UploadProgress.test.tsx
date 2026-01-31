@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { UploadProgress } from "../src/UploadProgress";
-import type { UploadTask, UploadProgress as UploadProgressType } from "@chunkflow/core";
+import type { UploadTask, UploadProgress as UploadProgressType } from "@chunkflowjs/core";
 
 /**
  * Create a mock UploadTask for testing

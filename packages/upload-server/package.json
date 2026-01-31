@@ -1,6 +1,6 @@
 {
-  "name": "@chunkflow/upload-server",
-  "version": "0.0.0",
+  "name": "@chunkflowjs/upload-server",
+  "version": "0.0.1-alpha.1",
   "description": "Server-side SDK for ChunkFlow Upload",
   "keywords": [
     "bff",
@@ -34,7 +34,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@chunkflow/protocol": "workspace:*",
+    "@chunkflowjs/protocol": "workspace:*",
     "jsonwebtoken": "^9.0.3",
     "spark-md5": "^3.0.2"
   },

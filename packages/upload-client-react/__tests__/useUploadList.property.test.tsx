@@ -13,8 +13,8 @@ import fc from "fast-check";
 import { renderHook, act, waitFor } from "@testing-library/react";
 import React from "react";
 import { UploadProvider, useUploadList, useUpload } from "../src";
-import type { RequestAdapter } from "@chunkflow/protocol";
-import type { UploadStatus } from "@chunkflow/protocol";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
+import type { UploadStatus } from "@chunkflowjs/protocol";
 
 // Mock RequestAdapter
 const createMockRequestAdapter = (): RequestAdapter => ({

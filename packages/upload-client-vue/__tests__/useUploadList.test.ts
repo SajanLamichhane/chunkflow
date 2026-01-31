@@ -9,7 +9,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { createApp, defineComponent, h, nextTick } from "vue";
 import { createUploadPlugin, useUploadList } from "../src";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 
 // Mock RequestAdapter
 const mockRequestAdapter: RequestAdapter = {

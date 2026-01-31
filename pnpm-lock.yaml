@@ -41,16 +41,19 @@ importers:
 
   apps/playground:
     dependencies:
-      '@chunkflow/core':
+      '@chunkflowjs/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@chunkflow/protocol':
+      '@chunkflowjs/protocol':
         specifier: workspace:*
         version: link:../../packages/protocol
-      '@chunkflow/upload-client-react':
+      '@chunkflowjs/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
+      '@chunkflowjs/upload-client-react':
         specifier: workspace:*
         version: link:../../packages/upload-client-react
-      '@chunkflow/upload-component-react':
+      '@chunkflowjs/upload-component-react':
         specifier: workspace:*
         version: link:../../packages/upload-component-react
       antd:
@@ -81,10 +84,10 @@ importers:
 
   apps/server:
     dependencies:
-      '@chunkflow/protocol':
+      '@chunkflowjs/protocol':
         specifier: workspace:*
         version: link:../../packages/protocol
-      '@chunkflow/upload-server':
+      '@chunkflowjs/upload-server':
         specifier: workspace:*
         version: link:../../packages/upload-server
       '@fastify/multipart':
@@ -169,10 +172,10 @@ importers:
 
   packages/core:
     dependencies:
-      '@chunkflow/protocol':
+      '@chunkflowjs/protocol':
         specifier: workspace:*
         version: link:../protocol
-      '@chunkflow/shared':
+      '@chunkflowjs/shared':
         specifier: workspace:*
         version: link:../shared
     devDependencies:
@@ -237,10 +240,10 @@ importers:
 
   packages/upload-client-react:
     dependencies:
-      '@chunkflow/core':
+      '@chunkflowjs/core':
         specifier: workspace:*
         version: link:../core
-      '@chunkflow/protocol':
+      '@chunkflowjs/protocol':
         specifier: workspace:*
         version: link:../protocol
     devDependencies:
@@ -283,10 +286,10 @@ importers:
 
   packages/upload-client-vue:
     dependencies:
-      '@chunkflow/core':
+      '@chunkflowjs/core':
         specifier: workspace:*
         version: link:../core
-      '@chunkflow/protocol':
+      '@chunkflowjs/protocol':
         specifier: workspace:*
         version: link:../protocol
     devDependencies:
@@ -311,10 +314,13 @@ importers:
 
   packages/upload-component-react:
     dependencies:
-      '@chunkflow/core':
+      '@chunkflowjs/core':
         specifier: workspace:*
         version: link:../core
-      '@chunkflow/upload-client-react':
+      '@chunkflowjs/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@chunkflowjs/upload-client-react':
         specifier: workspace:*
         version: link:../upload-client-react
     devDependencies:
@@ -351,16 +357,16 @@ importers:
 
   packages/upload-component-vue:
     dependencies:
-      '@chunkflow/core':
+      '@chunkflowjs/core':
         specifier: workspace:*
         version: link:../core
-      '@chunkflow/protocol':
+      '@chunkflowjs/protocol':
         specifier: workspace:*
         version: link:../protocol
-      '@chunkflow/shared':
+      '@chunkflowjs/shared':
         specifier: workspace:*
         version: link:../shared
-      '@chunkflow/upload-client-vue':
+      '@chunkflowjs/upload-client-vue':
         specifier: workspace:*
         version: link:../upload-client-vue
     devDependencies:
@@ -394,7 +400,7 @@ importers:
 
   packages/upload-server:
     dependencies:
-      '@chunkflow/protocol':
+      '@chunkflowjs/protocol':
         specifier: workspace:*
         version: link:../protocol
       jsonwebtoken:

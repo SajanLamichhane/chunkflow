@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useUploadManager } from "@chunkflow/upload-client-react";
-import { UploadButton } from "@chunkflow/upload-component-react";
+import { useUploadManager } from "@chunkflowjs/upload-client-react";
+import { UploadButton } from "@chunkflowjs/upload-component-react";
 import { message } from "antd";
 
 function InstantUploadDemo() {

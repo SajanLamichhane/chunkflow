@@ -1,6 +1,6 @@
 {
-  "name": "@chunkflow/upload-client-vue",
-  "version": "0.0.0",
+  "name": "@chunkflowjs/upload-client-vue",
+  "version": "0.0.1-alpha.1",
   "description": "Vue adapter for ChunkFlow Upload SDK",
   "keywords": [
     "composables",
@@ -32,8 +32,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@chunkflow/core": "workspace:*",
-    "@chunkflow/protocol": "workspace:*"
+    "@chunkflowjs/core": "workspace:*",
+    "@chunkflowjs/protocol": "workspace:*"
   },
   "devDependencies": {
     "@vue/test-utils": "^2.4.6",

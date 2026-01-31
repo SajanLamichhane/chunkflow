@@ -5,7 +5,7 @@
 
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { UploadTask } from "../src/upload-task";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 import { createMockAdapter, createMockFile } from "./setup";
 
 describe("UploadTask - Basic Structure", () => {

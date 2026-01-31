@@ -1,11 +1,11 @@
-# @chunkflow/core
+# @chunkflowjs/core
 
 Core upload engine for ChunkFlow Upload SDK with state machine, task management, and plugin system.
 
 ## Installation
 
 ```bash
-pnpm add @chunkflow/core
+pnpm add @chunkflowjs/core
 ```
 
 ## Features
@@ -23,7 +23,7 @@ pnpm add @chunkflow/core
 ### Basic Upload
 
 ```typescript
-import { UploadManager } from "@chunkflow/core";
+import { UploadManager } from "@chunkflowjs/core";
 
 // Create manager with request adapter
 const manager = new UploadManager({
@@ -60,7 +60,7 @@ The plugin system allows you to extend the UploadManager with custom functionali
 Logs all upload events to the console:
 
 ```typescript
-import { UploadManager, LoggerPlugin } from "@chunkflow/core";
+import { UploadManager, LoggerPlugin } from "@chunkflowjs/core";
 
 const manager = new UploadManager({ requestAdapter });
 
@@ -78,7 +78,7 @@ manager.use(
 Tracks upload statistics:
 
 ```typescript
-import { UploadManager, StatisticsPlugin } from "@chunkflow/core";
+import { UploadManager, StatisticsPlugin } from "@chunkflowjs/core";
 
 const manager = new UploadManager({ requestAdapter });
 const stats = new StatisticsPlugin();
@@ -100,7 +100,7 @@ console.log(stats.getSummary());
 Create your own plugin by implementing the `Plugin` interface:
 
 ```typescript
-import { Plugin, UploadTask, UploadProgress } from "@chunkflow/core";
+import { Plugin, UploadTask, UploadProgress } from "@chunkflowjs/core";
 
 class MyCustomPlugin implements Plugin {
   name = "my-custom-plugin";

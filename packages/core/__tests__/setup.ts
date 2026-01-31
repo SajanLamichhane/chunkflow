@@ -5,7 +5,7 @@
 
 import "fake-indexeddb/auto";
 import { vi } from "vitest";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 
 /**
  * Create a mock RequestAdapter with proper return values

@@ -1,15 +1,15 @@
-# @chunkflow/upload-client-vue
+# @chunkflowjs/upload-client-vue
 
 Vue adapter for ChunkFlow Upload SDK with composables and plugin.
 
 ## Installation
 
 ```bash
-npm install @chunkflow/upload-client-vue
+npm install @chunkflowjs/upload-client-vue
 # or
-pnpm add @chunkflow/upload-client-vue
+pnpm add @chunkflowjs/upload-client-vue
 # or
-yarn add @chunkflow/upload-client-vue
+yarn add @chunkflowjs/upload-client-vue
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ First, install the Upload Plugin in your Vue application:
 ```typescript
 // main.ts
 import { createApp } from "vue";
-import { createUploadPlugin } from "@chunkflow/upload-client-vue";
+import { createUploadPlugin } from "@chunkflowjs/upload-client-vue";
 import App from "./App.vue";
 
 // Create your request adapter
@@ -62,7 +62,7 @@ app.mount("#app");
 
 ```vue
 <script setup lang="ts">
-import { useUpload } from "@chunkflow/upload-client-vue";
+import { useUpload } from "@chunkflowjs/upload-client-vue";
 
 const { upload, pause, resume, cancel, status, progress, error } = useUpload({
   onSuccess: (fileUrl) => {
@@ -108,7 +108,7 @@ const handleFileSelect = (event: Event) => {
 
 ```vue
 <script setup lang="ts">
-import { useUploadList } from "@chunkflow/upload-client-vue";
+import { useUploadList } from "@chunkflowjs/upload-client-vue";
 
 const {
   tasks,

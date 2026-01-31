@@ -16,7 +16,7 @@
 
 - [ ] 2. Protocol 层实现
   - [x] 2.1 定义核心类型和接口
-    - 创建 `@chunkflow/protocol` 包
+    - 创建 `@chunkflowjs/protocol` 包
     - 定义 FileInfo、ChunkInfo、UploadToken 等核心类型
     - 定义 UploadStatus 枚举
     - 定义 API 请求/响应接口（CreateFile, VerifyHash, UploadChunk, MergeFile）
@@ -29,7 +29,7 @@
 
 - [ ] 3. Shared 层实现
   - [x] 3.1 实现事件系统
-    - 创建 `@chunkflow/shared` 包
+    - 创建 `@chunkflowjs/shared` 包
     - 集成 mitt 库
     - 定义 UploadEvents 类型
     - 实现 createEventBus 工具函数
@@ -62,7 +62,7 @@
 
 - [x] 4. Core 层 - 动态切片大小调整器
   - [x] 4.1 实现 ChunkSizeAdjuster 类
-    - 创建 `@chunkflow/core` 包
+    - 创建 `@chunkflowjs/core` 包
     - 实现初始化逻辑
     - 实现 adjust 方法（类似 TCP 慢启动）
     - 实现 getCurrentSize 方法
@@ -179,7 +179,7 @@
 
 - [ ] 8. Client 层 - React 适配
   - [x] 8.1 实现 UploadProvider 和 Context
-    - 创建 `@chunkflow/upload-client-react` 包
+    - 创建 `@chunkflowjs/upload-client-react` 包
     - 实现 UploadContext
     - 实现 UploadProvider 组件
     - 实现 useUploadManager Hook
@@ -207,7 +207,7 @@
 
 - [ ] 9. Client 层 - Vue 适配
   - [x] 9.1 实现 Vue Plugin 和 Provide/Inject
-    - 创建 `@chunkflow/upload-client-vue` 包
+    - 创建 `@chunkflowjs/upload-client-vue` 包
     - 实现 Vue Plugin
     - 实现 provide/inject 机制
     - _需求: 10.2, 10.3, 10.4_
@@ -228,7 +228,7 @@
 
 - [ ] 10. Component 层 - React 组件
   - [x] 10.1 实现 UploadButton 组件
-    - 创建 `@chunkflow/upload-component-react` 包
+    - 创建 `@chunkflowjs/upload-component-react` 包
     - 实现文件选择功能
     - 实现文件验证（类型、大小）
     - _需求: 11.6_
@@ -256,7 +256,7 @@
 
 - [ ] 11. Component 层 - Vue 组件
   - [x] 11.1 实现 Vue 上传组件
-    - 创建 `@chunkflow/upload-component-vue` 包
+    - 创建 `@chunkflowjs/upload-component-vue` 包
     - 实现 UploadButton.vue
     - 实现 UploadProgress.vue
     - 实现 UploadList.vue
@@ -274,7 +274,7 @@
 
 - [ ] 13. Server 层 - 存储适配器
   - [x] 13.1 定义存储适配器接口
-    - 创建 `@chunkflow/upload-server` 包
+    - 创建 `@chunkflowjs/upload-server` 包
     - 定义 StorageAdapter 接口
     - _需求: 12.6_
   - [x] 13.2 实现本地文件系统适配器
@@ -400,8 +400,8 @@
   - [x] 18.1 创建 React Playground
     - 创建 `apps/playground` 目录
     - 使用 Vite 初始化 React 项目
-    - 集成 @chunkflow/upload-client-react
-    - 集成 @chunkflow/upload-component-react
+    - 集成 @chunkflowjs/upload-client-react
+    - 集成 @chunkflowjs/upload-component-react
     - _需求: 16.4_
   - [x] 18.2 实现演示页面
     - 实现文件上传演示

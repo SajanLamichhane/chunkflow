@@ -192,7 +192,7 @@ interface Plugin {
 将上传事件记录到控制台。
 
 ```typescript
-import { LoggerPlugin } from "@chunkflow/core";
+import { LoggerPlugin } from "@chunkflowjs/core";
 
 manager.use(new LoggerPlugin());
 ```
@@ -202,7 +202,7 @@ manager.use(new LoggerPlugin());
 跟踪上传统计信息。
 
 ```typescript
-import { StatisticsPlugin } from "@chunkflow/core";
+import { StatisticsPlugin } from "@chunkflowjs/core";
 
 const stats = new StatisticsPlugin();
 manager.use(stats);

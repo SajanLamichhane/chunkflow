@@ -57,10 +57,10 @@ pnpm release
 
 ```bash
 # 查看 npm 包信息
-npm view @chunkflow/core
+npm view @chunkflowjs/core
 
 # 查看 alpha 版本
-npm view @chunkflow/core@alpha
+npm view @chunkflowjs/core@alpha
 ```
 
 ---
@@ -117,14 +117,14 @@ gh release create v$VERSION --title "ChunkFlow v$VERSION" --notes-file CHANGELOG
 **Q: Alpha 版本如何安装？**
 
 ```bash
-npm install @chunkflow/core@alpha
+npm install @chunkflowjs/core@alpha
 ```
 
 **Q: 如何回滚发布？**
 
 ```bash
 # npm 撤回（24小时内）
-npm unpublish @chunkflow/core@0.0.1
+npm unpublish @chunkflowjs/core@0.0.1
 
 # 删除 GitHub Release
 gh release delete v0.0.1

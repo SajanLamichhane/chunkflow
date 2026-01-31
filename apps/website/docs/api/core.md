@@ -94,7 +94,7 @@ manager.use(plugin: Plugin): void
 ### Example
 
 ```typescript
-import { UploadManager, createFetchAdapter } from "@chunkflow/core";
+import { UploadManager, createFetchAdapter } from "@chunkflowjs/core";
 
 const adapter = createFetchAdapter({
   baseURL: "http://localhost:3000/api",
@@ -339,7 +339,7 @@ interface Plugin {
 Logs upload events to console.
 
 ```typescript
-import { LoggerPlugin } from "@chunkflow/core";
+import { LoggerPlugin } from "@chunkflowjs/core";
 
 manager.use(new LoggerPlugin());
 ```
@@ -349,7 +349,7 @@ manager.use(new LoggerPlugin());
 Tracks upload statistics.
 
 ```typescript
-import { StatisticsPlugin } from "@chunkflow/core";
+import { StatisticsPlugin } from "@chunkflowjs/core";
 
 const stats = new StatisticsPlugin();
 manager.use(stats);
@@ -461,7 +461,7 @@ import type {
   Plugin,
   ChunkSizeAdjuster,
   ChunkSizeAdjusterOptions,
-} from "@chunkflow/core";
+} from "@chunkflowjs/core";
 ```
 
 ## See Also

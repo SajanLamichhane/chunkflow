@@ -1,4 +1,4 @@
-# @chunkflow/protocol
+# @chunkflowjs/protocol
 
 Protocol layer defining communication interfaces between client and server for ChunkFlow Upload SDK.
 
@@ -17,7 +17,7 @@ This package provides TypeScript type definitions and interfaces for the ChunkFl
 ## Installation
 
 ```bash
-pnpm add @chunkflow/protocol
+pnpm add @chunkflowjs/protocol
 ```
 
 ## Usage
@@ -39,7 +39,7 @@ import type {
   MergeFileRequest,
   MergeFileResponse,
   RequestAdapter,
-} from "@chunkflow/protocol";
+} from "@chunkflowjs/protocol";
 ```
 
 ### Core Types

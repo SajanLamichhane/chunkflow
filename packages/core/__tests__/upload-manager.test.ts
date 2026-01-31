@@ -12,7 +12,7 @@
 
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { UploadManager } from "../src/upload-manager";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 import { createMockAdapter, createMockFile } from "./setup";
 
 describe("UploadManager", () => {

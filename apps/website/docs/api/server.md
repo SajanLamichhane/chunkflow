@@ -7,7 +7,7 @@ Server-side SDK for implementing upload services.
 Main service class for handling uploads.
 
 ```typescript
-import { UploadService, LocalStorageAdapter, PostgreSQLAdapter } from "@chunkflow/upload-server";
+import { UploadService, LocalStorageAdapter, PostgreSQLAdapter } from "@chunkflowjs/upload-server";
 
 const service = new UploadService({
   storageAdapter: new LocalStorageAdapter("./storage"),

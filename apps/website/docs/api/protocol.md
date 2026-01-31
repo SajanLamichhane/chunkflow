@@ -234,7 +234,7 @@ interface RequestAdapter {
 ### Creating a Custom Adapter
 
 ```typescript
-import { RequestAdapter } from "@chunkflow/protocol";
+import { RequestAdapter } from "@chunkflowjs/protocol";
 
 class CustomAdapter implements RequestAdapter {
   constructor(private baseURL: string) {}

@@ -17,7 +17,7 @@ pnpm run start:dev
 ## Custom Implementation
 
 ```typescript
-import { UploadService, LocalStorageAdapter, PostgreSQLAdapter } from "@chunkflow/upload-server";
+import { UploadService, LocalStorageAdapter, PostgreSQLAdapter } from "@chunkflowjs/upload-server";
 
 const storage = new LocalStorageAdapter("./storage");
 const database = new PostgreSQLAdapter({

@@ -21,7 +21,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import fc from "fast-check";
 import { UploadTask } from "../src/upload-task";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 
 // Helper to create mock File objects
 const createMockFile = (name: string, size: number, type: string): File => {

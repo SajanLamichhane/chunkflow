@@ -87,7 +87,7 @@ const task = manager.createTask(file, {
 You can provide your own chunk size adjuster:
 
 ```typescript
-import type { IChunkSizeAdjuster } from "@chunkflow/core";
+import type { IChunkSizeAdjuster } from "@chunkflowjs/core";
 
 class CustomAdjuster implements IChunkSizeAdjuster {
   private currentSize: number;

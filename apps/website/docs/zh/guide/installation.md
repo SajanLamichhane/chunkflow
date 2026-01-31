@@ -7,25 +7,25 @@ ChunkFlow 支持所有主流包管理器。选择你喜欢的：
 ### pnpm（推荐）
 
 ```bash
-pnpm add @chunkflow/core
+pnpm add @chunkflowjs/core
 ```
 
 ### npm
 
 ```bash
-npm install @chunkflow/core
+npm install @chunkflowjs/core
 ```
 
 ### yarn
 
 ```bash
-yarn add @chunkflow/core
+yarn add @chunkflowjs/core
 ```
 
 ### bun
 
 ```bash
-bun add @chunkflow/core
+bun add @chunkflowjs/core
 ```
 
 ## 包选择
@@ -37,7 +37,7 @@ bun add @chunkflow/core
 用于原生 JavaScript 或自定义集成：
 
 ```bash
-pnpm add @chunkflow/core
+pnpm add @chunkflowjs/core
 ```
 
 ### React 设置
@@ -45,7 +45,7 @@ pnpm add @chunkflow/core
 用于带有开箱即用组件的 React 应用：
 
 ```bash
-pnpm add @chunkflow/core @chunkflow/upload-client-react @chunkflow/upload-component-react
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-react @chunkflowjs/upload-component-react
 ```
 
 ### Vue 设置
@@ -53,7 +53,7 @@ pnpm add @chunkflow/core @chunkflow/upload-client-react @chunkflow/upload-compon
 用于带有开箱即用组件的 Vue 应用：
 
 ```bash
-pnpm add @chunkflow/core @chunkflow/upload-client-vue @chunkflow/upload-component-vue
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-vue @chunkflowjs/upload-component-vue
 ```
 
 ### 服务端设置
@@ -61,7 +61,7 @@ pnpm add @chunkflow/core @chunkflow/upload-client-vue @chunkflow/upload-componen
 用于 Node.js 服务器实现：
 
 ```bash
-pnpm add @chunkflow/upload-server
+pnpm add @chunkflowjs/upload-server
 ```
 
 ### 全栈设置
@@ -70,10 +70,10 @@ pnpm add @chunkflow/upload-server
 
 ```bash
 # 客户端
-pnpm add @chunkflow/core @chunkflow/upload-client-react @chunkflow/upload-component-react
+pnpm add @chunkflowjs/core @chunkflowjs/upload-client-react @chunkflowjs/upload-component-react
 
 # 服务端
-pnpm add @chunkflow/upload-server
+pnpm add @chunkflowjs/upload-server
 ```
 
 ## TypeScript 支持
@@ -110,7 +110,7 @@ ChunkFlow 使用以下浏览器 API：
 
 ```html
 <script type="module">
-  import { UploadManager } from "https://esm.sh/@chunkflow/core";
+  import { UploadManager } from "https://esm.sh/@chunkflowjs/core";
 
   // 你的代码
 </script>
@@ -125,7 +125,7 @@ ChunkFlow 使用以下浏览器 API：
 安装后，验证 ChunkFlow 是否正确安装：
 
 ```typescript
-import { UploadManager } from "@chunkflow/core";
+import { UploadManager } from "@chunkflowjs/core";
 
 console.log(UploadManager); // 应该输出类构造函数
 ```

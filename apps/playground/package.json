@@ -1,5 +1,5 @@
 {
-  "name": "@chunkflow/playground",
+  "name": "@chunkflowjs/playground",
   "version": "0.0.0",
   "private": true,
   "description": "Playground application for ChunkFlow Upload SDK",
@@ -12,10 +12,11 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@chunkflow/core": "workspace:*",
-    "@chunkflow/protocol": "workspace:*",
-    "@chunkflow/upload-client-react": "workspace:*",
-    "@chunkflow/upload-component-react": "workspace:*",
+    "@chunkflowjs/core": "workspace:*",
+    "@chunkflowjs/protocol": "workspace:*",
+    "@chunkflowjs/shared": "workspace:*",
+    "@chunkflowjs/upload-client-react": "workspace:*",
+    "@chunkflowjs/upload-component-react": "workspace:*",
     "antd": "^6.2.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"

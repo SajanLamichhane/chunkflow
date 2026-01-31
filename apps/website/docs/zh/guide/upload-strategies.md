@@ -58,7 +58,7 @@ await task.start(); // 分片上传文件
 你可以自定义阈值：
 
 ```typescript
-import { DIRECT_UPLOAD_THRESHOLD } from "@chunkflow/protocol";
+import { DIRECT_UPLOAD_THRESHOLD } from "@chunkflowjs/protocol";
 
 // 默认是 5MB
 console.log(DIRECT_UPLOAD_THRESHOLD); // 5242880

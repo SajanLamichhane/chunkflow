@@ -10,7 +10,7 @@
  */
 
 import { ref, onMounted, onUnmounted, type Ref } from "vue";
-import type { UploadTask } from "@chunkflow/core";
+import type { UploadTask } from "@chunkflowjs/core";
 import { useUploadManager } from "./useUploadManager";
 
 /**
@@ -61,7 +61,7 @@ export interface UseUploadListReturn {
  * @example
  * ```vue
  * <script setup lang="ts">
- * import { useUploadList } from '@chunkflow/upload-client-vue';
+ * import { useUploadList } from '@chunkflowjs/upload-client-vue';
  *
  * const {
  *   tasks,

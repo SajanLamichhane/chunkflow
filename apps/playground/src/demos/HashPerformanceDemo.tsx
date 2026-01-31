@@ -1,5 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import { calculateFileHash, calculateFileHashBlocking, type HashStrategy } from "@chunkflow/shared";
+import {
+  calculateFileHash,
+  calculateFileHashBlocking,
+  type HashStrategy,
+} from "@chunkflowjs/shared";
 import { message } from "antd";
 
 type TestStrategy = HashStrategy | "blocking";

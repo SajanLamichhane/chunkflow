@@ -10,8 +10,8 @@
  */
 
 import { useState, useCallback, useEffect, useRef } from "react";
-import type { UploadTask, UploadTaskOptions } from "@chunkflow/core";
-import type { UploadStatus, UploadProgress } from "@chunkflow/protocol";
+import type { UploadTask, UploadTaskOptions } from "@chunkflowjs/core";
+import type { UploadStatus, UploadProgress } from "@chunkflowjs/protocol";
 import { useUploadManager } from "./useUploadManager";
 
 /**
@@ -75,7 +75,7 @@ export interface UseUploadReturn {
  *
  * @example
  * ```tsx
- * import { useUpload } from '@chunkflow/upload-client-react';
+ * import { useUpload } from '@chunkflowjs/upload-client-react';
  *
  * function UploadButton() {
  *   const { upload, pause, resume, cancel, status, progress, error } = useUpload({

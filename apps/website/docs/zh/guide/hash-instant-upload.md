@@ -118,7 +118,7 @@ const task = manager.createTask(file, {
 ChunkFlow 默认使用 MD5（快速且足以用于去重）：
 
 ```typescript
-import { calculateFileHash } from "@chunkflow/shared";
+import { calculateFileHash } from "@chunkflowjs/shared";
 
 const hash = await calculateFileHash(file);
 console.log(hash); // MD5 哈希

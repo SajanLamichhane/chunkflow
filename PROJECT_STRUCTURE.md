@@ -109,21 +109,21 @@ chunkflow
 ### Dependency Graph
 
 ```
-@chunkflow/protocol (no dependencies)
+@chunkflowjs/protocol (no dependencies)
     ↓
-@chunkflow/shared (depends on protocol)
+@chunkflowjs/shared (depends on protocol)
     ↓
-@chunkflow/core (depends on protocol, shared)
+@chunkflowjs/core (depends on protocol, shared)
     ↓
-├── @chunkflow/upload-client-react (depends on core, protocol)
+├── @chunkflowjs/upload-client-react (depends on core, protocol)
 │       ↓
-│   @chunkflow/upload-component-react (depends on upload-client-react, core)
+│   @chunkflowjs/upload-component-react (depends on upload-client-react, core)
 │
-├── @chunkflow/upload-client-vue (depends on core, protocol)
+├── @chunkflowjs/upload-client-vue (depends on core, protocol)
 │       ↓
-│   @chunkflow/upload-component-vue (depends on upload-client-vue, core)
+│   @chunkflowjs/upload-component-vue (depends on upload-client-vue, core)
 │
-└── @chunkflow/upload-server (depends on protocol)
+└── @chunkflowjs/upload-server (depends on protocol)
 ```
 
 ## Technology Stack

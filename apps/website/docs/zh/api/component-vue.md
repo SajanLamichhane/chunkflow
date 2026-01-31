@@ -8,7 +8,7 @@
 
 ```vue
 <script setup>
-import { UploadButton } from "@chunkflow/upload-component-vue";
+import { UploadButton } from "@chunkflowjs/upload-component-vue";
 </script>
 
 <template>
@@ -36,7 +36,7 @@ import { UploadButton } from "@chunkflow/upload-component-vue";
 
 ```vue
 <script setup>
-import { UploadProgress } from "@chunkflow/upload-component-vue";
+import { UploadProgress } from "@chunkflowjs/upload-component-vue";
 </script>
 
 <template>
@@ -56,7 +56,7 @@ import { UploadProgress } from "@chunkflow/upload-component-vue";
 
 ```vue
 <script setup>
-import { UploadList } from "@chunkflow/upload-component-vue";
+import { UploadList } from "@chunkflowjs/upload-component-vue";
 </script>
 
 <template>
@@ -74,7 +74,7 @@ import { UploadList } from "@chunkflow/upload-component-vue";
 
 ```vue
 <script setup>
-import { UploadDropzone } from "@chunkflow/upload-component-vue";
+import { UploadDropzone } from "@chunkflowjs/upload-component-vue";
 </script>
 
 <template>

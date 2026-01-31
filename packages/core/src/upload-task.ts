@@ -10,8 +10,8 @@
  * - Event emission
  */
 
-import type { ChunkInfo, UploadStatus, UploadToken } from "@chunkflow/protocol";
-import type { RequestAdapter } from "@chunkflow/protocol";
+import type { ChunkInfo, UploadStatus, UploadToken } from "@chunkflowjs/protocol";
+import type { RequestAdapter } from "@chunkflowjs/protocol";
 import {
   createEventBus,
   type UploadEventBus,
@@ -22,7 +22,7 @@ import {
   calculateFileHash,
   calculateSpeed,
   estimateRemainingTime,
-} from "@chunkflow/shared";
+} from "@chunkflowjs/shared";
 import type { IChunkSizeAdjuster } from "./chunk-size-adjuster-interface";
 import { TCPChunkSizeAdjuster } from "./chunk-size-adjuster-tcp";
 import { ChunkSizeAdjuster } from "./chunk-size-adjuster";
@@ -310,9 +310,9 @@ export class UploadTask {
    * });
    * ```
    */
-  on<K extends keyof import("@chunkflow/shared").UploadEvents>(
+  on<K extends keyof import("@chunkflowjs/shared").UploadEvents>(
     event: K,
-    handler: (payload: import("@chunkflow/shared").UploadEvents[K]) => void,
+    handler: (payload: import("@chunkflowjs/shared").UploadEvents[K]) => void,
   ): void {
     this.eventBus.on(event, handler);
   }
@@ -323,9 +323,9 @@ export class UploadTask {
    * @param event - Event name to stop listening to
    * @param handler - Event handler function to remove
    */
-  off<K extends keyof import("@chunkflow/shared").UploadEvents>(
+  off<K extends keyof import("@chunkflowjs/shared").UploadEvents>(
     event: K,
-    handler: (payload: import("@chunkflow/shared").UploadEvents[K]) => void,
+    handler: (payload: import("@chunkflowjs/shared").UploadEvents[K]) => void,
   ): void {
     this.eventBus.off(event, handler);
   }
@@ -1002,7 +1002,7 @@ export class UploadTask {
       await this.storage.init();
 
       // Create initial upload record
-      const record: import("@chunkflow/shared").UploadRecord = {
+      const record: import("@chunkflowjs/shared").UploadRecord = {
         taskId: this.id,
         fileInfo: {
           name: this.file.name,
@@ -1059,7 +1059,7 @@ export class UploadTask {
       } catch (error) {
         // If record doesn't exist, create it (upsert behavior)
         if ((error as any).code === "OPERATION_FAILED") {
-          const record: import("@chunkflow/shared").UploadRecord = {
+          const record: import("@chunkflowjs/shared").UploadRecord = {
             taskId: this.id,
             fileInfo: {
               name: this.file.name,
