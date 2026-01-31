@@ -74,14 +74,42 @@ git push origin main
 git push origin "v$VERSION"
 
 echo ""
+echo "📰 Step 10: Creating GitHub Release..."
+
+# Check if gh CLI is installed
+if command -v gh &> /dev/null; then
+  echo "Using GitHub CLI to create release..."
+  
+  # Check if CHANGELOG.md exists
+  if [ -f "CHANGELOG.md" ]; then
+    gh release create "v$VERSION" \
+      --title "ChunkFlow v$VERSION" \
+      --notes-file CHANGELOG.md \
+      --verify-tag
+    echo "✅ GitHub Release created successfully!"
+  else
+    # Generate release notes automatically
+    gh release create "v$VERSION" \
+      --title "ChunkFlow v$VERSION" \
+      --generate-notes \
+      --verify-tag
+    echo "✅ GitHub Release created with auto-generated notes!"
+  fi
+else
+  echo "⚠️  GitHub CLI (gh) is not installed."
+  echo ""
+  echo "📝 Manual steps to create GitHub Release:"
+  echo "1. Go to: https://github.com/Sunny-117/chunkflow/releases/new"
+  echo "2. Select tag: v$VERSION"
+  echo "3. Title: ChunkFlow v$VERSION"
+  echo "4. Copy the changelog from CHANGELOG.md"
+  echo "5. Publish the release"
+  echo ""
+  echo "Or install GitHub CLI and run:"
+  echo "gh release create v$VERSION --title \"ChunkFlow v$VERSION\" --notes-file CHANGELOG.md"
+fi
+
+echo ""
 echo "✅ Release complete!"
 echo ""
-echo "📝 Next steps:"
-echo "1. Go to GitHub: https://github.com/Sunny-117/chunkflow/releases/new"
-echo "2. Select tag: v$VERSION"
-echo "3. Title: ChunkFlow v$VERSION"
-echo "4. Copy the changelog from CHANGELOG.md"
-echo "5. Publish the release"
-echo ""
-echo "Or use GitHub CLI:"
-echo "gh release create v$VERSION --title \"ChunkFlow v$VERSION\" --notes-file CHANGELOG.md"
+echo "🎉 Version $VERSION has been published to npm and GitHub!"

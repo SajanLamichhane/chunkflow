@@ -94,15 +94,36 @@ git push origin main
 git push origin "v$TARGET_VERSION"
 
 echo ""
+echo "📰 Step 9: Creating GitHub Release..."
+
+# Check if gh CLI is installed
+if command -v gh &> /dev/null; then
+  echo "Using GitHub CLI to create prerelease..."
+  
+  gh release create "v$TARGET_VERSION" \
+    --title "ChunkFlow v$TARGET_VERSION" \
+    --notes "Alpha release - for testing purposes only" \
+    --prerelease \
+    --verify-tag
+  
+  echo "✅ GitHub Prerelease created successfully!"
+else
+  echo "⚠️  GitHub CLI (gh) is not installed."
+  echo ""
+  echo "📝 Manual steps to create GitHub Release:"
+  echo "  1. Go to: https://github.com/Sunny-117/chunkflow/releases/new?tag=v$TARGET_VERSION"
+  echo "  2. Title: ChunkFlow v$TARGET_VERSION"
+  echo "  3. Mark as prerelease"
+  echo "  4. Publish"
+  echo ""
+  echo "Or install GitHub CLI and run:"
+  echo "  gh release create v$TARGET_VERSION --title \"ChunkFlow v$TARGET_VERSION\" --prerelease --notes \"Alpha release\""
+fi
+
+echo ""
 echo "✅ Alpha release complete!"
 echo ""
-echo "📝 Create GitHub Release:"
-echo ""
-echo "Option 1 - Using GitHub CLI:"
-echo "  gh release create v$TARGET_VERSION --title \"ChunkFlow v$TARGET_VERSION\" --prerelease --notes \"Alpha release\""
-echo ""
-echo "Option 2 - Using Web UI:"
-echo "  https://github.com/Sunny-117/chunkflow/releases/new?tag=v$TARGET_VERSION"
+echo "🎉 Version $TARGET_VERSION has been published!"
 echo ""
 echo "📦 Verify on npm:"
 echo "  npm view @chunkflowjs/core dist-tags"
